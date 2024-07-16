@@ -1,0 +1,21 @@
+model_name: eatr
+dset_name: activitynet
+ctx_mode: video_tef
+v_feat_types: resnet
+t_feat_type: glove
+train_path: data/activitynet/activitynet_train_release.jsonl
+eval_path: data/activitynet/activitynet_val_release.jsonl
+eval_split_name: val
+v_feat_dirs: ['features/ActivityNet/resnet']
+t_feat_dir: features/ActivityNet/glove
+v_feat_dim: 2050
+t_feat_dim: 300
+aux_loss: True
+results_dir: results/resnet_glove_eatr/activitynet
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+clip_length: 2
+
+# EaTR-specific params
+event_coef: 3

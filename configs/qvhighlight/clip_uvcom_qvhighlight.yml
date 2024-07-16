@@ -1,0 +1,32 @@
+model_name: uvcom
+dset_name: qvhighlight
+ctx_mode: video_tef
+v_feat_types: clip
+t_feat_type: clip
+train_path: data/qvhighlight/highlight_train_release.jsonl
+eval_path: data/qvhighlight/highlight_val_release.jsonl
+eval_split_name: val
+v_feat_dirs: ['features/QVHighlight/clip']
+t_feat_dir: features/QVHighlight/clip_text
+v_feat_dim: 514
+t_feat_dim: 512
+aux_loss: True
+results_dir: results/clip_uvcom/qvhighlight
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+clip_length: 2
+
+# uvcom-specific params
+enc_layers: 3
+dec_layers: 3
+num_queries: 30
+n_txt_mu: 5
+n_visual_mu: 30
+sim_loss_coef: 1
+neg_loss_coef: 0.5
+lr_gamma: 0.1
+neg_choose_epoch: 80
+lr_drop: 100
+em_iter: 5
+cross_fusion: False
