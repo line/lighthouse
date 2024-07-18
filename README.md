@@ -78,15 +78,20 @@ Run `python gradio_demo/demo.py`. Upload the video and input text query, and cli
 - [x] : CLIP+Slowfast
 
 ## Reproduce the Experiments
+
+### Pre-trained weights
+Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link).
+Download and unzip on the home directory.
+
 ### Datasets
 Due to the copyright issue, we here distribute only feature files.
 Download and place them under `./features` directory.
 To extract features from videos, we use [HERO_Video_Feature_Extractor](https://github.com/linjieli222/HERO_Video_Feature_Extractor).
 
-- [QVHighlights]()
-- [Charades-STA]()
-- [ActivityNet Captions]()
-- [TACoS]()
+- [QVHighlights](https://drive.google.com/file/d/1-ALnsXkA4csKh71sRndMwybxEDqa-dM4/view?usp=sharing)
+- [Charades-STA](https://drive.google.com/file/d/1EOeP2A4IMYdotbTlTqDbv5VdvEAgQJl8/view?usp=sharing)
+- [ActivityNet Captions](https://drive.google.com/file/d/1P2xS998XfbN5nSDeJLBF1m9AaVhipBva/view?usp=sharing)
+- [TACoS](https://drive.google.com/file/d/1rYzme9JNAk3niH1K81wgT13pOMn005jb/view?usp=sharing)
 
 The whole directory should be look like this:
 ```
@@ -136,14 +141,23 @@ PYTHONPATH="." python training/train.py --config configs/qvhighlight/clip_slowfa
 
 The evaluation command is like:
 ```
-PYTHONPATH="." python training/evaluate.py --config configs/charades/clip_slowfast_qd_detr_charades.yml  --model_path results/clip_slowfast_qd_detr/charades/best.ckpt --eval_split_name val --eval_path data/charades/charades_test_release.jsonl
+PYTHONPATH="." python training/evaluate.py --config configs/charades/clip_slowfast_qd_detr_charades.yml \
+                                           --model_path results/clip_slowfast_qd_detr/charades/best.ckpt \
+                                           --eval_split_name val \
+                                           --eval_path data/charades/charades_test_release.jsonl \
 ```
 In this example, we evaluate QD-DETR on the charades-STA dataset.
-To generate submission files for QVHighlight test sets, run
+To generate submission files for QVHighlight test sets, run:
 ```
-PYTHONPATH="." python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml  --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt --eval_split_name test --eval_path data/qvhighlight/highlight_test_release.jsonl
+PYTHONPATH="." python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
+                                           --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
+                                           --eval_split_name test \
+                                           --eval_path data/qvhighlight/highlight_test_release.jsonl
 ```
 Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it to the [Codalab](https://codalab.lisn.upsaclay.fr/competitions/6937)
+```
+zip -r submission.zip val_submission.jsonl test_submission.jsonl
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
