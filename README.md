@@ -1,6 +1,7 @@
 # lighthouse
-An easy-to-use, reproducible library for the unified task of video moment retrieval (VMR) and highlight detection (HD).
-It supports four VMR-HD models, three features, and four datasets for reproducible VMR-HD. In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art VMR-HD approaches easily.
+A user-friendly and reproducible library for video moment retrieval (VMR) and highlight detection (HD).
+It supports six VMR-HD models, three features, and four datasets for reproducible VMR-HD.
+In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art VMR-HD approaches easily.
 
 ## Installation
 Install pytorch, torchvision, torchaudio, and torchtext based on your GPU environments. We tested the codes on Python 3.9 and CUDA 11.7:
