@@ -124,7 +124,7 @@ lighthouse/
 ```
 
 ### Training and Evaluation
-The general training command is
+The general training command is:
 ```
 PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_DATASET.yml
 ```
@@ -135,7 +135,7 @@ PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_D
 | Feature | resnet_glove, clip, clip_slowfast                         |
 | Dataset | qvhighlight, activitynet, charades, tacos                 |
 
-To train moment_detr on QVHighlights with CLIP+Slowfast features,
+To train moment_detr on QVHighlights with CLIP+Slowfast features, run:
 ```
 PYTHONPATH="." python training/train.py --config configs/qvhighlight/clip_slowfast_moment_detr_qvhighlight.yml
 ```
@@ -145,7 +145,7 @@ The evaluation command is like:
 PYTHONPATH="." python training/evaluate.py --config configs/charades/clip_slowfast_qd_detr_charades.yml \
                                            --model_path results/clip_slowfast_qd_detr/charades/best.ckpt \
                                            --eval_split_name val \
-                                           --eval_path data/charades/charades_test_release.jsonl \
+                                           --eval_path data/charades/charades_test_release.jsonl
 ```
 In this example, we evaluate QD-DETR on the charades-STA dataset.
 To generate submission files for QVHighlight test sets, run:
