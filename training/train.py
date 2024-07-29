@@ -117,7 +117,7 @@ def train_epoch(model, criterion, train_loader, optimizer, opt, epoch_i):
         outputs = model(**model_inputs, targets=targets) if opt.model_name == 'cg_detr' else model(**model_inputs)
         loss_dict = criterion(outputs, targets)
         losses = sum(loss_dict[k] * criterion.weight_dict[k] for k in loss_dict.keys() if k in criterion.weight_dict)
-        if opt.model_name == 'tr_detr':
+        if opt.model_name == 'tr_detr' and opt.dset_name != 'tvsum':
             losses += additional_trdetr_losses(model_inputs, outputs, targets, opt)
         optimizer.zero_grad()
         losses.backward()

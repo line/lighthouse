@@ -122,11 +122,6 @@ class CGDETR_StartEndDataset(Dataset):
 
     def load_data(self):
         datalist = load_jsonl(self.data_path)
-        if self.data_ratio != 1:
-            n_examples = int(len(datalist) * self.data_ratio)
-            datalist = datalist[:n_examples]
-            logger.info("Using {}% of the data: {} examples"
-                        .format(self.data_ratio * 100, n_examples))
         return datalist
 
     def __len__(self):

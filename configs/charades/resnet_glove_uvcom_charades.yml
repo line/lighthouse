@@ -1,0 +1,36 @@
+model_name: uvcom
+dset_name: charades
+ctx_mode: video_tef
+v_feat_types: resnet
+t_feat_type: glove
+train_path: data/charades/charades_train_release.jsonl
+eval_path: data/charades/charades_test_release.jsonl
+eval_split_name: val
+v_feat_dirs: ['features/Charades/resnet']
+t_feat_dir: features/Charades/glove
+v_feat_dim: 2050
+t_feat_dim: 300
+aux_loss: True
+results_dir: results/resnet_glove_uvcom/charades
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+
+# charades-specific params
+lw_saliency: 4
+lr: 0.0002
+lr_drop: 40
+
+# uvcom-specific params
+enc_layers: 3
+dec_layers: 3
+num_queries: 30
+n_txt_mu: 5
+n_visual_mu: 30
+sim_loss_coef: 1
+neg_loss_coef: 0.5
+lr_gamma: 0.1
+neg_choose_epoch: 80
+lr_drop: 100
+em_iter: 5
+cross_fusion: False
