@@ -63,13 +63,14 @@ class CGDETR_StartEndDataset(Dataset):
     }
     """
 
-    def __init__(self, dset_name, data_path, v_feat_dirs, q_feat_dir,
+    def __init__(self, dset_name, domain, data_path, v_feat_dirs, q_feat_dir,
                  q_feat_type="last_hidden_state",
                  max_q_l=32, max_v_l=75, data_ratio=1.0, ctx_mode="video",
                  normalize_v=True, normalize_t=True, clip_len=2, max_windows=5, 
                  span_loss_type="l1", txt_drop_ratio=0, dset_domain=None, load_labels=True):
         self.dset_name = dset_name
         self.data_path = data_path
+        self.domain = domain
         self.data_ratio = data_ratio
         self.v_feat_dirs = v_feat_dirs \
             if isinstance(v_feat_dirs, list) else [v_feat_dirs]
@@ -101,6 +102,13 @@ class CGDETR_StartEndDataset(Dataset):
 
         # data
         self.data = self.load_data()
+
+        if self.dset_name == 'tvsum':
+            new_data = []
+            for d in self.data:
+                if d['domain'] == self.domain:
+                    new_data.append(d)
+            self.data = new_data
 
         self.use_glove = 'glove' in q_feat_dir
         if self.use_glove:
@@ -152,19 +160,27 @@ class CGDETR_StartEndDataset(Dataset):
                 model_inputs["video_feat"] = tef
 
         if self.load_labels:
-            if "relevant_windows" in meta: ## For Qvhighlights test set
-                model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
+            if self.dset_name == 'tvsum':
+                model_inputs["span_labels"] = torch.tensor([[0., 0.]])
+                meta_label = meta["label"]
+                model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                            self.get_saliency_labels_all_tvsum(meta_label, ctx_l)
+                if len(model_inputs["saliency_all_labels"]) != len(model_inputs["video_feat"]):
+                    model_inputs["video_feat"] = model_inputs["video_feat"][:len(model_inputs["saliency_all_labels"])]
+            else:
+                if "relevant_windows" in meta: ## For Qvhighlights test set
+                    model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
+                    if self.dset_name == 'qvhighlight':
+                        model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                            self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
+                    elif self.dset_name in ['charades', 'tacos', 'activitynet']: ## charades, tacos, nlq
+                        model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                            self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], meta["duration"], ctx_l)  # only one gt
+                    else:
+                        raise NotImplementedError()
+                
                 if self.dset_name == 'qvhighlight':
-                    model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
-                        self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
-                elif self.dset_name in ['charades', 'tacos', 'activitynet']: ## charades, tacos, nlq
-                    model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
-                        self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], meta["duration"], ctx_l)  # only one gt
-                else:
-                    raise NotImplementedError()
-            
-            if self.dset_name == 'qvhighlight':
-                model_inputs["relevant_clip_ids"] = meta["relevant_clip_ids"]
+                    model_inputs["relevant_clip_ids"] = meta["relevant_clip_ids"]
         
         model_inputs["vid"] = meta["vid"]
         model_inputs["qid"] = meta["qid"]
@@ -354,7 +370,12 @@ class CGDETR_StartEndDataset(Dataset):
         return windows
 
     def _get_query_feat_by_qid(self, qid):
-        if self.dset_name in ['tacos']:
+        if self.dset_name == 'tvsum':
+            q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
+            q_feat = np.load(q_feat_path)
+            return torch.from_numpy(q_feat['token'])
+
+        elif self.dset_name == 'tacos':
             q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
             q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
             if self.q_feat_type == "last_hidden_state":
@@ -363,6 +384,7 @@ class CGDETR_StartEndDataset(Dataset):
                 q_feat = l2_normalize_np_array(q_feat)
             if self.txt_drop_ratio > 0:
                 q_feat = self.random_drop_rows(q_feat)
+        
         else:
             # QVhighlight dataset
             q_feat_path = join(self.q_feat_dir, f"qid{qid}.npz")
@@ -373,6 +395,7 @@ class CGDETR_StartEndDataset(Dataset):
                 q_feat = l2_normalize_np_array(q_feat)
             if self.txt_drop_ratio > 0:
                 q_feat = self.random_drop_rows(q_feat)
+        
         return torch.from_numpy(q_feat)  # (D, ) or (Lq, D)
 
     def random_drop_rows(self, embeddings):
@@ -391,11 +414,19 @@ class CGDETR_StartEndDataset(Dataset):
         v_feat_list = []
         for _feat_dir in self.v_feat_dirs:
             try:
-                _feat_path = join(_feat_dir, f"{vid}.npz")
-                _feat = np.load(_feat_path)["features"][:self.max_v_l].astype(np.float32)
+                if self.dset_name == 'tvsum' and 'i3d' in _feat_dir:
+                    rgb_path = join(_feat_dir, f"{vid}_rgb.npy")
+                    opt_path = join(_feat_dir, f"{vid}_opt.npy")
+                    rgb_feat = np.load(rgb_path)[:self.max_v_l].astype(np.float32)
+                    opt_feat = np.load(opt_path)[:self.max_v_l].astype(np.float32)
+                    _feat = np.concatenate([rgb_feat, opt_feat], axis=-1)
+                else:
+                    _feat_path = join(_feat_dir, f"{vid}.npz")
+                    _feat = np.load(_feat_path)["features"][:self.max_v_l].astype(np.float32)
             except:
                 _feat_path = join(_feat_dir, f"{vid}.npy")
                 _feat = np.load(_feat_path)[:self.max_v_l].astype(np.float32)
+            
             if self.normalize_v:
                 _feat = l2_normalize_np_array(_feat)
             v_feat_list.append(_feat)
@@ -404,7 +435,6 @@ class CGDETR_StartEndDataset(Dataset):
         v_feat_list = [e[:min_len] for e in v_feat_list]
         v_feat = np.concatenate(v_feat_list, axis=1)
         return torch.from_numpy(v_feat)  # (Lv, D)
-
 
 
 def cg_detr_start_end_collate(batch):
