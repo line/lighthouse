@@ -2,17 +2,17 @@ seed: 2018 # CGDETR TVSum
 model_name: cg_detr
 dset_name: tvsum
 ctx_mode: video_tef
-v_feat_types: i3d
+v_feat_types: slowfast_clip
 t_feat_type: clip
 train_path: data/tvsum/tvsum_train_release.jsonl
 eval_path: data/tvsum/tvsum_val_release.jsonl
 eval_split_name: val
-v_feat_dirs: ['features/tvsum/i3d']
+v_feat_dirs: ['features/tvsum/clip', 'features/tvsum/slowfast']
 t_feat_dir: features/tvsum/clip_text
-v_feat_dim: 2050
+v_feat_dim: 2818
 t_feat_dim: 512
 aux_loss: True
-results_dir: results/i3d_clip_cg_detr/tvsum
+results_dir: results/clip_slowfast_cg_detr/tvsum
 ckpt_filename: best.ckpt
 train_log_filename: train.log
 eval_log_filename: val.log
