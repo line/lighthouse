@@ -117,7 +117,7 @@ def train_epoch(model, criterion, train_loader, optimizer, opt, epoch_i):
         outputs = model(**model_inputs, targets=targets) if opt.model_name == 'cg_detr' else model(**model_inputs)
         loss_dict = criterion(outputs, targets)
         losses = sum(loss_dict[k] * criterion.weight_dict[k] for k in loss_dict.keys() if k in criterion.weight_dict)
-        if opt.model_name == 'tr_detr':
+        if opt.model_name == 'tr_detr' and opt.dset_name != 'tvsum':
             losses += additional_trdetr_losses(model_inputs, outputs, targets, opt)
         optimizer.zero_grad()
         losses.backward()
@@ -156,10 +156,13 @@ def train(model, criterion, optimizer, lr_scheduler, train_dataset, val_dataset,
                 metrics, eval_loss_meters, latest_file_paths = \
                     eval_epoch(model, val_dataset, opt, save_submission_filename, criterion)
 
-            write_log(opt, epoch_i, eval_loss_meters, metrics=metrics, mode='val')
-
+            write_log(opt, epoch_i, eval_loss_meters, metrics=metrics, mode='val')            
             logger.info("metrics {}".format(pprint.pformat(metrics["brief"], indent=4)))
-            stop_score = metrics["brief"]["MR-full-mAP"]
+            
+            if opt.dset_name == 'tvsum':
+                stop_score = metrics["brief"]["mAP"]
+            else:
+                stop_score = metrics["brief"]["MR-full-mAP"]
 
             if stop_score > prev_best_score:
                 prev_best_score = stop_score
@@ -167,14 +170,16 @@ def train(model, criterion, optimizer, lr_scheduler, train_dataset, val_dataset,
                 logger.info("The checkpoint file has been updated.")
                 rename_latest_to_best(latest_file_paths)
 
-def main(yaml_path):
+
+def main(yaml_path, domain):
     logger.info("Setup config, data and model...")
-    opt = BaseOptions().parse(yaml_path)
+    opt = BaseOptions().parse(yaml_path, domain)
     set_seed(opt.seed)
 
     # dataset & data loader
     dataset_config = EasyDict(
         dset_name=opt.dset_name,
+        domain=opt.domain,
         data_path=opt.train_path,
         v_feat_dirs=opt.v_feat_dirs,
         q_feat_dir=opt.t_feat_dir,
@@ -208,6 +213,8 @@ def main(yaml_path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, required=True, help='yaml config path for training. e.g., configs/qd_detr_qvhighlight.yml')
+    parser.add_argument('--domain', type=str, help='training domain for TVSum . e.g., BK. Note that they are not necessary for other datasets')
     args = parser.parse_args()
     yaml_path = args.config
-    main(yaml_path)
+    domain = args.domain
+    main(yaml_path, domain)

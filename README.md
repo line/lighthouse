@@ -65,17 +65,23 @@ Run `python gradio_demo/demo.py`. Upload the video and input text query, and cli
 - [x] : [TR-DETR](https://arxiv.org/abs/2401.02309)
 
 ### Datasets
+Moment retrieval & highlight detection
 - [x] : [QVHighlights](https://arxiv.org/abs/2107.09609)
+
+Moment retrieval
 - [x] : [ActivityNet Captions](https://arxiv.org/abs/1705.00754)
 - [x] : [Charades-STA](https://arxiv.org/abs/1705.02101)
 - [x] : [TaCoS](https://aclanthology.org/Q13-1003/)
 - [ ] : [DiDeMo](https://arxiv.org/abs/1809.01337)
-- [ ] : [TVSum](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
+
+Highlight detection
+- [x] : [TVSum](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 
 ### Features
 - [x] : ResNet+GloVe
 - [x] : CLIP
 - [x] : CLIP+Slowfast
+- [x] : I3D+CLIP(Text) for TVSum
 
 ## Reproduce the Experiments
 
@@ -92,6 +98,7 @@ To extract features from videos, we use [HERO_Video_Feature_Extractor](https://g
 - [Charades-STA](https://drive.google.com/file/d/1EOeP2A4IMYdotbTlTqDbv5VdvEAgQJl8/view?usp=sharing)
 - [ActivityNet Captions](https://drive.google.com/file/d/1P2xS998XfbN5nSDeJLBF1m9AaVhipBva/view?usp=sharing)
 - [TACoS](https://drive.google.com/file/d/1rYzme9JNAk3niH1K81wgT13pOMn005jb/view?usp=sharing)
+- [TVSum](https://drive.google.com/file/d/1gSex1hpXLxHQu6zHyyQISKZjP7Ndt6U9/view?usp=sharing)
 
 The whole directory should be look like this:
 ```

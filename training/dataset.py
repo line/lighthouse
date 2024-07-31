@@ -82,11 +82,12 @@ class StartEndDataset(Dataset):
       "relevant_windows": [[26, 36]]
     }
     """
-    def __init__(self, dset_name, data_path, v_feat_dirs, q_feat_dir,
+    def __init__(self, dset_name, domain, data_path, v_feat_dirs, q_feat_dir,
                  q_feat_type="last_hidden_state", max_q_l=32, max_v_l=75, 
                  ctx_mode="video", clip_len=2, max_windows=5, span_loss_type="l1", 
                  txt_drop_ratio=0, load_labels=True):
         self.dset_name = dset_name
+        self.domain = domain
         self.data_path = data_path
         self.v_feat_dirs = v_feat_dirs \
             if isinstance(v_feat_dirs, list) else [v_feat_dirs]
@@ -112,6 +113,13 @@ class StartEndDataset(Dataset):
 
         # data
         self.data = self.load_data()
+
+        if self.dset_name == 'tvsum':
+            new_data = []
+            for d in self.data:
+                if d['domain'] == self.domain:
+                    new_data.append(d)
+            self.data = new_data
 
         self.use_glove = 'glove' in q_feat_dir
         if self.use_glove:
@@ -157,38 +165,46 @@ class StartEndDataset(Dataset):
                 model_inputs["video_feat"] = tef
 
         if self.load_labels:
-            model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
-
-            # necessary only for TR-DETR: model_inputs["pos_mask"]
-            if 'relevant_clip_ids' in meta:
-                pos_idx = torch.tensor(meta['relevant_clip_ids'])
-            else:
-                clip_start_ind = math.floor(meta["relevant_windows"][0][0] / self.clip_len)
-                clip_end_ind = math.ceil(meta["relevant_windows"][0][1] / self.clip_len)
-                if clip_start_ind == clip_end_ind:
-                    clip_end_ind += 1 # to avoid a bug
-                pos_idx = torch.tensor([i for i in range(clip_start_ind, clip_end_ind)])
-
-            mask = torch.zeros_like(torch.ones(ctx_l))
-            if pos_idx.max() >= len(mask):
-                new_mask = torch.zeros_like(torch.ones(pos_idx.max()+1 ))
-                new_mask[pos_idx] = 1
-                new_mask[:len(mask)] = mask
-                mask = new_mask
-            else:
-                mask[pos_idx] = 1
-            model_inputs["pos_mask"] = mask
-
-            if self.dset_name == 'qvhighlight':
+            if self.dset_name == 'tvsum':
+                model_inputs["span_labels"] = torch.tensor([[0., 0.]])
+                meta_label = meta["label"]
                 model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
-                    self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
-            
-            elif self.dset_name in ['charades', 'tacos', 'activitynet']:
-                model_inputs["pos_mask"] = mask[:ctx_l]
-                model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
-                    self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], ctx_l)
+                            self.get_saliency_labels_all_tvsum(meta_label, ctx_l)
+                if len(model_inputs["saliency_all_labels"]) != len(model_inputs["video_feat"]):
+                    model_inputs["video_feat"] = model_inputs["video_feat"][:len(model_inputs["saliency_all_labels"])]
             else:
-                raise NotImplementedError()
+                model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
+
+                # necessary only for TR-DETR: model_inputs["pos_mask"]
+                if 'relevant_clip_ids' in meta:
+                    pos_idx = torch.tensor(meta['relevant_clip_ids'])
+                else:
+                    clip_start_ind = math.floor(meta["relevant_windows"][0][0] / self.clip_len)
+                    clip_end_ind = math.ceil(meta["relevant_windows"][0][1] / self.clip_len)
+                    if clip_start_ind == clip_end_ind:
+                        clip_end_ind += 1 # to avoid a bug
+                    pos_idx = torch.tensor([i for i in range(clip_start_ind, clip_end_ind)])
+
+                mask = torch.zeros_like(torch.ones(ctx_l))
+                if pos_idx.max() >= len(mask):
+                    new_mask = torch.zeros_like(torch.ones(pos_idx.max()+1 ))
+                    new_mask[pos_idx] = 1
+                    new_mask[:len(mask)] = mask
+                    mask = new_mask
+                else:
+                    mask[pos_idx] = 1
+                model_inputs["pos_mask"] = mask
+
+                if self.dset_name == 'qvhighlight':
+                    model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                        self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
+                
+                elif self.dset_name in ['charades', 'tacos', 'activitynet']:
+                    model_inputs["pos_mask"] = mask[:ctx_l]
+                    model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                        self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], ctx_l)
+                else:
+                    raise NotImplementedError()
 
         return dict(meta=meta, model_inputs=model_inputs)
 
@@ -347,10 +363,15 @@ class StartEndDataset(Dataset):
         return self.embedding(word_inds)
 
     def _get_query_feat_by_qid(self, qid):
-        if self.dset_name == 'tacos':
+        if self.dset_name == 'tvsum':
+            q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
+            q_feat = np.load(q_feat_path)
+            return torch.from_numpy(q_feat['token'])
+        elif self.dset_name == 'tacos':
             q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
         else:
             q_feat_path = join(self.q_feat_dir, f"qid{qid}.npz")
+        
         q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
         if self.q_feat_type == "last_hidden_state":
             q_feat = q_feat[:self.max_q_l]
@@ -374,10 +395,20 @@ class StartEndDataset(Dataset):
     def _get_video_feat_by_vid(self, vid):
         v_feat_list = []
         for _feat_dir in self.v_feat_dirs:
-            _feat_path = join(_feat_dir, f"{vid}.npz")
-            _feat = np.load(_feat_path)["features"][:self.max_v_l].astype(np.float32)
-            _feat = l2_normalize_np_array(_feat)
-            v_feat_list.append(_feat)
+            if self.dset_name == 'tvsum' and 'i3d' in _feat_dir:
+                rgb_path = join(_feat_dir, f"{vid}_rgb.npy")
+                opt_path = join(_feat_dir, f"{vid}_opt.npy")
+                rgb_feat = np.load(rgb_path)[:self.max_v_l].astype(np.float32)
+                opt_feat = np.load(opt_path)[:self.max_v_l].astype(np.float32)
+                _feat = np.concatenate([rgb_feat, opt_feat], axis=-1)
+                _feat = l2_normalize_np_array(_feat) # normalize?
+                v_feat_list.append(_feat)
+            else:
+                _feat_path = join(_feat_dir, f"{vid}.npz")
+                _feat = np.load(_feat_path)["features"][:self.max_v_l].astype(np.float32)
+                _feat = l2_normalize_np_array(_feat)
+                v_feat_list.append(_feat)
+        
         # some features are slightly longer than the others
         min_len = min([len(e) for e in v_feat_list])
         v_feat_list = [e[:min_len] for e in v_feat_list]

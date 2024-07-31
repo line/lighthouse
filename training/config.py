@@ -29,7 +29,7 @@ class BaseOptions(object):
     def __init__(self):
         pass
 
-    def parse(self, yaml_path):
+    def parse(self, yaml_path, domain):
         opt = {}
 
         # base yaml
@@ -42,8 +42,16 @@ class BaseOptions(object):
             opt.update(yml)
 
         opt = EasyDict(opt)
-        opt.ckpt_filepath = os.path.join(opt.results_dir, opt.ckpt_filename)
-        opt.train_log_filepath = os.path.join(opt.results_dir, opt.train_log_filename)
-        opt.eval_log_filepath = os.path.join(opt.results_dir, opt.eval_log_filename)
-        os.makedirs(opt.results_dir, exist_ok=True)        
+        opt.domain = domain
+        if opt.domain:
+            opt.results_dir = os.path.join(opt.results_dir, opt.domain)
+            opt.ckpt_filepath = os.path.join(opt.results_dir, opt.ckpt_filename)
+            opt.train_log_filepath = os.path.join(opt.results_dir, opt.train_log_filename)
+            opt.eval_log_filepath = os.path.join(opt.results_dir, opt.eval_log_filename)
+            os.makedirs(opt.results_dir, exist_ok=True)
+        else:
+            opt.ckpt_filepath = os.path.join(opt.results_dir, opt.ckpt_filename)
+            opt.train_log_filepath = os.path.join(opt.results_dir, opt.train_log_filename)
+            opt.eval_log_filepath = os.path.join(opt.results_dir, opt.eval_log_filename)
+            os.makedirs(opt.results_dir, exist_ok=True)        
         return opt

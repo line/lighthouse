@@ -1,0 +1,29 @@
+seed: 2018 # CGDETR TVSum
+model_name: eatr
+dset_name: tvsum
+ctx_mode: video_tef
+v_feat_types: resnet
+t_feat_type: glove
+train_path: data/tvsum/tvsum_train_release.jsonl
+eval_path: data/tvsum/tvsum_val_release.jsonl
+eval_split_name: val
+v_feat_dirs: ['features/tvsum/resnet']
+t_feat_dir: features/tvsum/glove
+v_feat_dim: 2050
+t_feat_dim: 300
+aux_loss: True
+results_dir: results/resnet_glove_eatr/tvsum
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+clip_length: 2
+bsz: 4
+max_q_l: 100
+max_v_l: 1000
+
+lr: 0.001
+lr_drop: 2000
+n_epoch: 2000
+
+# EaTR-specific params
+event_coef: 3
