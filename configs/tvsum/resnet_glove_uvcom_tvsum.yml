@@ -9,8 +9,8 @@ eval_path: data/tvsum/tvsum_val_release.jsonl
 eval_split_name: val
 v_feat_dirs: ['features/tvsum/resnet']
 t_feat_dir: features/tvsum/glove
-v_feat_dim: 2818
-t_feat_dim: 512
+v_feat_dim: 2050
+t_feat_dim: 300
 aux_loss: True
 results_dir: results/resnet_glove_uvcom/tvsum
 ckpt_filename: best.ckpt
