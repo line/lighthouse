@@ -1,5 +1,5 @@
 # lighthouse
-Lighthouse is a user-friendly library for reproducible and accesible research on video moment retrieval (MR) and highlight detection (HD).
+Lighthouse is a user-friendly library for reproducible and accessible research on video moment retrieval (MR) and highlight detection (HD).
 It supports six VMR-HD models, three features, and five datasets for reproducible VMR-HD.
 In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art VMR-HD approaches easily.
 
