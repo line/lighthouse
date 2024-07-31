@@ -14,6 +14,7 @@ License for the specific language governing permissions and limitations
 under the License.
 """
 
+import pandas as pd
 import gradio as gr
 from lighthouse.models import CGDETRPredictor
 
@@ -75,15 +76,23 @@ js_code_5 = """
 }
 """
 
-def moment_retrieval(video, textbox, button_1, button_2, button_3, button_4, button_5):
+def predict(video, textbox, button_1, button_2, button_3, button_4, button_5, line):
     model.encode_video(video)
     prediction = model.retrieve(textbox)
-    prediction = prediction['pred_relevant_windows']
+    mr_results = prediction['pred_relevant_windows']
+    hl_results = prediction['pred_saliency_scores']
 
     buttons = []
-    for i, pred in enumerate(prediction[:5]):
+    for i, pred in enumerate(mr_results[:5]):
         buttons.append(gr.Button(value='moment {}: [{}, {}] Score: {}'.format(i+1, pred[0], pred[1], pred[2]), visible=True))
-    return buttons
+    
+    # Visualize the HD score
+    hl_data = pd.DataFrame({ 'x_n': [i for i in range(len(hl_results))], 'y_n': hl_results })
+    min_val, max_val = min(hl_results), max(hl_results)
+    min_x, max_x = 0, len(hl_results)
+    line = gr.LinePlot(value=hl_data, x='x_n', y='y_n', visible=True, y_lim=[min_val, max_val], x_lim=[min_x, max_x])
+
+    return buttons + [line]
 
 def main():
     title = """# Video Moment Retrieval Demo: CG-DETR trained on activitynet"""
@@ -95,7 +104,7 @@ def main():
                 with gr.Group():
                     video_input = gr.Video(elem_id='video', height=600)
                     query_input = gr.Textbox(label='query')
-                    button = gr.Button("Retrieve moment", variant="primary")
+                    button = gr.Button("Retrieve moment & highlight detection", variant="primary")
             
             with gr.Column():
                 with gr.Group():
@@ -111,9 +120,13 @@ def main():
                     button_3.click(None, None, None, js=js_code_3)
                     button_4.click(None, None, None, js=js_code_4)
                     button_5.click(None, None, None, js=js_code_5)
+
+                # dummy
+                data = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [2, 4, 6, 8, 10]})
+                line = gr.LinePlot(value=pd.DataFrame({'x': [], 'y': []}), x='x', y='y', visible=False)
                 
-                button.click(moment_retrieval, inputs=[video_input, query_input, button_1, button_2, button_3, button_4, button_5], 
-                            outputs=[button_1, button_2, button_3, button_4, button_5])
+                button.click(predict, inputs=[video_input, query_input, button_1, button_2, button_3, button_4, button_5, line], 
+                            outputs=[button_1, button_2, button_3, button_4, button_5, line])
 
     demo.launch()
 
