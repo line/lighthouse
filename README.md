@@ -53,29 +53,29 @@ Download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmy
 ## Gradio Demo
 Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the "retrieve moment" button.
 
-![Gradio demo image](images/vmr_gradio_demo.png)
+![Gradio demo image](images/demo_improved.png)
 
 ## Supported models and datasets
 ### Models
-- [x] : [Moment-DETR](https://arxiv.org/abs/2107.09609)
-- [x] : [QD-DETR](https://arxiv.org/abs/2303.13874)
-- [x] : [EaTR](https://arxiv.org/abs/2308.06947)
-- [x] : [CG-DETR](https://arxiv.org/abs/2311.08835)
-- [x] : [UVCOM](https://arxiv.org/abs/2311.16464)
-- [x] : [TR-DETR](https://arxiv.org/abs/2401.02309)
+- [x] : [Moment-DETR (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
+- [x] : [QD-DETR (Moon et al. CVPR23)](https://arxiv.org/abs/2303.13874)
+- [x] : [EaTR (Jang et al. ICCV23)](https://arxiv.org/abs/2308.06947)
+- [x] : [CG-DETR (Moon et al. arXiv24)](https://arxiv.org/abs/2311.08835)
+- [x] : [UVCOM (Xiao et al. CVPR24)](https://arxiv.org/abs/2311.16464)
+- [x] : [TR-DETR (Sun et al. AAAI24)](https://arxiv.org/abs/2401.02309)
 
 ### Datasets
 Moment retrieval & highlight detection
-- [x] : [QVHighlights](https://arxiv.org/abs/2107.09609)
+- [x] : [QVHighlights (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
 
 Moment retrieval
-- [x] : [ActivityNet Captions](https://arxiv.org/abs/1705.00754)
-- [x] : [Charades-STA](https://arxiv.org/abs/1705.02101)
-- [x] : [TaCoS](https://aclanthology.org/Q13-1003/)
-- [ ] : [DiDeMo](https://arxiv.org/abs/1809.01337)
+- [x] : [ActivityNet Captions (Krishna et al. ICCV17)](https://arxiv.org/abs/1705.00754)
+- [x] : [Charades-STA (Gao et al. ICCV17)](https://arxiv.org/abs/1705.02101)
+- [x] : [TaCoS (Regneri et al. TACL13)](https://aclanthology.org/Q13-1003/)
+- [ ] : [DiDeMo (Hendricks et al. EMNLP18)](https://arxiv.org/abs/1809.01337)
 
 Highlight detection
-- [x] : [TVSum](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
+- [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 
 ### Features
 - [x] : ResNet+GloVe
