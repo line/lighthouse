@@ -51,7 +51,7 @@ pred_saliency_scores: [score, ...]
 Download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link) and Run `python api_example/demo.py` to reproduce the results. In addition, to use `clip_slowfast` features, it is necessary to download slowfast pre-trained weights (SLOWFAST_8x8_R50) from [here](https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl).
 
 ## Gradio Demo
-Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the "retrieve moment" button.
+Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button.
 
 ![Gradio demo image](images/demo_improved.png)
 
@@ -78,7 +78,7 @@ Highlight detection
 - [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 
 ### Features
-- [x] : ResNet+GloVe
+- [x] : ResNet152+GloVe
 - [x] : CLIP
 - [x] : CLIP+Slowfast
 - [x] : I3D+CLIP(Text) for TVSum
