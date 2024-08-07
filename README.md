@@ -166,6 +166,20 @@ Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
 
+## Citation
+If you find this work useful for your research, please cite:
+```
+@misc{nishimura2024lighthouse,
+      title={Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection}, 
+      author={Taichi Nishimura and Shota Nakada and Hokuto Munakata and Tatsuya Komatsu},
+      year={2024},
+      eprint={2408.02901},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2408.02901}, 
+}
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
