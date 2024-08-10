@@ -171,8 +171,7 @@ class Preprocessing(object):
         n = clip_len - len(tensor) % clip_len
         if n == clip_len:
             return tensor
-        z = th.cat(n * [tensor[-1:, :, :, :, :]])
-        import ipdb; ipdb.set_trace()
+        z = th.cat(int(n) * [tensor[-1:, :, :, :, :]])
         return th.cat((tensor, z), 0)
 
     def __call__(self, tensor, info):

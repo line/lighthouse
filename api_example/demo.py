@@ -29,5 +29,5 @@ model = CGDETRPredictor('results/clip_slowfast_cg_detr/qvhighlight/best.ckpt', d
 model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
 
 # moment retrieval & highlight detection
-prediction = model.retrieve(query)
+prediction = model.predict(query)
 pprint.pp(prediction)
