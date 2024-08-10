@@ -2,6 +2,8 @@
 Lighthouse is a user-friendly library for reproducible and accessible research on video moment retrieval and highlight detection (MR-HD).
 It supports six models, three features, and five datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
 
+**News**: Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901)
+
 ## Installation
 Install pytorch, torchvision, torchaudio, and torchtext based on your GPU environments.
 Note that the inference API is available for CPU environments. We tested the codes on Python 3.9 and CUDA 11.7:
@@ -63,6 +65,7 @@ Run `python gradio_demo/demo.py`. Upload the video and input text query, and cli
 - [x] : [CG-DETR (Moon et al. arXiv24)](https://arxiv.org/abs/2311.08835)
 - [x] : [UVCOM (Xiao et al. CVPR24)](https://arxiv.org/abs/2311.16464)
 - [x] : [TR-DETR (Sun et al. AAAI24)](https://arxiv.org/abs/2401.02309)
+- [ ] : [TaskWeave (Jin et al. CVPR24)](https://arxiv.org/abs/2404.09263)
 
 ### Datasets
 Moment retrieval & highlight detection
@@ -124,20 +127,20 @@ lighthouse/
     │   ├── pann
     │   ├── resnet
     │   └── slowfast
-    └── tacos
-        ├── clip
-        ├── clip_text
-        ├── meta
-        ├── resnet
-        └── slowfast
-    ├── tvsum
-    │   ├── audio
+    ├── tacos
     │   ├── clip
     │   ├── clip_text
-    │   ├── i3d
+    │   ├── meta
     │   ├── resnet
-    │   ├── slowfast
-    │   └── tvsum_anno.json
+    │   └── slowfast
+    └── tvsum
+        ├── audio
+        ├── clip
+        ├── clip_text
+        ├── i3d
+        ├── resnet
+        ├── slowfast
+        └── tvsum_anno.json
 ```
 
 ### Training and Evaluation
