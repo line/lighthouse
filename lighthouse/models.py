@@ -97,9 +97,9 @@ class BasePredictor:
         self.video_mask = video_mask
 
     @torch.no_grad()
-    def retrieve(self, query):
+    def predict(self, query):
         if self.video_feats is None or self.video_mask is None:
-            raise ValueError('Video features are not encoded. First run .encode_video() before retrieve().')
+            raise ValueError('Video features are not encoded. First run .encode_video() before predict().')
 
         query_feats, query_mask = self.feature_extractor.encode_text(query)  # #text * (L, d) -> CLIP or GloVe
         if self.feature_name != "resnet_glove":

@@ -1,10 +1,10 @@
 # lighthouse
-Lighthouse is a user-friendly library for reproducible and accessible research on video moment retrieval (MR) and highlight detection (HD).
-It supports six VMR-HD models, three features, and five datasets for reproducible VMR-HD.
-In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art VMR-HD approaches easily.
+Lighthouse is a user-friendly library for reproducible and accessible research on video moment retrieval and highlight detection (MR-HD).
+It supports six models, three features, and five datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
 
 ## Installation
-Install pytorch, torchvision, torchaudio, and torchtext based on your GPU environments. We tested the codes on Python 3.9 and CUDA 11.7:
+Install pytorch, torchvision, torchaudio, and torchtext based on your GPU environments.
+Note that the inference API is available for CPU environments. We tested the codes on Python 3.9 and CUDA 11.7:
 ```
 pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
 ```
@@ -13,8 +13,8 @@ Then run:
 pip install .
 ```
 
-## Inference-only API
-Lighthouse supports the following inference-only API:
+## Inference API (Available for both CPU/GPU mode)
+Lighthouse supports the following inference API:
 ```python
 import torch
 from lighthouse.models import CGDETRPredictor
@@ -31,7 +31,7 @@ model = CGDETRPredictor('results/clip_slowfast_cg_detr/activitynet/best.ckpt', d
 model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
 
 # moment retrieval & highlight detection
-prediction = model.retrieve(query)
+prediction = model.predict(query)
 print(prediction)
 """
 pred_relevant_windows: [[start, end, score], ...,]
@@ -67,6 +67,7 @@ Run `python gradio_demo/demo.py`. Upload the video and input text query, and cli
 ### Datasets
 Moment retrieval & highlight detection
 - [x] : [QVHighlights (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
+- [ ] : [QVHighlights Audio Pretraining (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
 
 Moment retrieval
 - [x] : [ActivityNet Captions (Krishna et al. ICCV17)](https://arxiv.org/abs/1705.00754)
@@ -76,9 +77,11 @@ Moment retrieval
 
 Highlight detection
 - [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
+- [ ] : [TVSum Audio Training (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
+- [ ] : [YouTube Highlights (Xu et al. ICCV21)](https://openaccess.thecvf.com/content/ICCV2021/papers/Xu_Cross-Category_Video_Highlight_Detection_via_Set-Based_Learning_ICCV_2021_paper.pdf)
 
 ### Features
-- [x] : ResNet152+GloVe
+- [x] : ResNet+GloVe
 - [x] : CLIP
 - [x] : CLIP+Slowfast
 - [x] : I3D+CLIP(Text) for TVSum
@@ -127,6 +130,14 @@ lighthouse/
         ├── meta
         ├── resnet
         └── slowfast
+    ├── tvsum
+    │   ├── audio
+    │   ├── clip
+    │   ├── clip_text
+    │   ├── i3d
+    │   ├── resnet
+    │   ├── slowfast
+    │   └── tvsum_anno.json
 ```
 
 ### Training and Evaluation
@@ -166,22 +177,11 @@ Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
 
-## Citation
-If you find this work useful for your research, please cite:
-```
-@misc{nishimura2024lighthouse,
-      title={Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection}, 
-      author={Taichi Nishimura and Shota Nakada and Hokuto Munakata and Tatsuya Komatsu},
-      year={2024},
-      eprint={2408.02901},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2408.02901}, 
-}
-```
-
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## LICENSE
 Apache License 2.0
+
+## Contact
+Taichi Nishimura ([taichitary@gmail.com](taichitary@gmail.com))

@@ -2,6 +2,7 @@
 results
 features
 scripts
+tmp
 .vector_cache
 SLOWFAST_8x8_R50.pkl
 

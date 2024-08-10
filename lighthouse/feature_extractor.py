@@ -195,7 +195,13 @@ class VideoFeatureExtractor:
             slowfast_features = self.extract_slowfast_feature(slowfast_frames)
 
             clip_video_features = clip_video_features.to(self.device)
-            slowfast_features = slowfast_features.to(self.device)            
+            slowfast_features = slowfast_features.to(self.device)   
+
+            # trim the number of frames for smaller frames
+            smaller_frame_len = min(clip_video_features.shape[0], slowfast_features.shape[0])
+            clip_video_features = clip_video_features[:smaller_frame_len]
+            slowfast_features = slowfast_features[:smaller_frame_len]
+
             clip_slowfast_features = torch.cat([clip_video_features, slowfast_features], dim=-1)
             return clip_slowfast_features
 
