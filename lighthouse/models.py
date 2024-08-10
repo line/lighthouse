@@ -55,6 +55,7 @@ class BasePredictor:
         args = ckpt["opt"]
         self.clip_len = args.clip_length
         self.device = device
+        args.device = device # for CPU users
         self.feature_extractor = VideoFeatureExtractor(
             framerate=1/self.clip_len, size=224, centercrop=(feature_name != 'resnet_glove'),
             feature_name=feature_name, device=device, slowfast_path=slowfast_path,

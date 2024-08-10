@@ -23,6 +23,4 @@ def build_model():
     Builds the video model.
     """
     model = SlowFastModel()
-    cur_device = torch.cuda.current_device()
-    model = model.to(device=cur_device)
     return model

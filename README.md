@@ -155,7 +155,7 @@ PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_D
 |---------|-----------------------------------------------------------|
 | Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr       |
 | Feature | resnet_glove, clip, clip_slowfast                         |
-| Dataset | qvhighlight, activitynet, charades, tacos                 |
+| Dataset | qvhighlight, activitynet, charades, tacos, tvsum          |
 
 To train moment_detr on QVHighlights with CLIP+Slowfast features, run:
 ```

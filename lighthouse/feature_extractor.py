@@ -41,7 +41,7 @@ import torchvision
 
 from torchtext import vocab
 
-from lighthouse.video_loader import VideoLoader, SlowfastVideoReader, clip_iterator, pack_pathway_output
+from lighthouse.video_loader import VideoLoader, SlowfastVideoReader, pack_pathway_output
 from lighthouse.slowfast.model import slowfast_model_loader
 
 
@@ -98,7 +98,7 @@ class VideoFeatureExtractor:
         if feature_name == 'clip_slowfast':
             self.slowfast_feature_dim = 2304
             self.slowfast_norm = SlowFastNormalize(mean=[0.45, 0.45, 0.45], std=[0.225, 0.225, 0.225], device=device)
-            self.sf_loader = SlowfastVideoReader(framerate=30, size=size, clip_len=1/framerate, centercrop=centercrop)
+            self.sf_loader = SlowfastVideoReader(device=device, framerate=30, size=size, clip_len=1/framerate, centercrop=centercrop)
             self.video_loader = VideoLoader(framerate=framerate, size=size, centercrop=centercrop)
             self.clip_extractor, _ = clip.load('ViT-B/32', device=device, jit=False)
             self.slowfast_extractor = slowfast_model_loader(slowfast_path, device=device).eval()
