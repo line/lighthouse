@@ -50,9 +50,9 @@ pred_saliency_scores: [score, ...]
                           ...]}
 """
 ```
-Download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link) and Run `python api_example/demo.py` to reproduce the results. In addition, to use `clip_slowfast` features, it is necessary to download slowfast pre-trained weights (SLOWFAST_8x8_R50) from [here](https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl).
+Download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link) and Run `python api_example/demo.py` to reproduce the results. In addition, to use `clip_slowfast` features, it is necessary to download slowfast pre-trained weights ([SLOWFAST_8x8_R50](https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl)).
 
-**Limitation**: The maximum video duration is **150s** due to the current benchmark datasets.
+**Limitation**: The maximum video duration is **150s** due to the current benchmark datasets. Running the code on CPU is possible, but very slow. Use `feature_name='clip'` for CPU users.
 
 ## Gradio Demo
 Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button.
@@ -162,22 +162,21 @@ To train moment_detr on QVHighlights with CLIP+Slowfast features, run:
 PYTHONPATH="." python training/train.py --config configs/qvhighlight/clip_slowfast_moment_detr_qvhighlight.yml
 ```
 
-The evaluation command is like:
+The evaluation command is like (In this example, we evaluate QD-DETR on the charades-STA dataset):
 ```
 PYTHONPATH="." python training/evaluate.py --config configs/charades/clip_slowfast_qd_detr_charades.yml \
                                            --model_path results/clip_slowfast_qd_detr/charades/best.ckpt \
                                            --eval_split_name val \
                                            --eval_path data/charades/charades_test_release.jsonl
 ```
-In this example, we evaluate QD-DETR on the charades-STA dataset.
-To generate submission files for QVHighlight test sets, run:
+To generate submission files for QVHighlight test sets, run (**QVHighlights only**):
 ```
 PYTHONPATH="." python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
                                            --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
                                            --eval_split_name test \
                                            --eval_path data/qvhighlight/highlight_test_release.jsonl
 ```
-Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it to the [Codalab](https://codalab.lisn.upsaclay.fr/competitions/6937)
+Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it to the [Codalab](https://codalab.lisn.upsaclay.fr/competitions/6937) (**QVHighlights only**):
 ```
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
