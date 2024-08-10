@@ -125,11 +125,12 @@ class Normalize(object):
 
 
 class Preprocessing(object):
-    def __init__(self, type, target_fps=16, size=112,
+    def __init__(self, type, device, target_fps=16, size=112,
                  clip_len=2, padding_mode='tile', min_num_clips=1):
         self.type = type
+        self.device = device
         self.norm = Normalize(
-            mean=[0.45, 0.45, 0.45], std=[0.225, 0.225, 0.225])
+            mean=[0.45, 0.45, 0.45], std=[0.225, 0.225, 0.225], device=device)
         self.target_fps = target_fps
         self.num_frames = 32
         self.sampling_rate = 2

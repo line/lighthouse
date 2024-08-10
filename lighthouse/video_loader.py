@@ -155,6 +155,7 @@ class SlowfastVideoReader:
     """
     def __init__(
             self,
+            device,
             framerate=1/2,
             clip_len=2,
             size=224,
@@ -163,11 +164,12 @@ class SlowfastVideoReader:
         """
         Args:
         """
+        self.device = device
         self.centercrop = centercrop
         self.size = size
         self.framerate = framerate
         self.clip_len = clip_len # preprocess clip_len
-        self.preprocess = Preprocessing("3d", target_fps=framerate, size=224, clip_len=clip_len, 
+        self.preprocess = Preprocessing("3d", device=device, target_fps=framerate, size=224, clip_len=clip_len, 
                                         padding_mode='tile', min_num_clips=1)
 
     def __len__(self):
