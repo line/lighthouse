@@ -28,7 +28,7 @@ def slowfast_model_loader(model_weight_path, device):
             slowfast/config/defaults.py
     """
     # Build the video model and print model statistics.
-    model = model_builder.build_model()
+    model = model_builder.build_model(device)
     cu.load_checkpoint(model_weight_path, model,
                        data_parallel=False, optimizer=None,
                        convert_from_caffe2=True)

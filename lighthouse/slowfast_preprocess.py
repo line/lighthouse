@@ -115,7 +115,7 @@ def temporal_sampling(frames, start_idx, end_idx, num_samples):
 
 class Normalize(object):
 
-    def __init__(self, mean, std, device=th.device('cuda')):
+    def __init__(self, mean, std, device):
         self.mean = th.FloatTensor(mean).view(1, 3, 1, 1, 1).float().to(device)
         self.std = th.FloatTensor(std).view(1, 3, 1, 1, 1).float().to(device)
 
