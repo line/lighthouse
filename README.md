@@ -56,7 +56,7 @@ pred_saliency_scores: [score, ...]
 ```
 Download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link) and Run `python api_example/demo.py` to reproduce the results. In addition, to use `clip_slowfast` features, it is necessary to download slowfast pre-trained weights ([SLOWFAST_8x8_R50](https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl)).
 
-**Limitation**: The maximum video duration is **150s** due to the current benchmark datasets. Running the code on CPU is possible, but very slow. Use `feature_name='clip'` for CPU users.
+**Limitation**: The maximum video duration is **150s** due to the current benchmark datasets. Using CLIP+Slowfast feature (`feature_name=clip_slowfast`) is possible for CPU users, but very slow. Use `feature_name='clip'`.
 
 ## Gradio Demo
 Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button.
@@ -99,7 +99,7 @@ Highlight detection
 
 ### Pre-trained weights
 Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link).
-Download and unzip on the home directory.
+Download and unzip on the home directory. If you want individual weights, download from [reproduced results tables](#reproduced-results).
 
 ### Datasets
 Due to the copyright issue, we here distribute only feature files.
@@ -308,42 +308,8 @@ Test set scores are reported.
 |    UVCOM    |   40.2   |   23.3   |   43.5   |   19.1   |[ckpt](https://drive.google.com/file/d/1rqMzVVMcIT24GgYgj7QPGE1py-qutiso/view?usp=sharing)|
 |   CG-DETR   | **39.8** | **25.1** | **44.2** | **19.6** |[ckpt](https://drive.google.com/file/d/1c1R5N1bz2jgi_K8QYtof7q78Nsi18o-r/view?usp=sharing)|
 
-#### TVSum (Highlight detection)
-#### ResNet152+GloVe
-|    Models   |    mAP   | checkpoint |
-|:-----------:|:--------:|:----------:|
-| Moment DETR |   85.9   |            |
-|   QD-DETR   |   87.2   |            |
-|     EaTR    |   86.2   |            |
-|    UVCOM    | **87.6** |            |
-|   CG-DETR   |   87.1   |            |
-
-#### CLIP
-|    Models   |    mAP   | checkpoint |
-|:-----------:|:--------:|:----------:|
-| Moment DETR | **89.1** |            |
-|   QD-DETR   |   88.4   |            |
-|     EaTR    |   86.7   |            |
-|    UVCOM    |   87.7   |            |
-|   CG-DETR   |   88.1   |            |
-
-#### CLIP+Slowfast
-|    Models   |    mAP   | checkpoint |
-|:-----------:|:--------:|:----------:|
-| Moment DETR |   86.9   |            |
-|   QD-DETR   |   88.4   |            |
-|     EaTR    |   86.1   |            |
-|    UVCOM    |   87.7   |            |
-|   CG-DETR   | **88.8** |            |
-
-#### I3D+CLIP (Text)
-|    Models   |    mAP   | checkpoint |
-|:-----------:|:--------:|:----------:|
-| Moment DETR |   86.7   |            |
-|   QD-DETR   |   87.1   |            |
-|     EaTR    |   85.0   |            |
-|    UVCOM    | **87.9** |            |
-|   CG-DETR   | **88.9** |            |
+Due to the file size, we do not distribute the weights of TVSum (Highlight detection) on Google drive.
+Download from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link) or contact me via email.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
