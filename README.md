@@ -193,12 +193,12 @@ Test set scores are reported.
 #### ResNet152+GloVe
 |    Models   |  R1@0.5  |  R1@0.7  |  HD mAP  |   HIT@1  | checkpoint |
 |:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
-| Moment DETR |   40.0   |   22.0   |   30.0   |   42.9   |            |
-|   QD-DETR   |   52.7   |   36.1   |   33.8   |   50.7   |            |
-|     EaTR    | **57.2** | **38.9** | **36.3** | **57.4** |            |
-|   TR-DETR   |   47.7   |   31.6   |   34.3   |   52.0   |            |
-|    UVCOM    |   53.8   |   37.6   |   34.8   |   53.8   |            |
-|   CG-DETR   |   53.1   |   38.3   |   34.5   |   52.9   |            |
+| Moment DETR |   40.0   |   22.0   |   30.0   |   42.9   |[ckpt](https://drive.google.com/file/d/1kadbbHie1dk2G6uts-daTnuu2guNIUCk/view?usp=sharing)|
+|   QD-DETR   |   52.7   |   36.1   |   33.8   |   50.7   |[ckpt](https://drive.google.com/file/d/1aC3ghUQMLAyEi1fNrbMvO7osKd2_VShB/view?usp=sharing)|
+|     EaTR    | **57.2** | **38.9** | **36.3** | **57.4** |[ckpt](https://drive.google.com/file/d/1_n22fn-sZy-YM5eAE0mJVbOrfS_FPwm0/view?usp=sharing)|
+|   TR-DETR   |   47.7   |   31.6   |   34.3   |   52.0   |[ckpt](https://drive.google.com/file/d/1Z_NyefuQMmLzkTtVpSLwdkdsqTItdBOR/view?usp=drive_link)|
+|    UVCOM    |   53.8   |   37.6   |   34.8   |   53.8   |[ckpt](https://drive.google.com/file/d/1UY51b4TixPaJUHpr6UU7F1M-sS2l4aY_/view?usp=drive_link)|
+|   CG-DETR   |   53.1   |   38.3   |   34.5   |   52.9   |[ckpt](https://drive.google.com/file/d/1Mk3lZM7qkzcYCKQBVgwXv3B5Z5KHMtwV/view?usp=sharing)|
 
 #### CLIP
 |    Models   |  R1@0.5  |  R1@0.7  |  HD mAP  |   HIT@1  | checkpoint |
@@ -226,11 +226,11 @@ Val_1 scores are reported.
 #### ResNet152+GloVe
 |    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
 |:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
-| Moment DETR |   34.2   |   19.5   |   46.3   |   24.4   |            |
-|   QD-DETR   |   35.4   |   20.3   |   47.4   |   24.9   |            |
-|     EaTR    |   32.4   |   18.2   |   44.3   |   21.9   |            |
-|    UVCOM    |   34.4   |   19.9   |   46.1   |   24.4   |            |
-|   CG-DETR   | **37.0** | **21.2** | **48.6** | **26.5** |            |
+| Moment DETR |   34.2   |   19.5   |   46.3   |   24.4   |[ckpt](https://drive.google.com/file/d/1IfW9LFEuTmFV-GN5G9meLkNmyzeRD2JW/view?usp=sharing)|
+|   QD-DETR   |   35.4   |   20.3   |   47.4   |   24.9   |[ckpt](https://drive.google.com/file/d/1MrxWOt3hE_9TdmQIl8UqeWqFjSkirVRL/view?usp=sharing)|
+|     EaTR    |   32.4   |   18.2   |   44.3   |   21.9   |[ckpt](https://drive.google.com/file/d/1iEUMfYKqK6GEexcshhYWcRy58UXA89zw/view?usp=sharing)|
+|    UVCOM    |   34.4   |   19.9   |   46.1   |   24.4   |[ckpt](https://drive.google.com/file/d/18ediEySQ8qdBns1I9j2IUqoWOn9g6fMJ/view?usp=drive_link)|
+|   CG-DETR   | **37.0** | **21.2** | **48.6** | **26.5** |[ckpt](https://drive.google.com/file/d/1WmKWfLcjJCVaWUm2M3Q-oJmTSHkrswLi/view?usp=sharing)|
 
 #### CLIP
 |    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
@@ -256,11 +256,11 @@ Test set scores are reported.
 #### ResNet152+GloVe
 |    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
 |:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
-| Moment DETR |   38.4   |   22.9   |   52.4   |   22.2   |            |
-|   QD-DETR   | **42.1** | **24.0** |   56.7   | **24.5** |            |
-|     EaTR    |   37.6   |   20.1   |   53.5   |   23.6   |            |
-|    UVCOM    |   38.1   |   18.2   |   54.4   |   21.1   |            |
-|   CG-DETR   |   39.7   |   19.4   | **56.9** |   23.2   |            |
+| Moment DETR |   38.4   |   22.9   |   52.4   |   22.2   |[ckpt](https://drive.google.com/file/d/1f8qVioF5G6a-4uFVteog24Mp0BQfGTi9/view?usp=sharing)|
+|   QD-DETR   | **42.1** | **24.0** |   56.7   | **24.5** |[ckpt](https://drive.google.com/file/d/1vf2bczWP3RukASjnSsFRBa8DIDooc3vW/view?usp=sharing)|
+|     EaTR    |   37.6   |   20.1   |   53.5   |   23.6   |[ckpt](https://drive.google.com/file/d/1df8rzL9agkGnEIchCKR1KApFn4WqzMf9/view?usp=sharing)|
+|    UVCOM    |   38.1   |   18.2   |   54.4   |   21.1   |[ckpt](https://drive.google.com/file/d/1-cqMH6MYOPEe73Uj4Edwdvc2rBC_Ay9H/view?usp=drive_link)|
+|   CG-DETR   |   39.7   |   19.4   | **56.9** |   23.2   |[ckpt](https://drive.google.com/file/d/16Ml3Sh2R1lYDaQteREntJ-7_TtnJy9rO/view?usp=sharing)|
 
 #### CLIP
 |    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
@@ -284,11 +284,11 @@ Test set scores are reported.
 #### ResNet152+GloVe
 |    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
 |:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
-| Moment DETR |   20.0   |    8.6   |   24.2   |    6.9   |            |
-|   QD-DETR   |   30.6   |   15.1   |   35.1   |   12.3   |            |
-|     EaTR    |   22.5   |    9.2   |   26.3   |    7.9   |            |
-|    UVCOM    |   24.1   |   10.7   |   28.1   |    8.6   |            |
-|   CG-DETR   | **34.2** | **17.4** | **39.7** | **14.6** |            |
+| Moment DETR |   20.0   |    8.6   |   24.2   |    6.9   |[ckpt](https://drive.google.com/file/d/1jS5qHfoKIjDEvlrgCMFlQEJU9NR1nygT/view?usp=sharing)|
+|   QD-DETR   |   30.6   |   15.1   |   35.1   |   12.3   |[ckpt](https://drive.google.com/file/d/17BQZ9EtC8f0Nny-dkZ8HVeJpFfalJOEE/view?usp=sharing)|
+|     EaTR    |   22.5   |    9.2   |   26.3   |    7.9   |[ckpt](https://drive.google.com/file/d/1XtTboZQMk_K5HDtjdYlJYWfKesqQtrwc/view?usp=sharing)|
+|    UVCOM    |   24.1   |   10.7   |   28.1   |    8.6   |[ckpt](https://drive.google.com/file/d/1Ik8KU8nurKzWxNUuwQZMewJCCwwp54xR/view?usp=drive_link)|
+|   CG-DETR   | **34.2** | **17.4** | **39.7** | **14.6** |[ckpt](https://drive.google.com/file/d/1WgCTV-5sBcbpDu6KNVQ47ZOmjTJgVT0x/view?usp=sharing)|
 
 #### CLIP
 |    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
