@@ -254,7 +254,7 @@ Val_1 scores are reported.
 |    UVCOM    |   37.3   |   21.6   |   48.9   |   25.7   |[ckpt](https://drive.google.com/file/d/1gQnC8LSNaLJiJNKl0UZRyRU2tKqb1EyD/view?usp=sharing)|
 |   CG-DETR   | **40.0** | **23.2** | **51.0** | **27.7** |[ckpt](https://drive.google.com/file/d/1DUyjSKLdWf4O8lVEDQUPLenP0UJ9Okno/view?usp=sharing)|
 
-#### Charades-STA (Moment retrieval)
+### Charades-STA (Moment retrieval)
 Test set scores are reported.
 
 #### ResNet152+GloVe
@@ -284,7 +284,9 @@ Test set scores are reported.
 |    UVCOM    |   56.9   |   35.9   |   65.6   |   33.6   |[ckpt](https://drive.google.com/file/d/1-sOks0Y69Pla0Q4Yo0wzjiJVN77SxVSX/view?usp=sharing)|
 |   CG-DETR   |   57.6   |   35.1   |   65.9   |   30.9   |[ckpt](https://drive.google.com/file/d/1_3cQXwZcS8sVnNFrRVslW1BnmoZ3bDaI/view?usp=sharing)|
 
-#### TaCoS (Moment retrieval)
+### TaCoS (Moment retrieval)
+Test set scores are reported.
+
 #### ResNet152+GloVe
 |    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
 |:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
