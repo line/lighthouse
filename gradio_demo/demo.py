@@ -76,8 +76,14 @@ js_code_5 = """
 }
 """
 
-def predict(video, textbox, line):
-    model.encode_video(video)
+
+def video_upload(video):
+    if video is not None:
+        model.encode_video(video)
+        gr.Info("Video upload successfully. Encoding the video.")
+
+
+def predict(textbox, line):
     prediction = model.predict(textbox)
     mr_results = prediction['pred_relevant_windows']
     hl_results = prediction['pred_saliency_scores']
@@ -126,8 +132,10 @@ def main():
                     gr.Markdown("## Saliency score")
                     line = gr.LinePlot(value=pd.DataFrame({'x': [], 'y': []}), x='x', y='y', visible=False)
                 
+                video_input.change(video_upload, inputs=[video_input])
+                
                 button.click(predict, 
-                            inputs=[video_input, query_input, line], 
+                            inputs=[query_input, line], 
                             outputs=[button_1, button_2, button_3, button_4, button_5, line])
 
     demo.launch()
