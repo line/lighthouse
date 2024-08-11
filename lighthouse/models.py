@@ -121,6 +121,7 @@ class BasePredictor:
                 src_txt=query_feats,
                 src_txt_mask=query_mask
             )
+            
         # decode outputs
         outputs = self.model(**model_inputs)
         prob = F.softmax(outputs["pred_logits"], -1).squeeze(0).cpu()
@@ -128,10 +129,10 @@ class BasePredictor:
         pred_spans = outputs["pred_spans"].squeeze(0).cpu()
         saliency_scores = outputs["saliency_scores"][model_inputs["src_vid_mask"] == 1].cpu().tolist()
 
-        # compose predictions
-        predictions = []
+        # compose prediction
         video_duration = self.video_feats.shape[1] * self.clip_len
         pred_spans = span_cxw_to_xx(pred_spans) * video_duration
+        pred_spans = torch.clamp(pred_spans, min=0, max=video_duration)
         cur_ranked_preds = torch.cat([pred_spans, scores[:, None]], dim=1).tolist()
         cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
         cur_ranked_preds = [[float(f"{e:.4f}") for e in row] for row in cur_ranked_preds]
