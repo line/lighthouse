@@ -18,6 +18,10 @@ Then run:
 ```
 pip install .
 ```
+or
+```
+python -m pip install 'git+https://github.com/line/lighthouse.git'
+```
 
 ## Inference API (Available for both CPU/GPU mode)
 Lighthouse supports the following inference API:
