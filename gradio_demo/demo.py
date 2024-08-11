@@ -20,61 +20,14 @@ from lighthouse.models import CGDETRPredictor
 
 model = CGDETRPredictor('results/clip_cg_detr/qvhighlight/best.ckpt', 
                         device='cpu', feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
-
-js_code_1 = """
-() => {
-    let moment_text = document.getElementById('result_1').textContent;
-    var replaced_text = moment_text.replace(/moment..../, '').replace(/\ Score.*/, '');
-    let start_end = JSON.parse(replaced_text);
-
-    document.getElementsByTagName("video")[0].currentTime = start_end[0];
-    document.getElementsByTagName("video")[0].play();
-}
-"""
-
-js_code_2 = """
-() => {
-    let moment_text = document.getElementById('result_2').textContent;
-    var replaced_text = moment_text.replace(/moment..../, '').replace(/\ Score.*/, '');
-    let start_end = JSON.parse(replaced_text);
-
-    document.getElementsByTagName("video")[0].currentTime = start_end[0];
-    document.getElementsByTagName("video")[0].play();
-}
-"""
-
-js_code_3 = """
-() => {
-    let moment_text = document.getElementById('result_3').textContent;
-    var replaced_text = moment_text.replace(/moment..../, '').replace(/\ Score.*/, '');
-    let start_end = JSON.parse(replaced_text);
-
-    document.getElementsByTagName("video")[0].currentTime = start_end[0];
-    document.getElementsByTagName("video")[0].play();
-}
-"""
-
-js_code_4 = """
-() => {
-    let moment_text = document.getElementById('result_4').textContent;
-    var replaced_text = moment_text.replace(/moment..../, '').replace(/\ Score.*/, '');
-    let start_end = JSON.parse(replaced_text);
-
-    document.getElementsByTagName("video")[0].currentTime = start_end[0];
-    document.getElementsByTagName("video")[0].play();
-}
-"""
-
-js_code_5 = """
-() => {
-    let moment_text = document.getElementById('result_5').textContent;
-    var replaced_text = moment_text.replace(/moment..../, '').replace(/\ Score.*/, '');
-    let start_end = JSON.parse(replaced_text);
-
-    document.getElementsByTagName("video")[0].currentTime = start_end[0];
-    document.getElementsByTagName("video")[0].play();
-}
-"""
+topk_moments = 5
+js_codes = ["""() => {{
+            let moment_text = document.getElementById('result_{}').textContent;
+            var replaced_text = moment_text.replace(/moment..../, '').replace(/\ Score.*/, '');
+            let start_end = JSON.parse(replaced_text);
+            document.getElementsByTagName("video")[0].currentTime = start_end[0];
+            document.getElementsByTagName("video")[0].play();
+        }}""".format(i) for i in range(topk_moments)]
 
 
 def video_upload(video):
@@ -89,7 +42,7 @@ def predict(textbox, line):
     hl_results = prediction['pred_saliency_scores']
 
     buttons = []
-    for i, pred in enumerate(mr_results[:5]):
+    for i, pred in enumerate(mr_results[:topk_moments]):
         buttons.append(gr.Button(value='moment {}: [{}, {}] Score: {}'.format(i+1, pred[0], pred[1], pred[2]), visible=True))
     
     # Visualize the HD score
@@ -115,17 +68,18 @@ def main():
             with gr.Column():
                 with gr.Group():
                     gr.Markdown("## Retrieved moments")
-                    button_1 = gr.Button(value='moment 1', visible=False, elem_id='result_1')
-                    button_2 = gr.Button(value='moment 2', visible=False, elem_id='result_2')
-                    button_3 = gr.Button(value='moment 3', visible=False, elem_id='result_3')
-                    button_4 = gr.Button(value='moment 4', visible=False, elem_id='result_4')
-                    button_5 = gr.Button(value='moment 5', visible=False, elem_id='result_5')
 
-                    button_1.click(None, None, None, js=js_code_1)
-                    button_2.click(None, None, None, js=js_code_2)
-                    button_3.click(None, None, None, js=js_code_3)
-                    button_4.click(None, None, None, js=js_code_4)
-                    button_5.click(None, None, None, js=js_code_5)
+                    button_1 = gr.Button(value='moment 1', visible=False, elem_id='result_0')
+                    button_2 = gr.Button(value='moment 2', visible=False, elem_id='result_1')
+                    button_3 = gr.Button(value='moment 3', visible=False, elem_id='result_2')
+                    button_4 = gr.Button(value='moment 4', visible=False, elem_id='result_3')
+                    button_5 = gr.Button(value='moment 5', visible=False, elem_id='result_4')
+
+                    button_1.click(None, None, None, js=js_codes[0])
+                    button_2.click(None, None, None, js=js_codes[1])
+                    button_3.click(None, None, None, js=js_codes[2])
+                    button_4.click(None, None, None, js=js_codes[3])
+                    button_5.click(None, None, None, js=js_codes[4])
 
                 # dummy
                 with gr.Group():
