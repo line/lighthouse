@@ -166,7 +166,7 @@ To train moment_detr on QVHighlights with CLIP+Slowfast features, run:
 PYTHONPATH="." python training/train.py --config configs/qvhighlight/clip_slowfast_moment_detr_qvhighlight.yml
 ```
 
-The evaluation command is like (In this example, we evaluate QD-DETR on the charades-STA dataset):
+The evaluation command is like (In this example, we evaluate QD-DETR on the Charades-STA dataset):
 ```
 PYTHONPATH="." python training/evaluate.py --config configs/charades/clip_slowfast_qd_detr_charades.yml \
                                            --model_path results/clip_slowfast_qd_detr/charades/best.ckpt \
@@ -184,6 +184,166 @@ Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it
 ```
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
+
+## Reproduced Results
+
+### QVHighlights (Moment retrieval & highlight detection)
+Test set scores are reported.
+
+#### ResNet152+GloVe
+|    Models   |  R1@0.5  |  R1@0.7  |  HD mAP  |   HIT@1  | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   40.0   |   22.0   |   30.0   |   42.9   |            |
+|   QD-DETR   |   52.7   |   36.1   |   33.8   |   50.7   |            |
+|     EaTR    | **57.2** | **38.9** | **36.3** | **57.4** |            |
+|   TR-DETR   |   47.7   |   31.6   |   34.3   |   52.0   |            |
+|    UVCOM    |   53.8   |   37.6   |   34.8   |   53.8   |            |
+|   CG-DETR   |   53.1   |   38.3   |   34.5   |   52.9   |            |
+
+#### CLIP
+|    Models   |  R1@0.5  |  R1@0.7  |  HD mAP  |   HIT@1  | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   55.8   |   33.8   |   35.7   |   55.8   |            |
+|   QD-DETR   |   60.8   |   41.8   |   38.2   |   60.7   |            |
+|     EaTR    |   54.6   |   34.0   |   34.9   |   54.7   |            |
+|   TR-DETR   |   60.2   |   41.4   |   38.6   |   59.3   |            |
+|    UVCOM    |   62.7   | **46.9** | **39.8** | **64.5** |            |
+|   CG-DETR   | **64.5** |   46.0   |   39.4   |   64.3   |            |
+
+#### CLIP+Slowfast
+|    Models   |  R1@0.5  |  R1@0.7  |  HD mAP  |   HIT@1  | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   54.4   |   33.9   |   32.6   |   56.7   |            |
+|   QD-DETR   |   62.1   |   44.6   |   38.8   |   61.6   |            |
+|     EaTR    |   57.2   |   38.9   |   36.6   |   57.9   |            |
+|   TR-DETR   | **65.2** | **48.8** |   39.8   |   62.1   |            |
+|    UVCOM    |   62.6   |   47.6   |   39.6   |   62.8   |            |
+|   CG-DETR   |   64.9   |   48.1   | **40.7** | **67.0** |            |
+
+### ActivityNet Captions (Moment retrieval)
+Val_1 scores are reported.
+
+#### ResNet152+GloVe
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   34.2   |   19.5   |   46.3   |   24.4   |            |
+|   QD-DETR   |   35.4   |   20.3   |   47.4   |   24.9   |            |
+|     EaTR    |   32.4   |   18.2   |   44.3   |   21.9   |            |
+|    UVCOM    |   34.4   |   19.9   |   46.1   |   24.4   |            |
+|   CG-DETR   | **37.0** | **21.2** | **48.6** | **26.5** |            |
+
+#### CLIP
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   36.1   |   20.4   |   48.2   |   25.7   |            |
+|   QD-DETR   |   36.9   |   21.4   |   48.4   |   26.3   |            |
+|     EaTR    |   34.6   |   19.7   |   45.1   |   23.1   |            |
+|    UVCOM    |   37.0   |   21.5   |   48.3   |   25.7   |            |
+|   CG-DETR   | **38.8** | **22.6** | **50.6** | **27.5** |            |
+
+#### CLIP+Slowfast
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   36.5   |   21.1   |   48.4   |   26.0   |            |
+|   QD-DETR   |   37.5   |   22.1   |   48.9   |   26.4   |            |
+|     EaTR    |   34.6   |   19.3   |   45.2   |   22.3   |            |
+|    UVCOM    |   37.3   |   21.6   |   48.9   |   25.7   |            |
+|   CG-DETR   | **40.0** | **23.2** | **51.0** | **27.7** |            |
+
+#### Charades-STA (Moment retrieval)
+Test set scores are reported.
+
+#### ResNet152+GloVe
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   38.4   |   22.9   |   52.4   |   22.2   |            |
+|   QD-DETR   | **42.1** | **24.0** |   56.7   | **24.5** |            |
+|     EaTR    |   37.6   |   20.1   |   53.5   |   23.6   |            |
+|    UVCOM    |   38.1   |   18.2   |   54.4   |   21.1   |            |
+|   CG-DETR   |   39.7   |   19.4   | **56.9** |   23.2   |            |
+
+#### CLIP
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   47.9   |   26.7   |   61.0   |   28.8   |            |
+|   QD-DETR   |   52.0   |   31.7   |   63.6   |   29.4   |            |
+|     EaTR    |   48.4   |   27.5   |   59.9   |   26.9   |            |
+|    UVCOM    |   48.4   |   27.1   |   60.9   |   27.9   |            |
+|   CG-DETR   | **54.4** | **31.8** | **65.5** | **30.5** |            |
+
+#### CLIP+Slowfast
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   53.4   |   30.7   |   62.0   |   29.1   |            |
+|   QD-DETR   | **59.4** | **37.9** | **66.6** | **33.8** |            |
+|     EaTR    |   55.2   |   33.1   |   65.4   |   30.4   |            |
+|    UVCOM    |   56.9   |   35.9   |   65.6   |   33.6   |            |
+|   CG-DETR   |   57.6   |   35.1   |   65.9   |   30.9   |            |
+
+#### TaCoS (Moment retrieval)
+#### ResNet152+GloVe
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   20.0   |    8.6   |   24.2   |    6.9   |            |
+|   QD-DETR   |   30.6   |   15.1   |   35.1   |   12.3   |            |
+|     EaTR    |   22.5   |    9.2   |   26.3   |    7.9   |            |
+|    UVCOM    |   24.1   |   10.7   |   28.1   |    8.6   |            |
+|   CG-DETR   | **34.2** | **17.4** | **39.7** | **14.6** |            |
+
+#### CLIP
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   18.0   |    7.9   |   21.3   |    6.7   |            |
+|   QD-DETR   |   32.3   |   17.2   |   36.0   |   14.1   |            |
+|     EaTR    |   24.7   |   10.0   |   28.8   |    8.7   |            |
+|    UVCOM    | **36.8** | **20.0** | **41.5** | **16.3** |            |
+|   CG-DETR   |   34.3   |   19.8   |   38.6   |   15.8   |            |
+
+#### CLIP+Slowfast
+|    Models   |  R1@0.5  |  R1@0.7  |  mAP@0.5 | mAP@0.75 | checkpoint |
+|:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
+| Moment DETR |   25.5   |   12.9   |   29.1   |   10.3   |            |
+|   QD-DETR   |   38.7   |   22.1   |   42.9   |   16.7   |            |
+|     EaTR    |   31.7   |   15.6   |   37.4   |   14.0   |            |
+|    UVCOM    |   40.2   |   23.3   |   43.5   |   19.1   |            |
+|   CG-DETR   | **39.8** | **25.1** | **44.2** | **19.6** |            |
+
+#### TVSum (Highlight detection)
+#### ResNet152+GloVe
+|    Models   |    mAP   | checkpoint |
+|:-----------:|:--------:|:----------:|
+| Moment DETR |   85.9   |            |
+|   QD-DETR   |   87.2   |            |
+|     EaTR    |   86.2   |            |
+|    UVCOM    | **87.6** |            |
+|   CG-DETR   |   87.1   |            |
+
+#### CLIP
+|    Models   |    mAP   | checkpoint |
+|:-----------:|:--------:|:----------:|
+| Moment DETR | **89.1** |            |
+|   QD-DETR   |   88.4   |            |
+|     EaTR    |   86.7   |            |
+|    UVCOM    |   87.7   |            |
+|   CG-DETR   |   88.1   |            |
+
+#### CLIP+Slowfast
+|    Models   |    mAP   | checkpoint |
+|:-----------:|:--------:|:----------:|
+| Moment DETR |   86.9   |            |
+|   QD-DETR   |   88.4   |            |
+|     EaTR    |   86.1   |            |
+|    UVCOM    |   87.7   |            |
+|   CG-DETR   | **88.8** |            |
+
+#### I3D+CLIP (Text)
+|    Models   |    mAP   | checkpoint |
+|:-----------:|:--------:|:----------:|
+| Moment DETR |   86.7   |            |
+|   QD-DETR   |   87.1   |            |
+|     EaTR    |   85.0   |            |
+|    UVCOM    | **87.9** |            |
+|   CG-DETR   | **88.9** |            |
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
