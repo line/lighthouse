@@ -29,7 +29,7 @@ from lighthouse.models import CGDETRPredictor
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # slowfast_path is necesary if you use clip_slowfast features
-query = 'A man is speaking in front of the camera'
+query = 'A woman wearing a glass is talking in front of the camera'
 model = CGDETRPredictor('results/clip_slowfast_cg_detr/activitynet/best.ckpt', device=device, 
                         feature_name='clip_slowfast', slowfast_path='SLOWFAST_8x8_R50.pkl')
 
