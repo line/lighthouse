@@ -67,7 +67,7 @@ Run `python gradio_demo/demo.py`. Upload the video and input text query, and cli
 
 ![Gradio demo image](images/demo_improved.png)
 
-## Supported models and datasets
+## Supported models, datasets, and features
 ### Models
 - [x] : [Moment-DETR (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
 - [x] : [QD-DETR (Moon et al. CVPR23)](https://arxiv.org/abs/2303.13874)
