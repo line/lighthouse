@@ -62,7 +62,7 @@ Download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmy
 
 **Limitation**: The maximum video duration is **150s** due to the current benchmark datasets. Using CLIP+Slowfast feature (`feature_name=clip_slowfast`) is possible for CPU users, but very slow. Use `feature_name='clip'`.
 
-## Gradio Demo
+## Gradio demo
 Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button.
 
 ![Gradio demo image](images/demo_improved.png)
@@ -99,7 +99,7 @@ Highlight detection
 - [x] : CLIP+Slowfast
 - [x] : I3D+CLIP(Text) for TVSum
 
-## Reproduce the Experiments
+## Reproduce the experiments
 
 ### Pre-trained weights
 Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link).
@@ -153,7 +153,7 @@ lighthouse/
         └── tvsum_anno.json
 ```
 
-### Training and Evaluation
+### Training and evaluation
 The general training command is:
 ```
 PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_DATASET.yml
@@ -189,7 +189,7 @@ Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
 
-## Reproduced Results
+## Reproduced results
 
 ### QVHighlights (Moment retrieval & highlight detection)
 Test set scores are reported.
