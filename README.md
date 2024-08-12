@@ -1,4 +1,4 @@
-# lighthouse
+# Lighthouse
 
 ![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -319,6 +319,14 @@ Download from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## Todo
+- [ ] : Support tensorboard
+- [ ] : Support Wandb
+- [ ] : Support DeDiMo
+- [ ] : Support TaskWeave
+- [ ] : Support ASR-based pretraining on QVHighlights
+- [ ] : Support TVSum Audio training
 
 ## LICENSE
 Apache License 2.0
