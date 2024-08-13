@@ -154,23 +154,29 @@ lighthouse/
 ```
 
 ### Training and evaluation
+
+#### Training
 The general training command is:
 ```
 PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_DATASET.yml
 ```
-
 |         | Options                                                   |
 |---------|-----------------------------------------------------------|
 | Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr       |
 | Feature | resnet_glove, clip, clip_slowfast                         |
 | Dataset | qvhighlight, activitynet, charades, tacos, tvsum          |
-
-To train moment_detr on QVHighlights with CLIP+Slowfast features, run:
+For example, to train moment_detr on QVHighlights with CLIP+Slowfast features, run:
 ```
 PYTHONPATH="." python training/train.py --config configs/qvhighlight/clip_slowfast_moment_detr_qvhighlight.yml
 ```
+To train the models on HD datasets (i.e., TVSum and YouTube Highlight), you need to specify the domain.<br>
+For example, to train moment_detr in BK domain on TVSum, run:
+```
+PYTHONPATH="." python training/train.py --config configs/tvsum/clip_slowfast_moment_detr_tvsum.yml --domain BK
+```
 
-The evaluation command is like (In this example, we evaluate QD-DETR on the Charades-STA dataset):
+#### Evaluation
+The evaluation command is (in this example, we evaluate QD-DETR on the Charades-STA dataset):
 ```
 PYTHONPATH="." python training/evaluate.py --config configs/charades/clip_slowfast_qd_detr_charades.yml \
                                            --model_path results/clip_slowfast_qd_detr/charades/best.ckpt \
