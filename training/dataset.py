@@ -85,7 +85,7 @@ class StartEndDataset(Dataset):
     def __init__(self, dset_name, domain, data_path, v_feat_dirs, q_feat_dir,
                  q_feat_type="last_hidden_state", max_q_l=32, max_v_l=75, 
                  ctx_mode="video", clip_len=2, max_windows=5, span_loss_type="l1", 
-                 txt_drop_ratio=0, load_labels=True):
+                 load_labels=True):
         self.dset_name = dset_name
         self.domain = domain
         self.data_path = data_path
@@ -105,11 +105,7 @@ class StartEndDataset(Dataset):
         self.clip_len = clip_len
         self.max_windows = max_windows  # maximum number of windows to use as labels
         self.span_loss_type = span_loss_type
-        self.txt_drop_ratio = txt_drop_ratio
         self.load_labels = load_labels
-
-        if "val" in data_path or "test" in data_path:
-            assert txt_drop_ratio == 0
 
         # data
         self.data = self.load_data()
@@ -230,7 +226,6 @@ class StartEndDataset(Dataset):
         score_array[gt_st:gt_ed+1] = 1
 
         return pos_clip_indices, neg_clip_indices, score_array
-        
 
     def get_saliency_labels(self, rel_clip_ids, scores, ctx_l, max_n=1, add_easy_negative=True):
         """Sum the scores from the three annotations, then take the two clips with the
@@ -376,21 +371,7 @@ class StartEndDataset(Dataset):
         if self.q_feat_type == "last_hidden_state":
             q_feat = q_feat[:self.max_q_l]
         q_feat = l2_normalize_np_array(q_feat)
-        if self.txt_drop_ratio > 0:
-            q_feat = self.random_drop_rows(q_feat)
         return torch.from_numpy(q_feat)  # (D, ) or (Lq, D)
-
-    def random_drop_rows(self, embeddings):
-        """randomly mask num_drop rows in embeddings to be zero.
-        Args:
-            embeddings: np.ndarray (L, D)
-        """
-        num_drop_rows = round(len(embeddings) * self.txt_drop_ratio)
-        if num_drop_rows > 0:
-            row_indices = np.random.choice(
-                len(embeddings), size=num_drop_rows, replace=False)
-            embeddings[row_indices] = 0
-        return embeddings
 
     def _get_video_feat_by_vid(self, vid):
         v_feat_list = []

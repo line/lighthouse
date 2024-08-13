@@ -398,7 +398,6 @@ def start_inference(yaml_path, model_path, split, eval_path):
         clip_len=opt.clip_length,
         max_windows=opt.max_windows,
         span_loss_type=opt.span_loss_type,
-        txt_drop_ratio=0,
         load_labels=load_labels,
     )
     

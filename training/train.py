@@ -187,13 +187,11 @@ def main(yaml_path, domain):
         clip_len=opt.clip_length,
         max_windows=opt.max_windows,
         span_loss_type=opt.span_loss_type,
-        txt_drop_ratio=opt.txt_drop_ratio,
         load_labels=True,
     )
 
     train_dataset = CGDETR_StartEndDataset(**dataset_config) if opt.model_name == 'cg_detr' else StartEndDataset(**dataset_config)    
     copied_eval_config = copy.deepcopy(dataset_config)
-    copied_eval_config.txt_drop_ratio = 0
     copied_eval_config.data_path = opt.eval_path
     eval_dataset = CGDETR_StartEndDataset(**copied_eval_config) if opt.model_name == 'cg_detr' else StartEndDataset(**copied_eval_config)
     
