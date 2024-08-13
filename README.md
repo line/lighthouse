@@ -326,6 +326,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 - [ ] : Support DeDiMo
 - [ ] : Support TaskWeave
 - [ ] : Support ASR-based pretraining on QVHighlights
+- [ ] : Support Audio modality (QVHighlights)
 - [ ] : Support TVSum Audio training
 
 ## LICENSE
