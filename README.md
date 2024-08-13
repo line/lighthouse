@@ -20,7 +20,7 @@ pip install .
 ```
 or
 ```
-python -m pip install 'git+https://github.com/line/lighthouse.git'
+pip install 'git+https://github.com/line/lighthouse.git'
 ```
 
 ## Inference API (Available for both CPU/GPU mode)
