@@ -156,7 +156,7 @@ def train(model, criterion, optimizer, lr_scheduler, train_dataset, val_dataset,
             write_log(opt, epoch_i, eval_loss_meters, metrics=metrics, mode='val')            
             logger.info("metrics {}".format(pprint.pformat(metrics["brief"], indent=4)))
             
-            if opt.dset_name == 'tvsum':
+            if opt.dset_name == 'tvsum' or opt.dset_name == 'youtube_highlight':
                 stop_score = metrics["brief"]["mAP"]
             else:
                 stop_score = metrics["brief"]["MR-full-mAP"]
@@ -208,7 +208,7 @@ def main(yaml_path, domain):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, required=True, help='yaml config path for training. e.g., configs/qd_detr_qvhighlight.yml')
-    parser.add_argument('--domain', type=str, help='training domain for TVSum . e.g., BK. Note that they are not necessary for other datasets')
+    parser.add_argument('--domain', type=str, help='training domain for TVSum and YouTube Highlights . e.g., BK and dog. Note that they are not necessary for other datasets')
     args = parser.parse_args()
     yaml_path = args.config
     domain = args.domain

@@ -99,7 +99,7 @@ def compute_hl_results(model, eval_loader, opt, criterion=None):
     batch_input_fn = cg_detr_prepare_batch_inputs  if opt.model_name == 'cg_detr' else prepare_batch_inputs
     loss_meters = defaultdict(AverageMeter)
 
-    mr_res = []
+    video_ap_collected = []
     topk = 5 # top-5 map
 
     for batch in tqdm(eval_loader, desc="compute st ed scores"):
@@ -112,18 +112,42 @@ def compute_hl_results(model, eval_loader, opt, criterion=None):
             label = meta['label'] # raw label
             video_ap = []
             # Follow the UMT code "https://github.com/TencentARC/UMT/blob/main/datasets/tvsum.py"
-            for i in range(20):
-                pred = pred.cpu()
-                cur_pred = pred[:len(label)]
+            if opt.dset_name == 'tvsum':
+                for i in range(20):
+                    pred = pred.cpu()
+                    cur_pred = pred[:len(label)]
+                    inds = torch.argsort(cur_pred, descending=True, dim=-1)
+
+                    # video_id = self.get_video_id(idx)
+                    cur_label = torch.Tensor(label)[:, i]
+                    cur_label = torch.where(cur_label > cur_label.median(), 1.0, .0)
+
+                    cur_label = cur_label[inds].tolist()[:topk]
+
+                    # if (num_gt := sum(cur_label)) == 0:
+                    num_gt = sum(cur_label)
+                    if num_gt == 0:
+                        video_ap.append(0)
+                        continue
+
+                    hits = ap = rec = 0
+                    prc = 1
+
+                    for j, gt in enumerate(cur_label):
+                        hits += gt
+
+                        _rec = hits / num_gt
+                        _prc = hits / (j + 1)
+
+                        ap += (_rec - rec) * (prc + _prc) / 2
+                        rec, prc = _rec, _prc
+
+                    video_ap.append(ap)
+            
+            elif opt.dset_name == 'youtube_highlight':
+                cur_pred = pred[:len(label)].cpu()
                 inds = torch.argsort(cur_pred, descending=True, dim=-1)
-
-                # video_id = self.get_video_id(idx)
-                cur_label = torch.Tensor(label)[:, i]
-                cur_label = torch.where(cur_label > cur_label.median(), 1.0, .0)
-
-                cur_label = cur_label[inds].tolist()[:topk]
-
-                # if (num_gt := sum(cur_label)) == 0:
+                cur_label = torch.Tensor(label).squeeze()[inds].tolist()
                 num_gt = sum(cur_label)
                 if num_gt == 0:
                     video_ap.append(0)
@@ -140,8 +164,12 @@ def compute_hl_results(model, eval_loader, opt, criterion=None):
 
                     ap += (_rec - rec) * (prc + _prc) / 2
                     rec, prc = _rec, _prc
+                
+                video_ap.append(float(ap))
 
-                video_ap.append(ap)
+            else:
+                raise NotImplementedError
+
             video_ap_collected.append(video_ap)  
 
     mean_ap = np.mean(video_ap_collected)
@@ -219,89 +247,17 @@ def compute_mr_results(model, eval_loader, opt, criterion=None):
             min_w_l=2, max_w_l=60, move_window_method="left",
             process_func_names=("clip_ts", "round_multiple")
         )
-    elif opt.dset_name == 'tacos':
-        post_processor = PostProcessorDETR(
-            clip_length=opt.clip_length, min_ts_val=0, max_ts_val=50000,
-            min_w_l=0, max_w_l=50000, move_window_method="left",
-            process_func_names=(["round_multiple"])
-        )
-    elif opt.dset_name == 'activitynet':
+    elif opt.dset_name == 'tacos' or opt.dset_name == 'activitynet' or opt.dset_name == 'youtube_highlight':
         post_processor = PostProcessorDETR(
             clip_length=opt.clip_length, min_ts_val=0, max_ts_val=50000,
             min_w_l=0, max_w_l=50000, move_window_method="left",
             process_func_names=(["round_multiple"])
         )
     else:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     mr_res = post_processor(mr_res)
     return mr_res, loss_meters
-
-
-# for HL
-@torch.no_grad()
-def compute_hl_results(model, eval_loader, opt, epoch_i=None, criterion=None, tb_writer=None):
-    batch_input_fn = cg_detr_prepare_batch_inputs if opt.model_name == 'cg_detr' else prepare_batch_inputs
-    model.eval()
-    if criterion:
-        assert eval_loader.dataset.load_labels
-        criterion.eval()
-
-    loss_meters = defaultdict(AverageMeter)
-    write_tb = tb_writer is not None and epoch_i is not None
-
-    mr_res = []
-
-    topk = 5 # top-5 map
-
-    video_ap_collected = []
-    for batch in tqdm(eval_loader, desc="compute st ed scores"):
-        query_meta = batch[0]
-        model_inputs, targets = batch_input_fn(batch[1], opt.device)
-        outputs = model(**model_inputs)
-        preds = outputs['saliency_scores'].clone().detach()
-
-        for meta, pred in zip(query_meta, preds):
-            pred = pred
-            label = meta['label'] # raw label
-
-            video_ap = []
-            # Follow the UMT code "https://github.com/TencentARC/UMT/blob/main/datasets/tvsum.py"            
-            for i in range(20):
-                pred=pred.cpu()
-                cur_pred = pred[:len(label)]
-                inds = torch.argsort(cur_pred, descending=True, dim=-1)
-
-                # video_id = self.get_video_id(idx)
-                cur_label = torch.Tensor(label)[:, i]
-                cur_label = torch.where(cur_label > cur_label.median(), 1.0, .0)
-
-                cur_label = cur_label[inds].tolist()[:topk]
-
-                # if (num_gt := sum(cur_label)) == 0:
-                num_gt = sum(cur_label)
-                if num_gt == 0:
-                    video_ap.append(0)
-                    continue
-
-                hits = ap = rec = 0
-                prc = 1
-
-                for j, gt in enumerate(cur_label):
-                    hits += gt
-
-                    _rec = hits / num_gt
-                    _prc = hits / (j + 1)
-
-                    ap += (_rec - rec) * (prc + _prc) / 2
-                    rec, prc = _rec, _prc
-
-                video_ap.append(ap)
-            video_ap_collected.append(video_ap)
-
-    mean_ap = np.mean(video_ap_collected)
-    submmission = dict(mAP=round(mean_ap, 5))
-    return submmission, loss_meters 
 
 
 def get_eval_res(model, eval_loader, opt, criterion):
@@ -325,7 +281,7 @@ def eval_epoch(model, eval_dataset, opt, save_submission_filename, criterion=Non
         shuffle=False,
     )
 
-    if opt.dset_name == 'tvsum':
+    if opt.dset_name == 'tvsum' or opt.dset_name == 'youtube_highlight':
         metrics, eval_loss_meters = compute_hl_results(model, eval_loader, opt, criterion)
         # to match original save format
         submission = [{ "brief" : metrics }]
@@ -352,8 +308,7 @@ def build_model(opt):
     elif opt.model_name == 'uvcom':
         model, criterion = build_model_uvcom(opt)
     else:
-        # TODO
-        raise NotImplementedError()
+        raise NotImplementedError
     
     return model, criterion
 
