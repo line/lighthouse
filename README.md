@@ -91,7 +91,7 @@ Moment retrieval
 Highlight detection
 - [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 - [ ] : [TVSum Audio Training (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
-- [ ] : [YouTube Highlights (Xu et al. ICCV21)](https://openaccess.thecvf.com/content/ICCV2021/papers/Xu_Cross-Category_Video_Highlight_Detection_via_Set-Based_Learning_ICCV_2021_paper.pdf)
+- [ ] : [YouTube Highlights (Sun et al. ECCV14)](https://grail.cs.washington.edu/wp-content/uploads/2015/08/sun2014rdh.pdf)
 
 ### Features
 - [x] : ResNet+GloVe
@@ -321,7 +321,7 @@ Download from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Todo
-- [ ] : Support tensorboard
+- [ ] : Support YouTube-Highlight
 - [ ] : Support Wandb
 - [ ] : Support DeDiMo
 - [ ] : Support TaskWeave
