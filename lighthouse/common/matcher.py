@@ -128,7 +128,6 @@ class HungarianMatcher(nn.Module):
             cost_giou = 0
 
         # Final cost matrix
-        # import ipdb; ipdb.set_trace()
         C = self.cost_span * cost_span + self.cost_giou * cost_giou + self.cost_class * cost_class
         C = C.view(bs, num_queries, -1).cpu()
 
@@ -197,7 +196,6 @@ class HungarianEventMatcher(nn.Module):
         cost_giou = - generalized_temporal_iou_(span_cxw_to_xx(out_spans), span_cxw_to_xx(tgt_spans))
         
         # Final cost matrix
-        # import ipdb; ipdb.set_trace()
         C = self.cost_span * cost_span + self.cost_giou * cost_giou
         C = C.view(bs, num_queries, -1).cpu()
 

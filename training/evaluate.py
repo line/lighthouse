@@ -144,7 +144,6 @@ def compute_hl_results(model, eval_loader, opt, criterion=None):
                 video_ap.append(ap)
             video_ap_collected.append(video_ap)  
 
-    import ipdb; ipdb.set_trace()
     mean_ap = np.mean(video_ap_collected)
     submmission = dict(mAP=round(mean_ap, 5))
     

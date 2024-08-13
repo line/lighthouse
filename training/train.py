@@ -85,10 +85,7 @@ def additional_trdetr_losses(model_inputs, outputs, targets, opt):
 
     src_txt_ed, src_vid_ed =  outputs['src_txt_ed'], outputs['src_vid_ed']
     loss_align = CTC_Loss()
-    try:
-        loss_vid_txt_align = loss_align(src_vid_ed, src_txt_ed, pos_mask, src_vid_mask, src_txt_mask)
-    except:
-        import ipdb; ipdb.set_trace()
+    loss_vid_txt_align = loss_align(src_vid_ed, src_txt_ed, pos_mask, src_vid_mask, src_txt_mask)
 
     src_vid_cls_ed = outputs['src_vid_cls_ed']
     src_txt_cls_ed = outputs['src_txt_cls_ed']

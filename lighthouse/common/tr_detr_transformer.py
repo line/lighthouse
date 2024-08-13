@@ -259,8 +259,6 @@ class TransformerDecoder(nn.Module):
         reference_points = refpoints_unsigmoid.sigmoid()
         ref_points = [reference_points]
 
-        # import ipdb; ipdb.set_trace()
-
         for layer_id, layer in enumerate(self.layers):
             obj_center = reference_points[..., :self.query_dim]
             # get sine embedding for the query vector
@@ -304,7 +302,6 @@ class TransformerDecoder(nn.Module):
                     tmp = self.bbox_embed[layer_id](output)
                 else:
                     tmp = self.bbox_embed(output)
-                # import ipdb; ipdb.set_trace()
                 tmp[..., :self.query_dim] += inverse_sigmoid(reference_points)
                 new_reference_points = tmp[..., :self.query_dim].sigmoid()
                 if layer_id != self.num_layers - 1:
