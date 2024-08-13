@@ -23,7 +23,6 @@ dim_feedforward: 1024
 hidden_dim: 256
 input_dropout: 0.5
 dropout: 0.1
-txt_drop_ratio: 0
 nheads: 8
 num_queries: 10
 

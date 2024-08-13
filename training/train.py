@@ -85,10 +85,7 @@ def additional_trdetr_losses(model_inputs, outputs, targets, opt):
 
     src_txt_ed, src_vid_ed =  outputs['src_txt_ed'], outputs['src_vid_ed']
     loss_align = CTC_Loss()
-    try:
-        loss_vid_txt_align = loss_align(src_vid_ed, src_txt_ed, pos_mask, src_vid_mask, src_txt_mask)
-    except:
-        import ipdb; ipdb.set_trace()
+    loss_vid_txt_align = loss_align(src_vid_ed, src_txt_ed, pos_mask, src_vid_mask, src_txt_mask)
 
     src_vid_cls_ed = outputs['src_vid_cls_ed']
     src_txt_cls_ed = outputs['src_txt_cls_ed']
@@ -190,13 +187,11 @@ def main(yaml_path, domain):
         clip_len=opt.clip_length,
         max_windows=opt.max_windows,
         span_loss_type=opt.span_loss_type,
-        txt_drop_ratio=opt.txt_drop_ratio,
         load_labels=True,
     )
 
     train_dataset = CGDETR_StartEndDataset(**dataset_config) if opt.model_name == 'cg_detr' else StartEndDataset(**dataset_config)    
     copied_eval_config = copy.deepcopy(dataset_config)
-    copied_eval_config.txt_drop_ratio = 0
     copied_eval_config.data_path = opt.eval_path
     eval_dataset = CGDETR_StartEndDataset(**copied_eval_config) if opt.model_name == 'cg_detr' else StartEndDataset(**copied_eval_config)
     

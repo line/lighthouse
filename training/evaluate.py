@@ -144,7 +144,6 @@ def compute_hl_results(model, eval_loader, opt, criterion=None):
                 video_ap.append(ap)
             video_ap_collected.append(video_ap)  
 
-    import ipdb; ipdb.set_trace()
     mean_ap = np.mean(video_ap_collected)
     submmission = dict(mAP=round(mean_ap, 5))
     
@@ -399,7 +398,6 @@ def start_inference(yaml_path, model_path, split, eval_path):
         clip_len=opt.clip_length,
         max_windows=opt.max_windows,
         span_loss_type=opt.span_loss_type,
-        txt_drop_ratio=0,
         load_labels=load_labels,
     )
     
