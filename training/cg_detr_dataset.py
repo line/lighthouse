@@ -76,12 +76,14 @@ class CGDETR_StartEndDataset(Dataset):
             if isinstance(v_feat_dirs, list) else [v_feat_dirs]
         self.q_feat_dir = q_feat_dir
         self.q_feat_type = q_feat_type
+        
         if max_v_l == -1:
             max_v_l = 100000000
         if max_q_l == -1:
             max_q_l = 100
         self.max_q_l = max_q_l
         self.max_v_l = max_v_l
+        
         self.ctx_mode = ctx_mode
         self.use_tef = "tef" in ctx_mode
         self.use_video = "video" in ctx_mode
@@ -343,7 +345,6 @@ class CGDETR_StartEndDataset(Dataset):
         neg_clip_indices = hard_neg_clip_indices + easy_neg_clip_indices
 
         return pos_clip_indices, neg_clip_indices, score_array
-    
     
     def get_span_labels(self, windows, ctx_l):
         """

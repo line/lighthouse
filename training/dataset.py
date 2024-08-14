@@ -93,12 +93,14 @@ class StartEndDataset(Dataset):
             if isinstance(v_feat_dirs, list) else [v_feat_dirs]
         self.q_feat_dir = q_feat_dir
         self.q_feat_type = q_feat_type
+        
         if max_v_l == -1:
             max_v_l = 100000000
         if max_q_l == -1:
             max_q_l = 100
         self.max_q_l = max_q_l
         self.max_v_l = max_v_l
+        
         self.ctx_mode = ctx_mode
         self.use_tef = "tef" in ctx_mode
         self.use_video = "video" in ctx_mode
@@ -110,7 +112,7 @@ class StartEndDataset(Dataset):
         # data
         self.data = self.load_data()
 
-        if self.dset_name == 'tvsum':
+        if self.dset_name == 'tvsum' or self.dset_name == 'youtube_highlight':
             new_data = []
             for d in self.data:
                 if d['domain'] == self.domain:
@@ -168,6 +170,11 @@ class StartEndDataset(Dataset):
                             self.get_saliency_labels_all_tvsum(meta_label, ctx_l)
                 if len(model_inputs["saliency_all_labels"]) != len(model_inputs["video_feat"]):
                     model_inputs["video_feat"] = model_inputs["video_feat"][:len(model_inputs["saliency_all_labels"])]
+            elif self.dset_name == 'youtube_highlight':
+                model_inputs["span_labels"] = torch.tensor([[0., 0.]])
+                meta_label = meta['label']
+                model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                            self.get_saliency_labels_all_youtube(meta_label, ctx_l)
             else:
                 model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
 
@@ -175,6 +182,7 @@ class StartEndDataset(Dataset):
                 if 'relevant_clip_ids' in meta:
                     pos_idx = torch.tensor(meta['relevant_clip_ids'])
                 else:
+                    # TODO: Implemented pos_mask for MR/HD tasks for TR-DETR, but I could not reproduce the reported scores
                     clip_start_ind = math.floor(meta["relevant_windows"][0][0] / self.clip_len)
                     clip_end_ind = math.ceil(meta["relevant_windows"][0][1] / self.clip_len)
                     if clip_start_ind == clip_end_ind:
@@ -312,6 +320,31 @@ class StartEndDataset(Dataset):
         
         agg_scores = np.sum(labels - np.ones_like(labels), axis=-1)[:ctx_l] # start from 1, so minus 1
         score_array = agg_scores / 80 * 12
+        sort_indices = np.argsort(agg_scores)  # increasing
+
+        hard_pos_clip_indices = [min(idx, ctx_l-1) for idx in sort_indices[-max_n:]]
+        hard_neg_clip_indices = [min(idx, ctx_l-1) for idx in sort_indices[:max_n]]
+        easy_pos_clip_indices = []
+        easy_neg_clip_indices = []
+        if add_easy_negative:
+            easy_neg_pool = list(set(range(ctx_l)))
+            if len(easy_neg_pool) >= max_n:
+                easy_pos_clip_indices = random.sample(rel_clip_ids, k=max_n)
+                easy_neg_clip_indices = random.sample(easy_neg_pool, k=max_n)
+            else:  # copy the hard ones
+                easy_pos_clip_indices = hard_pos_clip_indices
+                easy_neg_clip_indices = hard_neg_clip_indices
+
+        pos_clip_indices = hard_pos_clip_indices + easy_pos_clip_indices
+        neg_clip_indices = hard_neg_clip_indices + easy_neg_clip_indices
+
+        return pos_clip_indices, neg_clip_indices, score_array
+
+    def get_saliency_labels_all_youtube(self, labels, ctx_l, max_n=1, add_easy_negative=False):
+        # Youtube-hl only have binary score
+        agg_scores = np.array(labels)[:, 0] # (L, 1) --> (L, )
+        score_array = agg_scores * 1
+        
         sort_indices = np.argsort(agg_scores)  # increasing
 
         hard_pos_clip_indices = [min(idx, ctx_l-1) for idx in sort_indices[-max_n:]]
