@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Lighthouse is a user-friendly library for reproducible video moment retrieval and highlight detection (MR-HD).
-It supports six models, three features, and five datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
+It supports six models, three features, and six datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
 
 **News**: Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901)
 
@@ -15,10 +15,6 @@ Note that the inference API is available for CPU environments. We tested the cod
 pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
 ```
 Then run:
-```
-pip install .
-```
-or
 ```
 pip install 'git+https://github.com/line/lighthouse.git'
 ```
@@ -60,7 +56,7 @@ pred_saliency_scores: [score, ...]
 ```
 Download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link) and Run `python api_example/demo.py` to reproduce the results. In addition, to use `clip_slowfast` features, it is necessary to download slowfast pre-trained weights ([SLOWFAST_8x8_R50](https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl)).
 
-**Limitation**: The maximum video duration is **150s** due to the current benchmark datasets. Using CLIP+Slowfast feature (`feature_name=clip_slowfast`) is possible for CPU users, but very slow. Use `feature_name='clip'`.
+**Limitation**: The maximum video duration is **150s** due to the current benchmark datasets. Using CLIP+Slowfast feature (`feature_name='clip_slowfast'`) is possible for CPU users, but very slow. Use `feature_name='clip'`.
 
 ## Gradio demo
 Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button.
@@ -91,7 +87,7 @@ Moment retrieval
 Highlight detection
 - [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 - [ ] : [TVSum Audio Training (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
-- [ ] : [YouTube Highlights (Sun et al. ECCV14)](https://grail.cs.washington.edu/wp-content/uploads/2015/08/sun2014rdh.pdf)
+- [x] : [YouTube Highlights (Sun et al. ECCV14)](https://grail.cs.washington.edu/wp-content/uploads/2015/08/sun2014rdh.pdf)
 
 ### Features
 - [x] : ResNet+GloVe
@@ -115,6 +111,7 @@ To extract features from videos, we use [HERO_Video_Feature_Extractor](https://g
 - [ActivityNet Captions](https://drive.google.com/file/d/1P2xS998XfbN5nSDeJLBF1m9AaVhipBva/view?usp=sharing)
 - [TACoS](https://drive.google.com/file/d/1rYzme9JNAk3niH1K81wgT13pOMn005jb/view?usp=sharing)
 - [TVSum](https://drive.google.com/file/d/1gSex1hpXLxHQu6zHyyQISKZjP7Ndt6U9/view?usp=sharing)
+- [YouTube Highlight](https://drive.google.com/file/d/12swoymGwuN5TlDlWBTo6UUWVm2DqVBpn/view?usp=sharing)
 
 The whole directory should be look like this:
 ```
@@ -143,14 +140,18 @@ lighthouse/
     │   ├── meta
     │   ├── resnet
     │   └── slowfast
-    └── tvsum
-        ├── audio
+    ├── tvsum
+    │   ├── audio
+    │   ├── clip
+    │   ├── clip_text
+    │   ├── i3d
+    │   ├── resnet
+    │   ├── slowfast
+    │   └── tvsum_anno.json
+    └── youtube_highlight
         ├── clip
         ├── clip_text
-        ├── i3d
-        ├── resnet
-        ├── slowfast
-        └── tvsum_anno.json
+        └── slowfast
 ```
 
 ### Training and evaluation
@@ -160,11 +161,11 @@ The general training command is:
 ```
 PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_DATASET.yml
 ```
-|         | Options                                                   |
-|---------|-----------------------------------------------------------|
-| Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr       |
-| Feature | resnet_glove, clip, clip_slowfast                         |
-| Dataset | qvhighlight, activitynet, charades, tacos, tvsum          |
+|         | Options                                                            |
+|---------|--------------------------------------------------------------------|
+| Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr                |
+| Feature | resnet_glove, clip, clip_slowfast                                  |
+| Dataset | qvhighlight, activitynet, charades, tacos, tvsum, youtube_highlight|
 
 For example, to train moment_detr on QVHighlights with CLIP+Slowfast features, run:
 ```
@@ -328,7 +329,6 @@ Download from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Todo
-- [ ] : Support YouTube-Highlight
 - [ ] : Support Wandb
 - [ ] : Support DeDiMo
 - [ ] : Support TaskWeave

@@ -76,12 +76,14 @@ class CGDETR_StartEndDataset(Dataset):
             if isinstance(v_feat_dirs, list) else [v_feat_dirs]
         self.q_feat_dir = q_feat_dir
         self.q_feat_type = q_feat_type
+        
         if max_v_l == -1:
             max_v_l = 100000000
         if max_q_l == -1:
             max_q_l = 100
         self.max_q_l = max_q_l
         self.max_v_l = max_v_l
+        
         self.ctx_mode = ctx_mode
         self.use_tef = "tef" in ctx_mode
         self.use_video = "video" in ctx_mode
@@ -99,7 +101,7 @@ class CGDETR_StartEndDataset(Dataset):
         # data
         self.data = self.load_data()
 
-        if self.dset_name == 'tvsum':
+        if self.dset_name == 'tvsum' or self.dset_name == 'youtube_highlight':
             new_data = []
             for d in self.data:
                 if d['domain'] == self.domain:
@@ -158,6 +160,11 @@ class CGDETR_StartEndDataset(Dataset):
                             self.get_saliency_labels_all_tvsum(meta_label, ctx_l)
                 if len(model_inputs["saliency_all_labels"]) != len(model_inputs["video_feat"]):
                     model_inputs["video_feat"] = model_inputs["video_feat"][:len(model_inputs["saliency_all_labels"])]
+            elif self.dset_name == 'youtube_highlight':
+                model_inputs["span_labels"] = torch.tensor([[0., 0.]])
+                meta_label = meta['label']
+                model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                            self.get_saliency_labels_all_youtube(meta_label, ctx_l)
             else:
                 if "relevant_windows" in meta: ## For Qvhighlights test set
                     model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
@@ -339,7 +346,6 @@ class CGDETR_StartEndDataset(Dataset):
 
         return pos_clip_indices, neg_clip_indices, score_array
     
-    
     def get_span_labels(self, windows, ctx_l):
         """
         windows: list([st, ed]) in seconds. E.g. [[26, 36]], corresponding st_ed clip_indices [[13, 17]] (inclusive)
@@ -361,11 +367,11 @@ class CGDETR_StartEndDataset(Dataset):
         return windows
 
     def _get_query_feat_by_qid(self, qid):
-        if self.dset_name == 'tvsum':
+        if self.dset_name == 'tvsum' or self.dset_name == 'youtube_highlight':
             q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
             q_feat = np.load(q_feat_path)
-            return torch.from_numpy(q_feat['token'])
-
+            return torch.from_numpy(q_feat['token']) if self.dset_name == 'tvsum' else torch.from_numpy(q_feat['last_hidden_state'])
+        
         elif self.dset_name == 'tacos':
             q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
             q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
