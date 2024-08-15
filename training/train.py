@@ -95,6 +95,20 @@ def additional_trdetr_losses(model_inputs, outputs, targets, opt):
     loss = opt.VTC_loss_coef * loss_vid_txt_align_VTC + opt.CTC_loss_coef * loss_vid_txt_align
     return loss
 
+def calculate_taskweave_losses(loss_dict, weight_dict, hd_log_var, mr_log_var):
+    # TaskWeave only loss
+    grouped_losses = {"loss_mr": [], "loss_hd": []}
+    for k in loss_dict.keys():
+        if k in weight_dict:
+            if any(keyword in k for keyword in ["giou", "span", "label",'class_error']):
+                grouped_losses["loss_mr"].append(loss_dict[k])
+            elif "saliency" in k:
+                grouped_losses["loss_hd"].append(loss_dict[k])
+    loss_mr = sum(grouped_losses["loss_mr"])
+    loss_hd = sum(grouped_losses["loss_hd"])
+    hd_log_var, mr_log_var = hd_log_var.to(loss_hd.device), mr_log_var.to(loss_mr.device)
+    losses = 2 * loss_hd * torch.exp(-hd_log_var) + 1 * loss_mr * torch.exp(-mr_log_var) + hd_log_var + mr_log_var
+    return losses
 
 def train_epoch(model, criterion, train_loader, optimizer, opt, epoch_i):
     batch_input_fn = cg_detr_prepare_batch_inputs  if opt.model_name == 'cg_detr' else prepare_batch_inputs
@@ -111,13 +125,27 @@ def train_epoch(model, criterion, train_loader, optimizer, opt, epoch_i):
                                  desc="Training Iteration",
                                  total=num_training_examples):
         model_inputs, targets = batch_input_fn(batch[1], opt.device)
-        outputs = model(**model_inputs, targets=targets) if opt.model_name == 'cg_detr' else model(**model_inputs)
-        loss_dict = criterion(outputs, targets)
-        losses = sum(loss_dict[k] * criterion.weight_dict[k] for k in loss_dict.keys() if k in criterion.weight_dict)
-        if opt.model_name == 'tr_detr' and opt.dset_name != 'tvsum':
-            losses += additional_trdetr_losses(model_inputs, outputs, targets, opt)
-        optimizer.zero_grad()
-        losses.backward()
+        
+        if opt.model_name == 'taskweave':
+            model_inputs['epoch_i'] = epoch_i # taskweave requires epoch number
+            outputs, [hd_log_var, mr_log_var] = model(**model_inputs)
+            loss_dict = criterion(outputs, targets)
+            losses = calculate_taskweave_losses(loss_dict, criterion.weight_dict, hd_log_var, mr_log_var)
+            optimizer.zero_grad()
+            losses.backward()
+
+        else:
+            outputs = model(**model_inputs, targets=targets) if opt.model_name == 'cg_detr' else model(**model_inputs)
+            
+            loss_dict = criterion(outputs, targets)
+            losses = sum(loss_dict[k] * criterion.weight_dict[k] for k in loss_dict.keys() if k in criterion.weight_dict)
+            
+            if opt.model_name == 'tr_detr' and opt.dset_name != 'tvsum':
+                losses += additional_trdetr_losses(model_inputs, outputs, targets, opt)
+            
+            optimizer.zero_grad()
+            losses.backward()
+        
         if opt.grad_clip > 0:
             nn.utils.clip_grad_norm_(model.parameters(), opt.grad_clip)
         optimizer.step()
@@ -151,7 +179,7 @@ def train(model, criterion, optimizer, lr_scheduler, train_dataset, val_dataset,
         if (epoch_i + 1) % opt.eval_epoch_interval == 0:
             with torch.no_grad():
                 metrics, eval_loss_meters, latest_file_paths = \
-                    eval_epoch(model, val_dataset, opt, save_submission_filename, criterion)
+                    eval_epoch(epoch_i, model, val_dataset, opt, save_submission_filename, criterion)
 
             write_log(opt, epoch_i, eval_loss_meters, metrics=metrics, mode='val')            
             logger.info("metrics {}".format(pprint.pformat(metrics["brief"], indent=4)))
