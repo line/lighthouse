@@ -170,34 +170,16 @@ class StartEndDataset(Dataset):
                             self.get_saliency_labels_all_tvsum(meta_label, ctx_l)
                 if len(model_inputs["saliency_all_labels"]) != len(model_inputs["video_feat"]):
                     model_inputs["video_feat"] = model_inputs["video_feat"][:len(model_inputs["saliency_all_labels"])]
+            
             elif self.dset_name == 'youtube_highlight':
                 model_inputs["span_labels"] = torch.tensor([[0., 0.]])
                 meta_label = meta['label']
                 model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                             self.get_saliency_labels_all_youtube(meta_label, ctx_l)
+            
             else:
-                model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
-
-                # necessary only for TR-DETR: model_inputs["pos_mask"]
-                if 'relevant_clip_ids' in meta:
-                    pos_idx = torch.tensor(meta['relevant_clip_ids'])
-                else:
-                    # TODO: Implemented pos_mask for MR/HD tasks for TR-DETR, but I could not reproduce the reported scores
-                    clip_start_ind = math.floor(meta["relevant_windows"][0][0] / self.clip_len)
-                    clip_end_ind = math.ceil(meta["relevant_windows"][0][1] / self.clip_len)
-                    if clip_start_ind == clip_end_ind:
-                        clip_end_ind += 1 # to avoid a bug
-                    pos_idx = torch.tensor([i for i in range(clip_start_ind, clip_end_ind)])
-
-                mask = torch.zeros_like(torch.ones(ctx_l))
-                if pos_idx.max() >= len(mask):
-                    new_mask = torch.zeros_like(torch.ones(pos_idx.max()+1 ))
-                    new_mask[pos_idx] = 1
-                    new_mask[:len(mask)] = mask
-                    mask = new_mask
-                else:
-                    mask[pos_idx] = 1
-                model_inputs["pos_mask"] = mask
+                model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)
+                model_inputs["pos_mask"] = self.get_pos_mask(meta, ctx_l) # necessary for TR-DETR. If you dont use it, ignore.
 
                 if self.dset_name == 'qvhighlight':
                     model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
@@ -211,6 +193,28 @@ class StartEndDataset(Dataset):
                     raise NotImplementedError()
 
         return dict(meta=meta, model_inputs=model_inputs)
+
+    def get_pos_mask(self, meta, ctx_l):
+        # necessary only for TR-DETR: model_inputs["pos_mask"]
+        if 'relevant_clip_ids' in meta:
+            pos_idx = torch.tensor(meta['relevant_clip_ids'])
+        else:
+            # TODO: Implemented pos_mask for MR/HD tasks for TR-DETR, but I could not reproduce the reported scores
+            clip_start_ind = math.floor(meta["relevant_windows"][0][0] / self.clip_len)
+            clip_end_ind = math.ceil(meta["relevant_windows"][0][1] / self.clip_len)
+            if clip_start_ind == clip_end_ind:
+                clip_end_ind += 1 # to avoid a bug
+            pos_idx = torch.tensor([i for i in range(clip_start_ind, clip_end_ind)])
+
+        mask = torch.zeros_like(torch.ones(ctx_l))
+        if pos_idx.max() >= len(mask):
+            new_mask = torch.zeros_like(torch.ones(pos_idx.max()+1 ))
+            new_mask[pos_idx] = 1
+            new_mask[:len(mask)] = mask
+            mask = new_mask
+        else:
+            mask[pos_idx] = 1
+        return mask
 
     def get_saliency_labels_sub_as_query(self, gt_window, ctx_l, max_n=2):
         gt_st = int(gt_window[0] / self.clip_len)
@@ -391,20 +395,22 @@ class StartEndDataset(Dataset):
         return self.embedding(word_inds)
 
     def _get_query_feat_by_qid(self, qid):
-        if self.dset_name == 'tvsum':
+        if self.dset_name == 'tvsum' or self.dset_name == 'youtube_highlight':
             q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
             q_feat = np.load(q_feat_path)
-            return torch.from_numpy(q_feat['token'])
-        elif self.dset_name == 'tacos':
-            q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
+            return torch.from_numpy(q_feat['token']) if self.dset_name == 'tvsum' else torch.from_numpy(q_feat['last_hidden_state'])
+
         else:
-            q_feat_path = join(self.q_feat_dir, f"qid{qid}.npz")
-        
-        q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
-        if self.q_feat_type == "last_hidden_state":
-            q_feat = q_feat[:self.max_q_l]
-        q_feat = l2_normalize_np_array(q_feat)
-        return torch.from_numpy(q_feat)  # (D, ) or (Lq, D)
+            if self.dset_name == 'tacos':
+                q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
+            else:
+                q_feat_path = join(self.q_feat_dir, f"qid{qid}.npz")
+
+            q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
+            if self.q_feat_type == "last_hidden_state":
+                q_feat = q_feat[:self.max_q_l]
+            q_feat = l2_normalize_np_array(q_feat)
+            return torch.from_numpy(q_feat)  # (D, ) or (Lq, D)
 
     def _get_video_feat_by_vid(self, vid):
         v_feat_list = []

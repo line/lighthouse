@@ -22,6 +22,6 @@ max_q_l: 100
 max_v_l: 1000
 
 lw_saliency: 4
-lr: 0.001
+lr: 0.0002
 lr_drop: 2000
 n_epoch: 1000
