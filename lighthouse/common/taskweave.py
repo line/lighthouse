@@ -98,7 +98,8 @@ def inverse_sigmoid(x, eps=1e-3):
 class TaskWeave(nn.Module):
     def __init__(self, transformer, position_embed, txt_position_embed, txt_dim, vid_dim,
                  num_queries, input_dropout, aux_loss=False,
-                 max_v_l=75, span_loss_type="l1", use_txt_pos=False, n_input_proj=2, aud_dim=0):
+                 max_v_l=75, span_loss_type="l1", use_txt_pos=False, n_input_proj=2, aud_dim=0, 
+                 mr2hd=True):
         """ Initializes the model.
         Parameters:
             transformer: torch module of the transformer architecture. See transformer.py
@@ -130,6 +131,7 @@ class TaskWeave(nn.Module):
         self.use_txt_pos = use_txt_pos
         self.n_input_proj = n_input_proj
         self.query_embed = nn.Embedding(num_queries, 2)
+        self.mr2hd = mr2hd
 
         relu_args = [True] * 3
         relu_args[n_input_proj-1] = False
@@ -188,72 +190,10 @@ class TaskWeave(nn.Module):
         pos = torch.cat([pos_vid, pos_txt], dim=1)
 
         video_length = src_vid.shape[1]
-        '''
-        # # # ============================= mr2hd ============================= 
-        hs, reference, mr_memory, hd_memory = self.transformer(src, ~tmp_mask, self.query_embed.weight, pos, video_length=video_length)
-        # hs: torch.Size([2, 32, 10, 256]) # layers, bsz, queries, dim
-        outputs_class = self.class_embed(hs)  # (#layers, batch_size, #queries, #classes)
-        reference_before_sigmoid = inverse_sigmoid(reference)
-        tmp = self.span_embed(hs)
-        outputs_coord = tmp + reference_before_sigmoid
-        if self.span_loss_type == "l1":
-            outputs_coord = outputs_coord.sigmoid()
-        out = {'pred_logits': outputs_class[-1], 'pred_spans': outputs_coord[-1]}
 
-        epoch_thres = 100 # half of max_epoch
-        if epoch_i == None or epoch_i + 1 > epoch_thres: # epoch_i == None for inference
-            duration = 150
-            mr2hd_mask = span_cxw_to_xx(outputs_coord.clone()[-1])*duration
-            mr2hd_mask = torch.clamp(mr2hd_mask, min=0,max=duration-1).int()
-            one_hot_labels = torch.zeros(mr2hd_mask.shape[0], mr2hd_mask.shape[1],duration).to(mr2hd_mask.device)
-            st_indics,ed_indics = mr2hd_mask.transpose(1,2)[:,0],mr2hd_mask.transpose(1,2)[:,1]
-            # Create a mask tensor where non-zero elements indicate positions that need to be set to 1.
-            tmp_mask = (st_indics[:, :, None] <= torch.arange(duration)[None, None, :].to(mr2hd_mask.device)) & (ed_indics[:, :, None] >= torch.arange(duration)[None, None, :].to(mr2hd_mask.device))
-            one_hot_labels[tmp_mask] = 1
-            one_hot_labels = torch.sum(one_hot_labels,dim=1,keepdim=True).view(mr2hd_mask.shape[0], duration//2, 2) # (bsz, 1, v_len*2)
-            mask_tensor = (one_hot_labels[:, :, 0] + one_hot_labels[:, :, 1]) / 2
-            norms = torch.norm(mask_tensor, p=2, dim=1) # Calculate the L2 norm of each row.
-            mask_norm = mask_tensor / norms[:, None] 
-            mask_norm = mask_norm.unsqueeze(2) #  (bsz, 1, v_len)
-
-
-            pos_global_local = self.saliency_proj_local(self.saliency_proj_linear(hd_memory+hd_memory*mask_norm).transpose(1, 2)).transpose(1, 2)
-            out["saliency_scores"] = self.output_saliency(pos_global_local).squeeze(-1) + torch.sum(hd_memory,dim=-1).squeeze(-1)/ np.sqrt(self.hidden_dim)
-            
-        else:
-            pos_global_local = self.saliency_proj_local(self.saliency_proj_linear(hd_memory).transpose(1, 2)).transpose(1, 2)
-            out["saliency_scores"] = self.output_saliency(pos_global_local).squeeze(-1) + torch.sum(hd_memory,dim=-1).squeeze(-1)/ np.sqrt(self.hidden_dim)
-
-        '''
-        # # # ============================= hd2mr ============================= 
-        epoch_thres = 100
-        if epoch_i == None or epoch_i + 1 > epoch_thres:
-            _, _, _, hd_memory = self.transformer(src, ~tmp_mask, self.query_embed.weight, pos, video_length=video_length)
-
-            pos_global_local = self.saliency_proj_local(self.saliency_proj_linear(hd_memory).transpose(1, 2)).transpose(1, 2)
-            saliency_scores = self.output_saliency(pos_global_local).squeeze(-1) + torch.sum(hd_memory,dim=-1).squeeze(-1)/ np.sqrt(self.hidden_dim)
-            saliency_scores = saliency_scores.unsqueeze(1)
-            batch_means = torch.mean(saliency_scores, dim=2, keepdim=True)  
-            saliency_mask = torch.where(saliency_scores > batch_means, torch.ones_like(saliency_scores), torch.zeros_like(saliency_scores))
-            saliency_mask = saliency_mask.permute(0,2,1) 
-            saliency_mask = saliency_mask.expand(saliency_mask.shape[0],video_length,src_vid.shape[-1])
-            
-            # update src
-            src[:,:video_length] = src[:,:video_length] + src[:,:video_length]*saliency_mask
-
+        if self.mr2hd:
+            # ============================= mr2hd ============================= 
             hs, reference, mr_memory, hd_memory = self.transformer(src, ~tmp_mask, self.query_embed.weight, pos, video_length=video_length)
-            # hs: torch.Size([2, 32, 10, 256]) # layers, bsz, queries, dim
-            outputs_class = self.class_embed(hs)  # (#layers, batch_size, #queries, #classes)
-            reference_before_sigmoid = inverse_sigmoid(reference)
-            tmp = self.span_embed(hs)
-            outputs_coord = tmp + reference_before_sigmoid
-            if self.span_loss_type == "l1":
-                outputs_coord = outputs_coord.sigmoid()
-            out = {'pred_logits': outputs_class[-1], 'pred_spans': outputs_coord[-1]}
-            out["saliency_scores"] = saliency_scores.squeeze(1)
-        else:
-            hs, reference, mr_memory, hd_memory = self.transformer(src, ~tmp_mask, self.query_embed.weight, pos, video_length=video_length)
-            # hs: torch.Size([2, 32, 10, 256]) # layers, bsz, queries, dim
             outputs_class = self.class_embed(hs)  # (#layers, batch_size, #queries, #classes)
             reference_before_sigmoid = inverse_sigmoid(reference)
             tmp = self.span_embed(hs)
@@ -262,9 +202,69 @@ class TaskWeave(nn.Module):
                 outputs_coord = outputs_coord.sigmoid()
             out = {'pred_logits': outputs_class[-1], 'pred_spans': outputs_coord[-1]}
 
-            pos_global_local = self.saliency_proj_local(self.saliency_proj_linear(hd_memory).transpose(1, 2)).transpose(1, 2)
-            out["saliency_scores"] = self.output_saliency(pos_global_local).squeeze(-1) + torch.sum(hd_memory,dim=-1).squeeze(-1)/ np.sqrt(self.hidden_dim)
-        
+            epoch_thres = 100 # half of max_epoch
+            if epoch_i == None or epoch_i + 1 > epoch_thres: # epoch_i == None for inference
+                duration = 150
+                mr2hd_mask = span_cxw_to_xx(outputs_coord.clone()[-1])*duration
+                mr2hd_mask = torch.clamp(mr2hd_mask, min=0,max=duration-1).int()
+                one_hot_labels = torch.zeros(mr2hd_mask.shape[0], mr2hd_mask.shape[1],duration).to(mr2hd_mask.device)
+                st_indics,ed_indics = mr2hd_mask.transpose(1,2)[:,0],mr2hd_mask.transpose(1,2)[:,1]
+                # Create a mask tensor where non-zero elements indicate positions that need to be set to 1.
+                tmp_mask = (st_indics[:, :, None] <= torch.arange(duration)[None, None, :].to(mr2hd_mask.device)) & (ed_indics[:, :, None] >= torch.arange(duration)[None, None, :].to(mr2hd_mask.device))
+                one_hot_labels[tmp_mask] = 1
+                one_hot_labels = torch.sum(one_hot_labels,dim=1,keepdim=True).view(mr2hd_mask.shape[0], duration//2, 2) # (bsz, 1, v_len*2)
+                mask_tensor = (one_hot_labels[:, :, 0] + one_hot_labels[:, :, 1]) / 2
+                norms = torch.norm(mask_tensor, p=2, dim=1) # Calculate the L2 norm of each row.
+                mask_norm = mask_tensor / norms[:, None] 
+                mask_norm = mask_norm.unsqueeze(2) #  (bsz, 1, v_len)
+
+
+                pos_global_local = self.saliency_proj_local(self.saliency_proj_linear(hd_memory+hd_memory*mask_norm).transpose(1, 2)).transpose(1, 2)
+                out["saliency_scores"] = self.output_saliency(pos_global_local).squeeze(-1) + torch.sum(hd_memory,dim=-1).squeeze(-1)/ np.sqrt(self.hidden_dim)
+                
+            else:
+                pos_global_local = self.saliency_proj_local(self.saliency_proj_linear(hd_memory).transpose(1, 2)).transpose(1, 2)
+                out["saliency_scores"] = self.output_saliency(pos_global_local).squeeze(-1) + torch.sum(hd_memory,dim=-1).squeeze(-1)/ np.sqrt(self.hidden_dim)
+        else:
+            # ============================= hd2mr ============================= 
+            epoch_thres = 100
+            if epoch_i == None or epoch_i + 1 > epoch_thres:
+                _, _, _, hd_memory = self.transformer(src, ~tmp_mask, self.query_embed.weight, pos, video_length=video_length)
+
+                pos_global_local = self.saliency_proj_local(self.saliency_proj_linear(hd_memory).transpose(1, 2)).transpose(1, 2)
+                saliency_scores = self.output_saliency(pos_global_local).squeeze(-1) + torch.sum(hd_memory,dim=-1).squeeze(-1)/ np.sqrt(self.hidden_dim)
+                saliency_scores = saliency_scores.unsqueeze(1)
+                batch_means = torch.mean(saliency_scores, dim=2, keepdim=True)  
+                saliency_mask = torch.where(saliency_scores > batch_means, torch.ones_like(saliency_scores), torch.zeros_like(saliency_scores))
+                saliency_mask = saliency_mask.permute(0,2,1) 
+                saliency_mask = saliency_mask.expand(saliency_mask.shape[0],video_length,src_vid.shape[-1])
+                
+                # update src
+                src[:,:video_length] = src[:,:video_length] + src[:,:video_length]*saliency_mask
+
+                hs, reference, mr_memory, hd_memory = self.transformer(src, ~tmp_mask, self.query_embed.weight, pos, video_length=video_length)
+                # hs: torch.Size([2, 32, 10, 256]) # layers, bsz, queries, dim
+                outputs_class = self.class_embed(hs)  # (#layers, batch_size, #queries, #classes)
+                reference_before_sigmoid = inverse_sigmoid(reference)
+                tmp = self.span_embed(hs)
+                outputs_coord = tmp + reference_before_sigmoid
+                if self.span_loss_type == "l1":
+                    outputs_coord = outputs_coord.sigmoid()
+                out = {'pred_logits': outputs_class[-1], 'pred_spans': outputs_coord[-1]}
+                out["saliency_scores"] = saliency_scores.squeeze(1)
+            else:
+                hs, reference, mr_memory, hd_memory = self.transformer(src, ~tmp_mask, self.query_embed.weight, pos, video_length=video_length)
+                # hs: torch.Size([2, 32, 10, 256]) # layers, bsz, queries, dim
+                outputs_class = self.class_embed(hs)  # (#layers, batch_size, #queries, #classes)
+                reference_before_sigmoid = inverse_sigmoid(reference)
+                tmp = self.span_embed(hs)
+                outputs_coord = tmp + reference_before_sigmoid
+                if self.span_loss_type == "l1":
+                    outputs_coord = outputs_coord.sigmoid()
+                out = {'pred_logits': outputs_class[-1], 'pred_spans': outputs_coord[-1]}
+
+                pos_global_local = self.saliency_proj_local(self.saliency_proj_linear(hd_memory).transpose(1, 2)).transpose(1, 2)
+                out["saliency_scores"] = self.output_saliency(pos_global_local).squeeze(-1) + torch.sum(hd_memory,dim=-1).squeeze(-1)/ np.sqrt(self.hidden_dim)
 
         ### Neg Pairs ###
         src_txt_neg = torch.cat([src_txt[1:], src_txt[0:1]], dim=0)
@@ -577,6 +577,7 @@ def build_model(args):
         input_dropout=args.input_dropout,
         span_loss_type=args.span_loss_type,
         n_input_proj=args.n_input_proj,
+        mr2hd=args.mr2hd,
     )
 
     matcher = build_matcher(args)

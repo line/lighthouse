@@ -58,7 +58,7 @@ from training.cg_detr_dataset import CGDETR_StartEndDataset, cg_detr_start_end_c
 from training.evaluate import eval_epoch, start_inference, setup_model
 
 from lighthouse.common.utils.basic_utils import AverageMeter, dict_to_markdown, write_log, save_checkpoint, rename_latest_to_best
-from lighthouse.common.utils.model_utils import count_parameters
+from lighthouse.common.utils.model_utils import count_parameters, ModelEMA
 
 from lighthouse.common.loss_func import VTCLoss
 from lighthouse.common.loss_func import CTC_Loss
@@ -133,7 +133,6 @@ def train_epoch(model, criterion, train_loader, optimizer, opt, epoch_i):
             losses = calculate_taskweave_losses(loss_dict, criterion.weight_dict, hd_log_var, mr_log_var)
             optimizer.zero_grad()
             losses.backward()
-
         else:
             outputs = model(**model_inputs, targets=targets) if opt.model_name == 'cg_detr' else model(**model_inputs)
             
@@ -171,15 +170,26 @@ def train(model, criterion, optimizer, lr_scheduler, train_dataset, val_dataset,
         shuffle=True,
     )
 
+    if opt.model_ema:
+        logger.info("Using model EMA...")
+        model_ema = ModelEMA(model, decay=opt.ema_decay)
+
     prev_best_score = 0
     for epoch_i in trange(opt.n_epoch, desc="Epoch"):
         train_epoch(model, criterion, train_loader, optimizer, opt, epoch_i)
         lr_scheduler.step()
 
+        if opt.model_ema:
+            model_ema.update(model)
+
         if (epoch_i + 1) % opt.eval_epoch_interval == 0:
             with torch.no_grad():
-                metrics, eval_loss_meters, latest_file_paths = \
-                    eval_epoch(epoch_i, model, val_dataset, opt, save_submission_filename, criterion)
+                if opt.model_ema:
+                    metrics, eval_loss_meters, latest_file_paths = \
+                        eval_epoch(epoch_i, model_ema.module, val_dataset, opt, save_submission_filename, criterion)
+                else:
+                    metrics, eval_loss_meters, latest_file_paths = \
+                        eval_epoch(epoch_i, model, val_dataset, opt, save_submission_filename, criterion)
 
             write_log(opt, epoch_i, eval_loss_meters, metrics=metrics, mode='val')            
             logger.info("metrics {}".format(pprint.pformat(metrics["brief"], indent=4)))
