@@ -1,0 +1,27 @@
+model_name: taskweave
+dset_name: charades
+ctx_mode: video_tef
+v_feat_types: resnet
+t_feat_type: glove
+train_path: data/charades/charades_train_release.jsonl
+eval_path: data/charades/charades_test_release.jsonl
+eval_split_name: val
+v_feat_dirs: ['features/Charades/resnet']
+t_feat_dir: features/Charades/glove
+v_feat_dim: 2050
+t_feat_dim: 300
+aux_loss: True
+results_dir: results/resnet_glove_taskweave_hd2mr/charades
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+
+# Taskweave-specific; This model needs to train MR2HD and HD2MR for MR and HD, respectively.
+# If mr2hd is False, the strategy is HD2MR
+mr2hd: False
+model_ema: True
+
+# charades-specific params
+lw_saliency: 4
+lr: 0.0002
+lr_drop: 40
