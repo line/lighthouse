@@ -67,6 +67,7 @@ from lighthouse.common.cg_detr import build_model as build_model_cg_detr
 from lighthouse.common.eatr import build_model as build_model_eatr
 from lighthouse.common.tr_detr import build_model as build_model_tr_detr
 from lighthouse.common.uvcom import build_model as build_model_uvcom
+from lighthouse.common.taskweave import build_model as build_model_task_weave
 
 import logging
 
@@ -95,7 +96,7 @@ def eval_epoch_post_processing(submission, opt, gt_data, save_submission_filenam
 
 # for HL
 @torch.no_grad()
-def compute_hl_results(model, eval_loader, opt, criterion=None):
+def compute_hl_results(epoch_i, model, eval_loader, opt, criterion=None):
     batch_input_fn = cg_detr_prepare_batch_inputs  if opt.model_name == 'cg_detr' else prepare_batch_inputs
     loss_meters = defaultdict(AverageMeter)
 
@@ -179,7 +180,7 @@ def compute_hl_results(model, eval_loader, opt, criterion=None):
 
 
 @torch.no_grad()
-def compute_mr_results(model, eval_loader, opt, criterion=None):
+def compute_mr_results(epoch_i, model, eval_loader, opt, criterion=None):
     batch_input_fn = cg_detr_prepare_batch_inputs if opt.model_name == 'cg_detr' else prepare_batch_inputs
     loss_meters = defaultdict(AverageMeter)
 
@@ -187,7 +188,12 @@ def compute_mr_results(model, eval_loader, opt, criterion=None):
     for batch in tqdm(eval_loader, desc="compute st ed scores"):
         query_meta = batch[0]
         model_inputs, targets = batch_input_fn(batch[1], opt.device)
-        outputs = model(**model_inputs)
+
+        if opt.model_name == 'taskweave':
+            model_inputs['epoch_i'] = epoch_i
+            outputs, _ = model(**model_inputs)
+        else:
+            outputs = model(**model_inputs)
 
         # saliency scores
         _saliency_scores = outputs["saliency_scores"].half()  # (bsz, L)
@@ -260,13 +266,13 @@ def compute_mr_results(model, eval_loader, opt, criterion=None):
     return mr_res, loss_meters
 
 
-def get_eval_res(model, eval_loader, opt, criterion):
+def get_eval_res(epoch_i, model, eval_loader, opt, criterion):
     """compute and save query and video proposal embeddings"""
-    eval_res, eval_loss_meters = compute_mr_results(model, eval_loader, opt, criterion)
+    eval_res, eval_loss_meters = compute_mr_results(epoch_i, model, eval_loader, opt, criterion)
     return eval_res, eval_loss_meters
 
 
-def eval_epoch(model, eval_dataset, opt, save_submission_filename, criterion=None):
+def eval_epoch(epoch_i, model, eval_dataset, opt, save_submission_filename, criterion=None):
     collate_fn = cg_detr_start_end_collate if opt.model_name == 'cg_detr' else start_end_collate
     logger.info("Generate submissions")
     model.eval()
@@ -282,14 +288,14 @@ def eval_epoch(model, eval_dataset, opt, save_submission_filename, criterion=Non
     )
 
     if opt.dset_name == 'tvsum' or opt.dset_name == 'youtube_highlight':
-        metrics, eval_loss_meters = compute_hl_results(model, eval_loader, opt, criterion)
+        metrics, eval_loss_meters = compute_hl_results(epoch_i, model, eval_loader, opt, criterion)
         # to match original save format
         submission = [{ "brief" : metrics }]
         save_metrics_path = os.path.join(opt.results_dir, save_submission_filename.replace('.jsonl', '_metrics.jsonl'))
         save_jsonl(submission, save_metrics_path)
         return submission[0], eval_loss_meters, [save_metrics_path]
     else:
-        submission, eval_loss_meters = get_eval_res(model, eval_loader, opt, criterion)        
+        submission, eval_loss_meters = get_eval_res(epoch_i, model, eval_loader, opt, criterion)        
         metrics, latest_file_paths = eval_epoch_post_processing(
             submission, opt, eval_dataset.data, save_submission_filename)
         return metrics, eval_loss_meters, latest_file_paths
@@ -307,6 +313,8 @@ def build_model(opt):
         model, criterion = build_model_tr_detr(opt)
     elif opt.model_name == 'uvcom':
         model, criterion = build_model_uvcom(opt)
+    elif opt.model_name == 'taskweave':
+        model, criterion = build_model_task_weave(opt)
     else:
         raise NotImplementedError
     
