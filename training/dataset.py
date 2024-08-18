@@ -186,7 +186,6 @@ class StartEndDataset(Dataset):
                         self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
                 
                 elif self.dset_name in ['charades', 'tacos', 'activitynet']:
-                    model_inputs["pos_mask"] = mask[:ctx_l]
                     model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                         self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], ctx_l)
                 else:
@@ -214,6 +213,10 @@ class StartEndDataset(Dataset):
             mask = new_mask
         else:
             mask[pos_idx] = 1
+
+        if self.dset_name in ['charades', 'tacos', 'activitynet']:
+            mask = mask[:ctx_l]
+
         return mask
 
     def get_saliency_labels_sub_as_query(self, gt_window, ctx_l, max_n=2):
