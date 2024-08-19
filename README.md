@@ -173,7 +173,7 @@ PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_D
 ```
 |         | Options                                                            |
 |---------|--------------------------------------------------------------------|
-| Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr                |
+| Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave     |
 | Feature | resnet_glove, clip, clip_slowfast                                  |
 | Dataset | qvhighlight, activitynet, charades, tacos, tvsum, youtube_highlight|
 
