@@ -44,6 +44,7 @@ from lighthouse.common.cg_detr import build_model as build_model_cg_detr
 from lighthouse.common.eatr import build_model as build_model_eatr
 from lighthouse.common.uvcom import build_model as build_model_uvcom
 from lighthouse.common.tr_detr import build_model as build_model_tr_detr
+from lighthouse.common.taskweave import build_model as build_model_task_weave
 
 from lighthouse.common.utils.span_utils import span_cxw_to_xx
 from lighthouse.feature_extractor import VideoFeatureExtractor
@@ -72,8 +73,10 @@ class BasePredictor:
             self.model, _ = build_model_tr_detr(args)
         elif model_name == 'uvcom':
             self.model, _ = build_model_uvcom(args)
+        elif model_name == 'taskweave':
+            self.model, _ = build_model_task_weave(args)
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
         
         self.feature_name = feature_name
         self.model_name = model_name
@@ -123,7 +126,11 @@ class BasePredictor:
             )
             
         # decode outputs
-        outputs = self.model(**model_inputs)
+        if self.model_name == 'taskweave':
+            model_inputs["epoch_i"] = None
+            outputs, _ = self.model(**model_inputs)
+        else:
+            outputs = self.model(**model_inputs)
         prob = F.softmax(outputs["pred_logits"], -1).squeeze(0).cpu()
         scores = prob[:,0]
         pred_spans = outputs["pred_spans"].squeeze(0).cpu()
@@ -172,3 +179,8 @@ class TRDETRPredictor(BasePredictor):
 class UVCOMPredictor(BasePredictor):
     def __init__(self, ckpt_path, device, feature_name, slowfast_path):
         super().__init__('uvcom', ckpt_path, device, feature_name, slowfast_path)
+
+
+class TaskWeavePredictor(BasePredictor):
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path):
+        super().__init__('taskweave', ckpt_path, device, feature_name, slowfast_path)
