@@ -125,43 +125,51 @@ To extract features from videos, we use [HERO_Video_Feature_Extractor](https://g
 
 The whole directory should be look like this:
 ```
-lighthouse/
-└── features
-    ├── ActivityNet
-    │   ├── clip
-    │   ├── clip_text
-    │   ├── resnet
-    │   └── slowfast
-    ├── Charades
-    │   ├── clip
-    │   ├── clip_text
-    │   ├── resnet
-    │   ├── slowfast
-    │   └── vgg
-    ├── QVHighlight
-    │   ├── clip
-    │   ├── clip_text
-    │   ├── pann
-    │   ├── resnet
-    │   └── slowfast
-    ├── tacos
-    │   ├── clip
-    │   ├── clip_text
-    │   ├── meta
-    │   ├── resnet
-    │   └── slowfast
-    ├── tvsum
-    │   ├── audio
-    │   ├── clip
-    │   ├── clip_text
-    │   ├── i3d
-    │   ├── resnet
-    │   ├── slowfast
-    │   └── tvsum_anno.json
-    └── youtube_highlight
-        ├── clip
-        ├── clip_text
-        └── slowfast
+lighthouse_dev/
+├── api_example
+├── configs
+├── data
+├── features # Download the features and place them here
+│   ├── ActivityNet
+│   │   ├── clip
+│   │   ├── clip_text
+│   │   ├── resnet
+│   │   └── slowfast
+│   ├── Charades
+│   │   ├── clip
+│   │   ├── clip_text
+│   │   ├── resnet
+│   │   ├── slowfast
+│   │   └── vgg
+│   ├── QVHighlight
+│   │   ├── clip
+│   │   ├── clip_text
+│   │   ├── pann
+│   │   ├── resnet
+│   │   └── slowfast
+│   ├── tacos
+│   │   ├── clip
+│   │   ├── clip_text
+│   │   ├── meta
+│   │   ├── resnet
+│   │   └── slowfast
+│   ├── tvsum
+│   │   ├── audio
+│   │   ├── clip
+│   │   ├── clip_text
+│   │   ├── i3d
+│   │   ├── resnet
+│   │   ├── slowfast
+│   │   └── tvsum_anno.json
+│   └── youtube_highlight
+│       ├── clip
+│       ├── clip_text
+│       └── slowfast
+├── gradio_demo
+├── images
+├── lighthouse
+├── results # The pre-trained weights are saved in this directory
+└── training
 ```
 
 ### Training and evaluation
