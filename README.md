@@ -9,12 +9,16 @@ It supports seven models, three features, and six datasets for reproducible MR-H
 **News**: Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901)
 
 ## Installation
-Install pytorch, torchvision, torchaudio, and torchtext based on your GPU environments.
+Install ffmpeg first. If you are an Ubuntu user, run:
+```
+apt install ffmpeg
+```
+Then, install pytorch, torchvision, torchaudio, and torchtext based on your GPU environments.
 Note that the inference API is available for CPU environments. We tested the codes on Python 3.9 and CUDA 11.7:
 ```
 pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
 ```
-Then run:
+Finally, run to install dependency libraries:
 ```
 pip install 'git+https://github.com/line/lighthouse.git'
 ```

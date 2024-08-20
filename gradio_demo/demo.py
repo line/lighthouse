@@ -13,13 +13,15 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 """
-
+import torch
 import pandas as pd
 import gradio as gr
 from lighthouse.models import CGDETRPredictor
 
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
 model = CGDETRPredictor('results/clip_cg_detr/qvhighlight/best.ckpt', 
-                        device='cpu', feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
+                        device=device, feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
 topk_moments = 5
 js_codes = ["""() => {{
             let moment_text = document.getElementById('result_{}').textContent;
