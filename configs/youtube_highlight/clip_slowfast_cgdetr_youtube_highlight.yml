@@ -18,11 +18,12 @@ train_log_filename: train.log
 eval_log_filename: val.log
 clip_length: 1
 bsz: 4
+max_q_l: 100
 max_v_l: 1000
 
-lr: 0.001
+lr: 0.0002
 lr_drop: 2000
-n_epoch: 2000
+n_epoch: 1000
 
 # CG-DETR-specific parameters
 enc_layers: 3
