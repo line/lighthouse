@@ -78,15 +78,6 @@ Moment retrieval & highlight detection
 - [x] : [TR-DETR (Sun et al. AAAI24)](https://arxiv.org/abs/2401.02309)
 - [x] : [TaskWeave (Jin et al. CVPR24)](https://arxiv.org/abs/2404.09263)
 
-Moment retrieval
-- [ ] : [TALL (Gao et al. ICCV17)](https://arxiv.org/abs/1705.02101)
-- [ ] : [VSLNet (Zhang et al. ACL20)](https://arxiv.org/abs/2004.13931)
-- [ ] : [Mr.BLIP (Boris et al. arXiv24)](https://arxiv.org/abs/2406.18113)
-
-Highlight detection
-
-Under investigation
-
 ### Datasets
 Moment retrieval & highlight detection
 - [x] : [QVHighlights (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
@@ -100,8 +91,8 @@ Moment retrieval
 
 Highlight detection
 - [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
-- [ ] : [TVSum Audio Training (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 - [x] : [YouTube Highlights (Sun et al. ECCV14)](https://grail.cs.washington.edu/wp-content/uploads/2015/08/sun2014rdh.pdf)
+- [ ] : [TVSum Audio Training (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 
 ### Features
 - [x] : ResNet+GloVe
