@@ -80,6 +80,8 @@ class BasePredictor:
         self.model.load_state_dict(ckpt["model"])
         self.model.to(self.device)
         self.model.eval()
+        self.video_feats = None
+        self.video_mask = None
 
     @torch.no_grad()
     def encode_video(self, video_path):
