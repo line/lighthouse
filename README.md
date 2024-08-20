@@ -200,12 +200,12 @@ PYTHONPATH="." python training/train.py --config configs/tvsum/clip_slowfast_mom
 ```
 
 #### Evaluation
-The evaluation command is (in this example, we evaluate QD-DETR on the Charades-STA dataset):
+The evaluation command is (in this example, we evaluate QD-DETR/CLIP+Slowfast on the QVHighlight val set):
 ```
-PYTHONPATH="." python training/evaluate.py --config configs/charades/clip_slowfast_qd_detr_charades.yml \
-                                           --model_path results/clip_slowfast_qd_detr/charades/best.ckpt \
+PYTHONPATH="." python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
+                                           --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
                                            --eval_split_name val \
-                                           --eval_path data/charades/charades_test_release.jsonl
+                                           --eval_path data/qvhighlight/highlight_val_release.jsonl
 ```
 To generate submission files for QVHighlight test sets, run (**QVHighlights only**):
 ```
