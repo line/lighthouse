@@ -337,20 +337,23 @@ def setup_model(opt):
     return model, criterion, optimizer, lr_scheduler
 
 
-def start_inference(yaml_path, model_path, split, eval_path):
-    opt = BaseOptions().parse(yaml_path)
+def start_inference(yaml_path, model_path, split, eval_path, domain):
+    opt = BaseOptions().parse(yaml_path, domain)
     opt.model_path = model_path
     opt.eval_split_name = split
     opt.eval_path = eval_path
+    opt.domain = domain
 
     logger.info("Setup config, data and model...")
 
     cudnn.benchmark = True
     cudnn.deterministic = False
     load_labels = split == 'val'
+    epoch_i = None # for TaskWeave.
     
     dataset_config = EasyDict(
         dset_name=opt.dset_name,
+        domain=opt.domain,
         data_path=opt.eval_path,
         v_feat_dirs=opt.v_feat_dirs,
         q_feat_dir=opt.t_feat_dir,
@@ -377,7 +380,7 @@ def start_inference(yaml_path, model_path, split, eval_path):
     logger.info("Starting inference...")
     with torch.no_grad():
         metrics, eval_loss_meters, latest_file_paths = \
-            eval_epoch(model, eval_dataset, opt, save_submission_filename, criterion)
+            eval_epoch(epoch_i, model, eval_dataset, opt, save_submission_filename, criterion)
 
     if opt.eval_split_name == 'val':
         logger.info("metrics_no_nms {}".format(pprint.pformat(metrics["brief"], indent=4)))
@@ -388,9 +391,11 @@ if __name__ == '__main__':
     parser.add_argument('--model_path', type=str, required=True, help='saved model path')
     parser.add_argument('--eval_split_name', type=str, required=True, choices=['val', 'test'], help='val or test')
     parser.add_argument('--eval_path', type=str, required=True, help='evaluation data')
+    parser.add_argument('--domain', type=str, help="training domain for TVSum and YouTube Highlights . e.g., BK and dog. Note that they are not necessary for other datasets")
     args = parser.parse_args()
     yaml_path = args.config
     model_path = args.model_path
     split = args.eval_split_name
     eval_path = args.eval_path
-    start_inference(yaml_path, model_path, split, eval_path)
+    domain = args.domain
+    start_inference(yaml_path, model_path, split, eval_path, domain)
