@@ -211,7 +211,7 @@ zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
 
 ## Reproduced results
-See [here](markdown/reproduced_results.md).
+See [here](markdown/reproduced_results.md). You can download individual checkpoints.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
