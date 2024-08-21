@@ -68,9 +68,12 @@ def predict(textbox, line, gallery):
         line = gr.LinePlot(value=hl_data, x='second', y='saliency_score', visible=True, y_lim=[min_val, max_val], x_lim=[min_x, max_x])
 
         # Show highlight frames
-        highlighted_seconds = hl_data.nlargest(columns='saliency_score', n=TOPK_HIGHLIGHT).second.tolist()
+        n_largest_df = hl_data.nlargest(columns='saliency_score', n=TOPK_HIGHLIGHT)
+        highlighted_seconds = n_largest_df.second.tolist()
+        highlighted_scores = n_largest_df.saliency_score.tolist()
+
         output_image_paths = []
-        for i, second in enumerate(highlighted_seconds):
+        for i, (second, score) in enumerate(zip(highlighted_seconds, highlighted_scores)):
             output_path = "gradio_demo/highlight_frames/highlight_{}.png".format(i)
             (
                 ffmpeg
@@ -79,7 +82,7 @@ def predict(textbox, line, gallery):
                 .global_args('-loglevel', 'quiet', '-y')
                 .run()
             )
-            output_image_paths.append(output_path)
+            output_image_paths.append((output_path, "Highlight: {} - score: {:.02f}".format(i+1, score)))
         gallery = gr.Gallery(value=output_image_paths, label='gradio', columns=5, show_download_button=True, visible=True)
         return buttons + [line, gallery]
 
@@ -118,7 +121,6 @@ def main():
                     line = gr.LinePlot(value=pd.DataFrame({'x': [], 'y': []}), x='x', y='y', visible=False)
                     gr.Markdown("### Highlighted frames")
                     gallery = gr.Gallery(value=[], label="highlight", columns=5, visible=False)
-                
                 
                 video_input.change(video_upload, inputs=[video_input], outputs=output)
                 
