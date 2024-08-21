@@ -14,46 +14,74 @@ License for the specific language governing permissions and limitations
 under the License.
 """
 import torch
+import ffmpeg
 import pandas as pd
 import gradio as gr
 from lighthouse.models import CGDETRPredictor
 
+# use GPU if available
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-model = CGDETRPredictor('results/clip_cg_detr/qvhighlight/best.ckpt', 
-                        device=device, feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
-topk_moments = 5
+model = CGDETRPredictor('results/clip_cg_detr/qvhighlight/best.ckpt', device=device, 
+                        feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
+TOPK_MOMENT = 5
+TOPK_HIGHLIGHT = 5
+
 js_codes = ["""() => {{
             let moment_text = document.getElementById('result_{}').textContent;
             var replaced_text = moment_text.replace(/moment..../, '').replace(/\ Score.*/, '');
             let start_end = JSON.parse(replaced_text);
             document.getElementsByTagName("video")[0].currentTime = start_end[0];
             document.getElementsByTagName("video")[0].play();
-        }}""".format(i) for i in range(topk_moments)]
+        }}""".format(i) for i in range(TOPK_MOMENT)]
 
 
 def video_upload(video):
-    if video is not None:
+    if video is None:
+        model.video_feats = None
+        model.video_mask = None
+        model.video_path = None
+        yield gr.update(value="Removed the video", visible=True)
+    else:
+        yield gr.update(value="Processing the video. Wait for a minute...", visible=True)
         model.encode_video(video)
-        gr.Info("Video upload successfully. Encoding the video.")
+        yield gr.update(value="Finished video processing!", visible=True)
 
 
-def predict(textbox, line):
+def predict(textbox, line, gallery):
     prediction = model.predict(textbox)
-    mr_results = prediction['pred_relevant_windows']
-    hl_results = prediction['pred_saliency_scores']
+    if prediction is None:
+        raise gr.Error('Upload the video before pushing the `Retrieve moment & highlight detection` button.')
+    else:
+        mr_results = prediction['pred_relevant_windows']
+        hl_results = prediction['pred_saliency_scores']
 
-    buttons = []
-    for i, pred in enumerate(mr_results[:topk_moments]):
-        buttons.append(gr.Button(value='moment {}: [{}, {}] Score: {}'.format(i+1, pred[0], pred[1], pred[2]), visible=True))
-    
-    # Visualize the HD score
-    seconds = [model.clip_len * i for i in range(len(hl_results))]
-    hl_data = pd.DataFrame({ 'second': seconds, 'saliency_score': hl_results })
-    min_val, max_val = min(hl_results), max(hl_results)+1
-    min_x, max_x = min(seconds), max(seconds)
-    line = gr.LinePlot(value=hl_data, x='second', y='saliency_score', visible=True, y_lim=[min_val, max_val], x_lim=[min_x, max_x])
-    return buttons + [line]
+        buttons = []
+        for i, pred in enumerate(mr_results[:TOPK_MOMENT]):
+            buttons.append(gr.Button(value='moment {}: [{}, {}] Score: {}'.format(i+1, pred[0], pred[1], pred[2]), visible=True))
+        
+        # Visualize the HD score
+        seconds = [model.clip_len * i for i in range(len(hl_results))]
+        hl_data = pd.DataFrame({ 'second': seconds, 'saliency_score': hl_results })
+        min_val, max_val = min(hl_results), max(hl_results) + 1
+        min_x, max_x = min(seconds), max(seconds)
+        line = gr.LinePlot(value=hl_data, x='second', y='saliency_score', visible=True, y_lim=[min_val, max_val], x_lim=[min_x, max_x])
+
+        # Show highlight frames
+        highlighted_seconds = hl_data.nlargest(columns='saliency_score', n=TOPK_HIGHLIGHT).second.tolist()
+        output_image_paths = []
+        for i, second in enumerate(highlighted_seconds):
+            output_path = "gradio_demo/highlight_frames/highlight_{}.png".format(i)
+            (
+                ffmpeg
+                .input(model.video_path, ss=second)
+                .output(output_path, vframes=1, qscale=2)
+                .global_args('-loglevel', 'quiet', '-y')
+                .run()
+            )
+            output_image_paths.append(output_path)
+        gallery = gr.Gallery(value=output_image_paths, label='gradio', columns=5, show_download_button=True, visible=True)
+        return buttons + [line, gallery]
 
 def main():
     title = """# Moment Retrieval & Highlight Detection Demo: CG-DETR trained on QVHighlights"""
@@ -64,6 +92,7 @@ def main():
             with gr.Column():
                 with gr.Group():
                     video_input = gr.Video(elem_id='video', height=600)
+                    output = gr.Textbox(label='Video processing progress')  # 初期は非表示
                     query_input = gr.Textbox(label='query')
                     button = gr.Button("Retrieve moment & highlight detection", variant="primary")
             
@@ -87,12 +116,15 @@ def main():
                 with gr.Group():
                     gr.Markdown("## Saliency score")
                     line = gr.LinePlot(value=pd.DataFrame({'x': [], 'y': []}), x='x', y='y', visible=False)
+                    gr.Markdown("### Highlighted frames")
+                    gallery = gr.Gallery(value=[], label="highlight", columns=5, visible=False)
                 
-                video_input.change(video_upload, inputs=[video_input])
+                
+                video_input.change(video_upload, inputs=[video_input], outputs=output)
                 
                 button.click(predict, 
-                            inputs=[query_input, line], 
-                            outputs=[button_1, button_2, button_3, button_4, button_5, line])
+                            inputs=[query_input, line, gallery], 
+                            outputs=[button_1, button_2, button_3, button_4, button_5, line, gallery])
 
     demo.launch()
 
