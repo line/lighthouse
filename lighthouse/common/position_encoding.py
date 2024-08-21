@@ -104,7 +104,6 @@ class PositionEmbeddingSine(nn.Module):
 
         pos_x = x_embed[:, :, None] / dim_t  # (bsz, L, num_pos_feats)
         pos_x = torch.stack((pos_x[:, :, 0::2].sin(), pos_x[:, :, 1::2].cos()), dim=3).flatten(2)  # (bsz, L, num_pos_feats*2)
-        # import ipdb; ipdb.set_trace()
         return pos_x  # .permute(0, 2, 1)  # (bsz, num_pos_feats*2, L)
 
 

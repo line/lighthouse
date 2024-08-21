@@ -598,7 +598,7 @@ class SetCriterion(nn.Module):
             loss_saliency = torch.clamp(self.saliency_margin + neg_scores - pos_scores, min=0).sum() \
                             / (len(pos_scores) * num_pairs) * 2  # * 2 to keep the loss the same scale
 
-            if self.args.dset_name in ['youtube_uni']:
+            if self.args.dset_name == 'youtube_highlight':
                 loss_saliency = loss_saliency + loss_rank_contrastive + loss_neg_pair * 0.
             else:
                 loss_saliency = loss_saliency + loss_rank_contrastive + loss_neg_pair
@@ -701,7 +701,7 @@ class SetCriterion(nn.Module):
             BCEcriterion = nn.BCELoss()
             bceloss = BCEcriterion(logits, labels_x)
 
-            if self.args.dset_name in ['youtube_uni']:
+            if self.args.dset_name == 'youtube_highlight':
                 loss_saliency_attn = loss_rank_contrastive_attn + bceloss + loss_neg_pair_attn * 0 + loss_saliency_attn
             else:
                 loss_saliency_attn = loss_rank_contrastive_attn + bceloss + loss_neg_pair_attn + loss_saliency_attn
@@ -1032,7 +1032,7 @@ def build_model(args):
     losses = ['spans', 'labels', 'saliency', 'ms_align', 'distill', 'orthogonal_dummy']
 
     # For highlight detection datasets
-    use_matcher = not (args.dset_name in ['youtube_uni', 'tvsum'])
+    use_matcher = not (args.dset_name in ['youtube_highlight', 'tvsum'])
 
     criterion = SetCriterion(
         matcher=matcher, weight_dict=weight_dict, losses=losses,

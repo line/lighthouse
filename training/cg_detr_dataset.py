@@ -67,7 +67,7 @@ class CGDETR_StartEndDataset(Dataset):
                  q_feat_type="last_hidden_state",
                  max_q_l=32, max_v_l=75, data_ratio=1.0, ctx_mode="video",
                  normalize_v=True, normalize_t=True, clip_len=2, max_windows=5, 
-                 span_loss_type="l1", txt_drop_ratio=0, dset_domain=None, load_labels=True):
+                 span_loss_type="l1", dset_domain=None, load_labels=True):
         self.dset_name = dset_name
         self.data_path = data_path
         self.domain = domain
@@ -76,12 +76,14 @@ class CGDETR_StartEndDataset(Dataset):
             if isinstance(v_feat_dirs, list) else [v_feat_dirs]
         self.q_feat_dir = q_feat_dir
         self.q_feat_type = q_feat_type
+        
         if max_v_l == -1:
             max_v_l = 100000000
         if max_q_l == -1:
             max_q_l = 100
         self.max_q_l = max_q_l
         self.max_v_l = max_v_l
+        
         self.ctx_mode = ctx_mode
         self.use_tef = "tef" in ctx_mode
         self.use_video = "video" in ctx_mode
@@ -91,11 +93,7 @@ class CGDETR_StartEndDataset(Dataset):
         self.clip_len = clip_len
         self.max_windows = max_windows  # maximum number of windows to use as labels
         self.span_loss_type = span_loss_type
-        self.txt_drop_ratio = txt_drop_ratio
         self.load_labels = load_labels
-
-        if "val" in data_path or "test" in data_path:
-            assert txt_drop_ratio == 0
 
         # checks
         assert q_feat_type in self.Q_FEAT_TYPES
@@ -103,7 +101,7 @@ class CGDETR_StartEndDataset(Dataset):
         # data
         self.data = self.load_data()
 
-        if self.dset_name == 'tvsum':
+        if self.dset_name == 'tvsum' or self.dset_name == 'youtube_highlight':
             new_data = []
             for d in self.data:
                 if d['domain'] == self.domain:
@@ -162,6 +160,11 @@ class CGDETR_StartEndDataset(Dataset):
                             self.get_saliency_labels_all_tvsum(meta_label, ctx_l)
                 if len(model_inputs["saliency_all_labels"]) != len(model_inputs["video_feat"]):
                     model_inputs["video_feat"] = model_inputs["video_feat"][:len(model_inputs["saliency_all_labels"])]
+            elif self.dset_name == 'youtube_highlight':
+                model_inputs["span_labels"] = torch.tensor([[0., 0.]])
+                meta_label = meta['label']
+                model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                            self.get_saliency_labels_all_youtube(meta_label, ctx_l)
             else:
                 if "relevant_windows" in meta: ## For Qvhighlights test set
                     model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
@@ -343,7 +346,6 @@ class CGDETR_StartEndDataset(Dataset):
 
         return pos_clip_indices, neg_clip_indices, score_array
     
-    
     def get_span_labels(self, windows, ctx_l):
         """
         windows: list([st, ed]) in seconds. E.g. [[26, 36]], corresponding st_ed clip_indices [[13, 17]] (inclusive)
@@ -365,11 +367,11 @@ class CGDETR_StartEndDataset(Dataset):
         return windows
 
     def _get_query_feat_by_qid(self, qid):
-        if self.dset_name == 'tvsum':
+        if self.dset_name == 'tvsum' or self.dset_name == 'youtube_highlight':
             q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
             q_feat = np.load(q_feat_path)
-            return torch.from_numpy(q_feat['token'])
-
+            return torch.from_numpy(q_feat['token']) if self.dset_name == 'tvsum' else torch.from_numpy(q_feat['last_hidden_state'])
+        
         elif self.dset_name == 'tacos':
             q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
             q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
@@ -377,8 +379,6 @@ class CGDETR_StartEndDataset(Dataset):
                 q_feat = q_feat[:self.max_q_l]
             if self.normalize_t:
                 q_feat = l2_normalize_np_array(q_feat)
-            if self.txt_drop_ratio > 0:
-                q_feat = self.random_drop_rows(q_feat)
         
         else:
             # QVhighlight dataset
@@ -388,22 +388,8 @@ class CGDETR_StartEndDataset(Dataset):
                 q_feat = q_feat[:self.max_q_l]
             if self.normalize_t:
                 q_feat = l2_normalize_np_array(q_feat)
-            if self.txt_drop_ratio > 0:
-                q_feat = self.random_drop_rows(q_feat)
         
         return torch.from_numpy(q_feat)  # (D, ) or (Lq, D)
-
-    def random_drop_rows(self, embeddings):
-        """randomly mask num_drop rows in embeddings to be zero.
-        Args:
-            embeddings: np.ndarray (L, D)
-        """
-        num_drop_rows = round(len(embeddings) * self.txt_drop_ratio)
-        if num_drop_rows > 0:
-            row_indices = np.random.choice(
-                len(embeddings), size=num_drop_rows, replace=False)
-            embeddings[row_indices] = 0
-        return embeddings
 
     def _get_video_feat_by_vid(self, vid):
         v_feat_list = []

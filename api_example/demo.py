@@ -22,8 +22,8 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # slowfast_path is necesary if you use clip_slowfast features
 query = 'A man is speaking in front of the camera'
-model = CGDETRPredictor('results/clip_slowfast_cg_detr/qvhighlight/best.ckpt', device=device, 
-                        feature_name='clip_slowfast', slowfast_path='SLOWFAST_8x8_R50.pkl')
+model = CGDETRPredictor('results/clip_cg_detr/qvhighlight/best.ckpt', device=device, 
+                        feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
 
 # encode video features
 model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')

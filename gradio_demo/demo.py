@@ -13,7 +13,6 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 """
-
 import torch
 import ffmpeg
 import pandas as pd
@@ -23,11 +22,8 @@ from lighthouse.models import CGDETRPredictor
 # use GPU if available
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-# slowfast_path is necesary if you use clip_slowfast features
-query = 'A man is speaking in front of the camera'
 model = CGDETRPredictor('results/clip_cg_detr/qvhighlight/best.ckpt', device=device, 
                         feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
-
 TOPK_MOMENT = 5
 TOPK_HIGHLIGHT = 5
 

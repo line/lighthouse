@@ -23,7 +23,6 @@ dim_feedforward: 1024
 hidden_dim: 256
 input_dropout: 0.5
 dropout: 0.1
-txt_drop_ratio: 0
 nheads: 8
 num_queries: 10
 
@@ -38,3 +37,6 @@ giou_loss_coef: 1
 label_loss_coef: 4
 eos_coef: 0.1
 lw_saliency: 1
+
+model_ema: False # If you use EMA, set True (Taskweave uses EMA)
+ema_decay: 0.9
