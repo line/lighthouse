@@ -82,6 +82,7 @@ class BasePredictor:
         self.model.eval()
         self.video_feats = None
         self.video_mask = None
+        self.video_path = None
 
     @torch.no_grad()
     def encode_video(self, video_path):
@@ -98,10 +99,11 @@ class BasePredictor:
         video_mask = torch.ones(1, n_frames).to(self.device)
         self.video_feats = video_feats
         self.video_mask = video_mask
+        self.video_path = video_path
 
     @torch.no_grad()
     def predict(self, query):
-        if self.video_feats is None or self.video_mask is None:
+        if self.video_feats is None or self.video_mask is None or self.video_path is None:
             raise ValueError('Video features are not encoded. First run .encode_video() before predict().')
 
         query_feats, query_mask = self.feature_extractor.encode_text(query)  # #text * (L, d) -> CLIP or GloVe

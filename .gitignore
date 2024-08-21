@@ -4,6 +4,7 @@ features
 scripts
 tmp
 .vector_cache
+highlight_*.png
 SLOWFAST_8x8_R50.pkl
 
 # Byte-compiled / optimized / DLL files
