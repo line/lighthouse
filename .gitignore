@@ -4,7 +4,11 @@ features
 scripts
 tmp
 .vector_cache
+highlight_*.png
 SLOWFAST_8x8_R50.pkl
+
+# Mac
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
