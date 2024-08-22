@@ -105,7 +105,7 @@ def calculate_taskweave_losses(loss_dict, weight_dict, hd_log_var, mr_log_var):
             elif "saliency" in k:
                 grouped_losses["loss_hd"].append(loss_dict[k])
     loss_mr = sum(grouped_losses["loss_mr"])
-    loss_hd = sum(grouped_losses["loss_hd"])
+    loss_hd = sum(grouped_losses["loss_hd"])    
     hd_log_var, mr_log_var = hd_log_var.to(loss_hd.device), mr_log_var.to(loss_mr.device)
     losses = 2 * loss_hd * torch.exp(-hd_log_var) + 1 * loss_mr * torch.exp(-mr_log_var) + hd_log_var + mr_log_var
     return losses

@@ -595,8 +595,10 @@ def build_model(args):
     losses = ['spans', 'labels', 'saliency']
         
     # For tvsum dataset (youtube_highlight?)
-    use_matcher = not (args.dset_name == 'tvsum')
-        
+    # WATCH: if use_matcher is False when args.dset_name == 'tvsum', the loss calculation fails.
+    #use_matcher = not (args.dset_name == 'tvsum')
+    use_matcher = True
+
     criterion = SetCriterion(
         matcher=matcher, weight_dict=weight_dict, losses=losses,
         eos_coef=args.eos_coef, span_loss_type=args.span_loss_type, 

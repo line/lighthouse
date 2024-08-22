@@ -106,7 +106,12 @@ def compute_hl_results(epoch_i, model, eval_loader, opt, criterion=None):
     for batch in tqdm(eval_loader, desc="compute st ed scores"):
         query_meta = batch[0]
         model_inputs, targets = batch_input_fn(batch[1], opt.device)
-        outputs = model(**model_inputs)
+
+        if opt.model_name == 'taskweave':
+            model_inputs['epoch_i'] = epoch_i
+            outputs, _ = model(**model_inputs)
+        else:
+            outputs = model(**model_inputs)
 
         preds = outputs['saliency_scores']
         for meta, pred in zip(query_meta, preds):
