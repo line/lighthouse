@@ -1,4 +1,4 @@
-model_name: qd_detr
+model_name: taskweave
 dset_name: tacos
 ctx_mode: video_tef
 v_feat_types: clip
