@@ -4,6 +4,7 @@ features
 scripts
 tmp
 .vector_cache
+weights/*
 highlight_*.png
 SLOWFAST_8x8_R50.pkl
 
