@@ -4,7 +4,7 @@ features
 scripts
 tmp
 .vector_cache
-weights/*
+gradio_demo/weights/*.ckpt
 highlight_*.png
 SLOWFAST_8x8_R50.pkl
 
