@@ -13,19 +13,55 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 """
+import os
 import torch
+import subprocess
 import ffmpeg
 import pandas as pd
 import gradio as gr
-from lighthouse.models import CGDETRPredictor
+from tqdm import tqdm
+from lighthouse.models import *
 
 # use GPU if available
 device = "cuda" if torch.cuda.is_available() else "cpu"
-
-model = CGDETRPredictor('results/clip_cg_detr/qvhighlight/best.ckpt', device=device, 
-                        feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
+MODEL_NAMES = ['cg_detr', 'moment_detr', 'eatr', 'qd_detr', 'tr_detr', 'uvcom']
+FEATURES = ['clip', 'clip_slowfast']
 TOPK_MOMENT = 5
 TOPK_HIGHLIGHT = 5
+
+"""
+Helper functions
+"""
+def load_pretrained_weights():
+    file_urls = []
+    for model_name in MODEL_NAMES:
+        for feature in FEATURES:
+            file_urls.append(
+                "https://zenodo.org/records/13363606/files/{}_{}_qvhighlight.ckpt".format(feature, model_name)
+            )
+    for file_url in tqdm(file_urls):
+        if not os.path.exists('gradio_demo/weights/' + os.path.basename(file_url)):
+            command = 'wget -P gradio_demo/weights/ {}'.format(file_url)
+            subprocess.run(command, shell=True)
+
+    # Slowfast weights
+    if not os.path.exists('SLOWFAST_8x8_R50.pkl'):
+        subprocess.run('wget https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl')
+
+    return file_urls
+
+def flatten(array2d):
+    list1d = []
+    for elem in array2d:
+        list1d += elem
+    return list1d
+
+"""
+Model initialization
+"""
+load_pretrained_weights()
+model = CGDETRPredictor('gradio_demo/weights/clip_cg_detr_qvhighlight.ckpt', device=device, 
+                        feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
 
 js_codes = ["""() => {{
             let moment_text = document.getElementById('result_{}').textContent;
@@ -35,7 +71,9 @@ js_codes = ["""() => {{
             document.getElementsByTagName("video")[0].play();
         }}""".format(i) for i in range(TOPK_MOMENT)]
 
-
+"""
+Gradio functions
+"""
 def video_upload(video):
     if video is None:
         model.video_feats = None
@@ -47,6 +85,33 @@ def video_upload(video):
         model.encode_video(video)
         yield gr.update(value="Finished video processing!", visible=True)
 
+def model_load(radio):
+    if radio is not None:
+        yield gr.update(value="Loading new model. Wait for a minute...", visible=True)
+        global model
+        feature, model_name = radio.split('+')
+        feature, model_name = feature.strip(), model_name.strip()
+
+        if model_name == 'moment_detr':
+            model_class = MomentDETRPredictor
+        elif model_name == 'qd_detr':
+            model_class = QDDETRPredictor
+        elif model_name == 'eatr':
+            model_class = EaTRPredictor
+        elif model_name == 'tr_detr':
+            model_class = TRDETRPredictor
+        elif model_name == 'uvcom':
+            model_class = UVCOMPredictor
+        elif model_name == 'taskweave':
+            model_class = TaskWeavePredictor
+        elif model_name == 'cg_detr':
+            model_class = CGDETRPredictor
+        else:
+            raise gr.Error("Select from the models")
+        
+        model = model_class('gradio_demo/weights/{}_{}_qvhighlight.ckpt'.format(feature, model_name),
+                            device=device, feature_name='{}'.format(feature), slowfast_path='SLOWFAST_8x8_R50.pkl')
+        yield gr.update(value="Model loaded: {}".format(radio), visible=True)
 
 def predict(textbox, line, gallery):
     prediction = model.predict(textbox)
@@ -86,16 +151,25 @@ def predict(textbox, line, gallery):
         gallery = gr.Gallery(value=output_image_paths, label='gradio', columns=5, show_download_button=True, visible=True)
         return buttons + [line, gallery]
 
+
 def main():
-    title = """# Moment Retrieval & Highlight Detection Demo: CG-DETR trained on QVHighlights"""
+    title = """# Moment Retrieval & Highlight Detection Demo"""
+    
     with gr.Blocks(theme=gr.themes.Soft()) as demo:
         gr.Markdown(title)
 
         with gr.Row():
             with gr.Column():
                 with gr.Group():
+                    gr.Markdown("## Model selection")
+                    radio_list = flatten([["{} + {}".format(feature, model_name) for model_name in MODEL_NAMES] for feature in FEATURES])
+                    radio = gr.Radio(radio_list, label="models", value="clip + cg_detr", info="Which model do you want to use?")
+                    load_status_text = gr.Textbox(label='Model load status', value='Model loaded: clip + cg_detr')
+
+                with gr.Group():
+                    gr.Markdown("## Video and query")
                     video_input = gr.Video(elem_id='video', height=600)
-                    output = gr.Textbox(label='Video processing progress')  # 初期は非表示
+                    output = gr.Textbox(label='Video processing progress')
                     query_input = gr.Textbox(label='query')
                     button = gr.Button("Retrieve moment & highlight detection", variant="primary")
             
@@ -123,6 +197,7 @@ def main():
                     gallery = gr.Gallery(value=[], label="highlight", columns=5, visible=False)
                 
                 video_input.change(video_upload, inputs=[video_input], outputs=output)
+                radio.select(model_load, inputs=[radio], outputs=load_status_text)
                 
                 button.click(predict, 
                             inputs=[query_input, line, gallery], 
