@@ -46,7 +46,7 @@ def load_pretrained_weights():
 
     # Slowfast weights
     if not os.path.exists('SLOWFAST_8x8_R50.pkl'):
-        subprocess.run('wget https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl')
+        subprocess.run('wget https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl', shell=True)
 
     return file_urls
 
