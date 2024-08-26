@@ -122,7 +122,7 @@ To extract features from videos, we use [HERO_Video_Feature_Extractor](https://g
 
 The whole directory should be look like this:
 ```
-lighthouse_dev/
+lighthouse/
 ├── api_example
 ├── configs
 ├── data
