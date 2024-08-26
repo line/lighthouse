@@ -67,6 +67,7 @@ from lighthouse.common.utils.tensor_utils import pad_sequences_1d
 from lighthouse.common.utils.span_utils import span_xx_to_cxw
 from torchtext import vocab
 import torch.nn as nn
+import sys
 
 logger = logging.getLogger(__name__)
 
@@ -82,8 +83,8 @@ class StartEndDataset(Dataset):
       "relevant_windows": [[26, 36]]
     }
     """
-    def __init__(self, dset_name, domain, data_path, v_feat_dirs, q_feat_dir,
-                 q_feat_type="last_hidden_state", max_q_l=32, max_v_l=75, 
+    def __init__(self, dset_name, domain, data_path, v_feat_dirs, a_feat_dirs, q_feat_dir,
+                 q_feat_type="last_hidden_state", v_feat_types="clip", a_feat_types="clap", max_q_l=32, max_v_l=75, max_a_l=75,
                  ctx_mode="video", clip_len=2, max_windows=5, span_loss_type="l1", 
                  load_labels=True):
         self.dset_name = dset_name
@@ -91,19 +92,27 @@ class StartEndDataset(Dataset):
         self.data_path = data_path
         self.v_feat_dirs = v_feat_dirs \
             if isinstance(v_feat_dirs, list) else [v_feat_dirs]
+        self.a_feat_dirs = a_feat_dirs \
+            if isinstance(a_feat_dirs, list) else [a_feat_dirs]
         self.q_feat_dir = q_feat_dir
         self.q_feat_type = q_feat_type
+        self.v_feat_types = v_feat_types
+        self.a_feat_types = a_feat_types
         
         if max_v_l == -1:
             max_v_l = 100000000
+        if max_a_l == -1:
+            max_a_l = 100000000
         if max_q_l == -1:
             max_q_l = 100
         self.max_q_l = max_q_l
         self.max_v_l = max_v_l
+        self.max_a_l = max_a_l
         
         self.ctx_mode = ctx_mode
         self.use_tef = "tef" in ctx_mode
         self.use_video = "video" in ctx_mode
+        self.use_audio = "audio" in ctx_mode
         self.clip_len = clip_len
         self.max_windows = max_windows  # maximum number of windows to use as labels
         self.span_loss_type = span_loss_type
@@ -151,6 +160,20 @@ class StartEndDataset(Dataset):
             ctx_l = len(model_inputs["video_feat"])
         else:
             ctx_l = self.max_v_l
+
+        if self.use_audio:
+            model_inputs["audio_feat"] = self._get_audio_feat_by_vid(meta["vid"])
+            ctx_l_a = len(model_inputs["audio_feat"])
+            # Sometimes, audio features is longer than video features because the length of video is not necessarily 2:30.
+            if ctx_l < ctx_l_a:
+                model_inputs["audio_feat"] = model_inputs["audio_feat"][:ctx_l]
+                ctx_l_a = ctx_l
+            elif ctx_l > ctx_l_a:
+                model_inputs["video_feat"] = model_inputs["video_feat"][:ctx_l_a] # TODO: Sometimes, audio length is not equal to video length.
+                ctx_l = ctx_l_a
+            #     sys.exit(f"Invalid values (ctx_l: {ctx_l}, ctx_l_a {ctx_l_a}).")
+        else:
+            ctx_l_a = self.max_a_l
 
         if self.use_tef:
             tef_st = torch.arange(0, ctx_l, 1.0) / ctx_l
@@ -437,6 +460,29 @@ class StartEndDataset(Dataset):
         v_feat_list = [e[:min_len] for e in v_feat_list]
         v_feat = np.concatenate(v_feat_list, axis=1)
         return torch.from_numpy(v_feat)  # (Lv, D)
+    
+    def _get_audio_feat_by_vid(self, vid):
+        a_feat_list = []
+        for _feat_dir in self.a_feat_dirs:
+            if self.dset_name == 'qvhighlight':
+                if self.a_feat_types == "clap":
+                    _feat_path = join(_feat_dir, f"{vid}.npz")
+                    _feat = np.load(_feat_path)["features"][:self.max_a_l].astype(np.float32)
+                elif self.a_feat_types == "panns":
+                    _feat_path = join(_feat_dir, f"{vid}.npy")
+                    _feat = np.load(_feat_path)[:self.max_a_l].astype(np.float32)
+                else:
+                    raise NotImplementedError()
+                _feat = l2_normalize_np_array(_feat) # normalize?
+                a_feat_list.append(_feat)
+            else:
+                raise NotImplementedError()
+        
+        # some features are slightly longer than the others
+        min_len = min([len(e) for e in a_feat_list])
+        a_feat_list = [e[:min_len] for e in a_feat_list]
+        a_feat = np.concatenate(a_feat_list, axis=1)
+        return torch.from_numpy(a_feat)  # (Lv, D)
 
 
 def start_end_collate(batch):
@@ -467,7 +513,17 @@ def prepare_batch_inputs(batched_model_inputs, device, non_blocking=False):
         src_txt_mask=batched_model_inputs["query_feat"][1].to(device, non_blocking=non_blocking),
         src_vid=batched_model_inputs["video_feat"][0].to(device, non_blocking=non_blocking),
         src_vid_mask=batched_model_inputs["video_feat"][1].to(device, non_blocking=non_blocking),
+        # src_aud=batched_model_inputs["audio_feat"][0].to(device, non_blocking=non_blocking),
+        # src_aud_mask=batched_model_inputs["audio_feat"][1].to(device, non_blocking=non_blocking),
+        # src_txt_aud=batched_model_inputs["query_feat_aud"][0].to(device, non_blocking=non_blocking),
+        # src_txt_aud_mask=batched_model_inputs["query_feat_aud"][1].to(device, non_blocking=non_blocking),
     )
+    if "audio_feat" in batched_model_inputs:
+        model_inputs["src_aud"] = batched_model_inputs["audio_feat"][0].to(device, non_blocking=non_blocking)
+        model_inputs["src_aud_mask"] = batched_model_inputs["audio_feat"][1].to(device, non_blocking=non_blocking)
+    if "query_feat_aud" in batched_model_inputs:
+        model_inputs["src_txt_aud"] = batched_model_inputs["query_feat_aud"][0].to(device, non_blocking=non_blocking)
+        model_inputs["src_txt_aud_mask"] = src_txt_aud_mask=batched_model_inputs["query_feat_aud"][1].to(device, non_blocking=non_blocking)
     targets = {}
     if "span_labels" in batched_model_inputs:
         targets["span_labels"] = [
