@@ -1,6 +1,6 @@
 seed: 2023
 device: 'cuda'
-num_workers: 0
+num_workers: 4
 
 lr: 0.0001
 lr_drop: 400
