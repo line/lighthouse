@@ -184,28 +184,28 @@ PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_D
 
 For example, to train moment_detr on QVHighlights with CLIP+Slowfast features, run:
 ```
-PYTHONPATH="." python training/train.py --config configs/qvhighlight/clip_slowfast_moment_detr_qvhighlight.yml
+PYTHONPATH=. python training/train.py --config configs/qvhighlight/clip_slowfast_moment_detr_qvhighlight.yml
 ```
 To train the models on HD datasets (i.e., TVSum and YouTube Highlight), you need to specify the domain.<br>
 For example, to train moment_detr in BK domain on TVSum, run:
 ```
-PYTHONPATH="." python training/train.py --config configs/tvsum/clip_slowfast_moment_detr_tvsum.yml --domain BK
+PYTHONPATH=. python training/train.py --config configs/tvsum/clip_slowfast_moment_detr_tvsum.yml --domain BK
 ```
 
 #### Evaluation
 The evaluation command is (in this example, we evaluate QD-DETR/CLIP+Slowfast on the QVHighlight val set):
 ```
-PYTHONPATH="." python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
-                                           --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
-                                           --eval_split_name val \
-                                           --eval_path data/qvhighlight/highlight_val_release.jsonl
+PYTHONPATH=. python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
+                                         --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
+                                         --eval_split_name val \
+                                         --eval_path data/qvhighlight/highlight_val_release.jsonl
 ```
 To generate submission files for QVHighlight test sets, run (**QVHighlights only**):
 ```
-PYTHONPATH="." python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
-                                           --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
-                                           --eval_split_name test \
-                                           --eval_path data/qvhighlight/highlight_test_release.jsonl
+PYTHONPATH=. python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
+                                         --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
+                                         --eval_split_name test \
+                                         --eval_path data/qvhighlight/highlight_test_release.jsonl
 ```
 Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it to the [Codalab](https://codalab.lisn.upsaclay.fr/competitions/6937) (**QVHighlights only**):
 ```
