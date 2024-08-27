@@ -83,9 +83,9 @@ class StartEndDataset(Dataset):
     }
     """
     def __init__(self, dset_name, domain, data_path, v_feat_dirs, a_feat_dirs, q_feat_dir,
-                 q_feat_type="last_hidden_state", v_feat_types="clip", a_feat_types="pann", max_q_l=32, max_v_l=75, max_a_l=75,
-                 ctx_mode="video", clip_len=2, max_windows=5, span_loss_type="l1", 
-                 load_labels=True):
+                 q_feat_type="last_hidden_state", v_feat_types="clip", a_feat_types="pann", 
+                 max_q_l=32, max_v_l=75, max_a_l=75, ctx_mode="video", clip_len=2,
+                 max_windows=5, span_loss_type="l1", load_labels=True):
         self.dset_name = dset_name
         self.domain = domain
         self.data_path = data_path
