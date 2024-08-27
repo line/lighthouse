@@ -67,7 +67,6 @@ from lighthouse.common.utils.tensor_utils import pad_sequences_1d
 from lighthouse.common.utils.span_utils import span_xx_to_cxw
 from torchtext import vocab
 import torch.nn as nn
-import sys
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +83,7 @@ class StartEndDataset(Dataset):
     }
     """
     def __init__(self, dset_name, domain, data_path, v_feat_dirs, a_feat_dirs, q_feat_dir,
-                 q_feat_type="last_hidden_state", v_feat_types="clip", a_feat_types="clap", max_q_l=32, max_v_l=75, max_a_l=75,
+                 q_feat_type="last_hidden_state", v_feat_types="clip", a_feat_types="pann", max_q_l=32, max_v_l=75, max_a_l=75,
                  ctx_mode="video", clip_len=2, max_windows=5, span_loss_type="l1", 
                  load_labels=True):
         self.dset_name = dset_name
@@ -162,6 +161,7 @@ class StartEndDataset(Dataset):
             ctx_l = self.max_v_l
 
         if self.use_audio:
+            assert self.a_feat_types is not None, f"use_audio is {self.use_audio}, but a_feat_types is {self.a_feat_types}."
             model_inputs["audio_feat"] = self._get_audio_feat_by_vid(meta["vid"])
             ctx_l_a = len(model_inputs["audio_feat"])
             # Sometimes, audio features is longer than video features because the length of video is not necessarily 2:30.
@@ -171,7 +171,6 @@ class StartEndDataset(Dataset):
             elif ctx_l > ctx_l_a:
                 model_inputs["video_feat"] = model_inputs["video_feat"][:ctx_l_a] # TODO: Sometimes, audio length is not equal to video length.
                 ctx_l = ctx_l_a
-            #     sys.exit(f"Invalid values (ctx_l: {ctx_l}, ctx_l_a {ctx_l_a}).")
         else:
             ctx_l_a = self.max_a_l
 
@@ -468,7 +467,7 @@ class StartEndDataset(Dataset):
                 if self.a_feat_types == "clap":
                     _feat_path = join(_feat_dir, f"{vid}.npz")
                     _feat = np.load(_feat_path)["features"][:self.max_a_l].astype(np.float32)
-                elif self.a_feat_types == "panns":
+                elif self.a_feat_types == "pann":
                     _feat_path = join(_feat_dir, f"{vid}.npy")
                     _feat = np.load(_feat_path)[:self.max_a_l].astype(np.float32)
                 else:
@@ -513,10 +512,6 @@ def prepare_batch_inputs(batched_model_inputs, device, non_blocking=False):
         src_txt_mask=batched_model_inputs["query_feat"][1].to(device, non_blocking=non_blocking),
         src_vid=batched_model_inputs["video_feat"][0].to(device, non_blocking=non_blocking),
         src_vid_mask=batched_model_inputs["video_feat"][1].to(device, non_blocking=non_blocking),
-        # src_aud=batched_model_inputs["audio_feat"][0].to(device, non_blocking=non_blocking),
-        # src_aud_mask=batched_model_inputs["audio_feat"][1].to(device, non_blocking=non_blocking),
-        # src_txt_aud=batched_model_inputs["query_feat_aud"][0].to(device, non_blocking=non_blocking),
-        # src_txt_aud_mask=batched_model_inputs["query_feat_aud"][1].to(device, non_blocking=non_blocking),
     )
     if "audio_feat" in batched_model_inputs:
         model_inputs["src_aud"] = batched_model_inputs["audio_feat"][0].to(device, non_blocking=non_blocking)

@@ -480,7 +480,7 @@ def build_model(args):
         txt_position_embedding,
         txt_dim=args.t_feat_dim,
         vid_dim=args.v_feat_dim,
-        aud_dim=args.a_feat_dim,
+        aud_dim=args.a_feat_dim if "a_feat_dim" in args else 0,
         aux_loss=args.aux_loss,
         num_queries=args.num_queries,
         input_dropout=args.input_dropout,
