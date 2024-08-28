@@ -513,12 +513,11 @@ def prepare_batch_inputs(batched_model_inputs, device, non_blocking=False):
         src_vid=batched_model_inputs["video_feat"][0].to(device, non_blocking=non_blocking),
         src_vid_mask=batched_model_inputs["video_feat"][1].to(device, non_blocking=non_blocking),
     )
+    
     if "audio_feat" in batched_model_inputs:
         model_inputs["src_aud"] = batched_model_inputs["audio_feat"][0].to(device, non_blocking=non_blocking)
         model_inputs["src_aud_mask"] = batched_model_inputs["audio_feat"][1].to(device, non_blocking=non_blocking)
-    if "query_feat_aud" in batched_model_inputs:
-        model_inputs["src_txt_aud"] = batched_model_inputs["query_feat_aud"][0].to(device, non_blocking=non_blocking)
-        model_inputs["src_txt_aud_mask"] = src_txt_aud_mask=batched_model_inputs["query_feat_aud"][1].to(device, non_blocking=non_blocking)
+
     targets = {}
     if "span_labels" in batched_model_inputs:
         targets["span_labels"] = [
