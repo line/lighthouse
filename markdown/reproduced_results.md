@@ -135,20 +135,26 @@ Test set scores are reported.
 |   CG-DETR   | **39.8** | **25.1** | **44.2** | **19.6** |[ckpt](https://drive.google.com/file/d/1c1R5N1bz2jgi_K8QYtof7q78Nsi18o-r/view?usp=sharing)|
 
 ## TVSum (Highlight detection)
-
-### ResNet152+GloVe
-
-### CLIP
-
-### CLIP+Slowfast
-
-### I3D+CLIP (Text)
+Avgerage top-5 mAP across 10 domains is reported.
+|    Models   | ResNet152+GloVe |   CLIP   | CLIP+Slowfast | I3D+CLIP |
+|:-----------:|:---------------:|:--------:|:-------------:|:--------:|
+| Moment DETR |       85.9      | **89.1** |      86.7     |   86.7   |
+|   QD-DETR   |       87.2      |   88.4   |      87.1     |   87.1   |
+|     EaTR    |       86.2      |   86.7   |      85.0     |   85.0   |
+|    UVCOM    |     **87.6**    |   87.7   |    **87.9**   | **87.9** |
+|  TaskWeave  |       83.6      |   82.7   |      84.2     |   83.5   |
+|   CG-DETR   |       87.1      |   88.1   |    **87.9**   | **87.9** |
 
 ## YouTube Highlight (Highlight detection)
+Avgerage top-5 mAP across 10 domains is reported.
+|    Models   | CLIP | CLIP+Slowfast |
+|:-----------:|:----:|:-------------:|
+| Moment DETR | 66.2 |      67.7     |
+|   QD-DETR   | 70.9 |      73.4     |
+|     EaTR    | 66.7 |      67.4     |
+|    UVCOM    | 75.6 |      73.1     |
+|  TaskWeave  | 71.5 |      69.1     |
+|   CG-DETR   | 74.3 |      74.1     |
 
-### CLIP
-
-### CLIP+Slowfast
-
-Due to the file size, we do not distribute the weights of TVSum and YouTube Highlight (Highlight detection) on Google drive.
-Download from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link) or contact me via email.
+Due to the file size, we do not distribute the individual weights of TVSum and YouTube Highlight (Highlight detection).
+If you want them, download from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link).
