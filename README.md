@@ -175,7 +175,7 @@ lighthouse/
 #### Training
 The general training command is:
 ```
-PYTHONPATH="." python training/train.py --config configs/DATASET/FEATURE_MODEL_DATASET.yml
+PYTHONPATH=. python training/train.py --config configs/DATASET/FEATURE_MODEL_DATASET.yml
 ```
 |         | Options                                                            |
 |---------|--------------------------------------------------------------------|
