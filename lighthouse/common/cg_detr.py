@@ -235,6 +235,7 @@ class CGDETR(nn.Module):
 
         if src_aud is not None:
             src_vid = torch.cat([src_vid, src_aud], dim=2)
+        
         src_vid = self.input_vid_proj(src_vid)
         src_txt = self.input_txt_proj(src_txt)
         src_vid = src_vid + self.token_type_embeddings(torch.full_like(src_vid_mask.long(), 1))
@@ -265,9 +266,6 @@ class CGDETR(nn.Module):
         src = torch.cat([src_vid, src_txt_dummy], dim=1)  # (bsz, L_vid+L_txt, d)
         mask = torch.cat([src_vid_mask, src_txt_mask_dummy], dim=1).bool()  # (bsz, L_vid+L_txt)
         pos = torch.cat([pos_vid, pos_txt_dummy], dim=1)
-
-
-
 
         ### sentence token
         smask_ = torch.tensor([[True]]).to(mask.device).repeat(src_txt_mask.shape[0], 1)
@@ -1006,6 +1004,7 @@ def build_model(args):
         txt_position_embedding,
         txt_dim=args.t_feat_dim,
         vid_dim=args.v_feat_dim,
+        aud_dim=args.a_feat_dim if "a_feat_dim" in args else 0,
         num_queries=args.num_queries,
         input_dropout=args.input_dropout,
         aux_loss=args.aux_loss,
