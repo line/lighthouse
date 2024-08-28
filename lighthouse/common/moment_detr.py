@@ -55,7 +55,7 @@ class MomentDETR(nn.Module):
 
     def __init__(self, transformer, position_embed, txt_position_embed, txt_dim, vid_dim,
                  num_queries, input_dropout, aux_loss=False, max_v_l=75, span_loss_type="l1", 
-                 use_txt_pos=False, n_input_proj=2):
+                 use_txt_pos=False, n_input_proj=2, aud_dim=0):
         """ Initializes the model.
         Parameters:
             transformer: torch module of the transformer architecture. See transformer.py
@@ -97,7 +97,7 @@ class MomentDETR(nn.Module):
             LinearLayer(hidden_dim, hidden_dim, layer_norm=True, dropout=input_dropout, relu=relu_args[2])
         ][:n_input_proj])
         self.input_vid_proj = nn.Sequential(*[
-            LinearLayer(vid_dim, hidden_dim, layer_norm=True, dropout=input_dropout, relu=relu_args[0]),
+            LinearLayer(vid_dim + aud_dim, hidden_dim, layer_norm=True, dropout=input_dropout, relu=relu_args[0]),
             LinearLayer(hidden_dim, hidden_dim, layer_norm=True, dropout=input_dropout, relu=relu_args[1]),
             LinearLayer(hidden_dim, hidden_dim, layer_norm=True, dropout=input_dropout, relu=relu_args[2])
         ][:n_input_proj])
@@ -105,7 +105,7 @@ class MomentDETR(nn.Module):
         self.saliency_proj = nn.Linear(hidden_dim, 1)
         self.aux_loss = aux_loss
 
-    def forward(self, src_txt, src_txt_mask, src_vid, src_vid_mask):
+    def forward(self, src_txt, src_txt_mask, src_vid, src_vid_mask, src_aud=None, src_aud_mask=None):
         """The forward expects two tensors:
                - src_txt: [batch_size, L_txt, D_txt]
                - src_txt_mask: [batch_size, L_txt], containing 0 on padded pixels,
@@ -122,6 +122,9 @@ class MomentDETR(nn.Module):
                - "aux_outputs": Optional, only returned when auxilary losses are activated. It is a list of
                                 dictionnaries containing the two above keys for each decoder layer.
         """
+        if src_aud is not None:
+            src_vid = torch.cat([src_vid, src_aud], dim=2)
+
         src_vid = self.input_vid_proj(src_vid)
         src_txt = self.input_txt_proj(src_txt)
         src = torch.cat([src_vid, src_txt], dim=1)  # (bsz, L_vid+L_txt, d)
@@ -364,6 +367,7 @@ def build_model(args):
         txt_position_embedding,
         txt_dim=args.t_feat_dim,
         vid_dim=args.v_feat_dim,
+        aud_dim=args.a_feat_dim if "a_feat_dim" in args else 0,
         aux_loss=args.aux_loss,
         num_queries=args.num_queries,
         input_dropout=args.input_dropout,

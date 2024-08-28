@@ -1,4 +1,4 @@
-model_name: qd_detr
+model_name: moment_detr
 dset_name: qvhighlight
 ctx_mode: video_audio_tef
 v_feat_types: slowfast_clip
@@ -9,12 +9,12 @@ eval_path: data/qvhighlight/highlight_val_release.jsonl
 eval_split_name: val
 v_feat_dirs: ['features/QVHighlight/clip', 'features/QVHighlight/slowfast']
 a_feat_dirs: ['features/QVHighlight/pann']
-t_feat_dir: 'features/QVHighlight/clip_text'
+t_feat_dir: features/QVHighlight/clip_text
 v_feat_dim: 2818
 a_feat_dim: 2048
 t_feat_dim: 512
 aux_loss: True
-results_dir: results/clip_slowfast_pann_qd_detr/qvhighlight
+results_dir: results/clip_slowfast_pann_moment_detr/qvhighlight
 ckpt_filename: best.ckpt
 train_log_filename: train.log
 eval_log_filename: val.log

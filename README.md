@@ -5,7 +5,7 @@
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/awkrail/lighthouse_demo)
 
 Lighthouse is a user-friendly library for reproducible video moment retrieval and highlight detection (MR-HD).
-It supports seven models, three features, and six datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference-only API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
+It supports seven models, four features (video and audio features), and six datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
 
 **News**: Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901)
 
@@ -83,7 +83,8 @@ Moment retrieval & highlight detection
 ### Datasets
 Moment retrieval & highlight detection
 - [x] : [QVHighlights (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
-- [ ] : [QVHighlights Audio Pretraining (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
+- [x] : [QVHighlights w/ Audio Features (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
+- [ ] : [QVHighlights ASR Pretraining (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
 
 Moment retrieval
 - [x] : [ActivityNet Captions (Krishna et al. ICCV17)](https://arxiv.org/abs/1705.00754)
@@ -179,7 +180,7 @@ PYTHONPATH=. python training/train.py --config configs/DATASET/FEATURE_MODEL_DAT
 |         | Options                                                            |
 |---------|--------------------------------------------------------------------|
 | Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave     |
-| Feature | resnet_glove, clip, clip_slowfast                                  |
+| Feature | resnet_glove, clip, clip_slowfast, clip_slowfast_pann              |
 | Dataset | qvhighlight, activitynet, charades, tacos, tvsum, youtube_highlight|
 
 For example, to train moment_detr on QVHighlights with CLIP+Slowfast features, run:
@@ -222,8 +223,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 - [ ] : Support Wandb
 - [ ] : Support DeDiMo
 - [ ] : Support ASR-based pretraining on QVHighlights
-- [ ] : Support Audio modality (QVHighlights)
-- [ ] : Support TVSum Audio training
 
 ## LICENSE
 Apache License 2.0

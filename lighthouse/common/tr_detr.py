@@ -203,7 +203,7 @@ class TRDETR(nn.Module):
 
     def __init__(self, transformer, position_embed, txt_position_embed, txt_dim, vid_dim,
                  num_queries, input_dropout, aux_loss=False, max_v_l=75, span_loss_type="l1",
-                 use_txt_pos=False, n_input_proj=2, aud_dim=0, clip_len = 2):
+                 use_txt_pos=False, n_input_proj=2, aud_dim=0, clip_len=2):
         """ Initializes the model.
         Parameters:
             transformer: torch module of the transformer architecture. See transformer.py
@@ -624,6 +624,7 @@ def build_model(args):
         txt_position_embedding,
         txt_dim=args.t_feat_dim,
         vid_dim=args.v_feat_dim,
+        aud_dim=args.a_feat_dim if "a_feat_dim" in args else 0,
         aux_loss=args.aux_loss,
         num_queries=args.num_queries,
         input_dropout=args.input_dropout,

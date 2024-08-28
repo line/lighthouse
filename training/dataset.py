@@ -83,9 +83,9 @@ class StartEndDataset(Dataset):
     }
     """
     def __init__(self, dset_name, domain, data_path, v_feat_dirs, a_feat_dirs, q_feat_dir,
-                 q_feat_type="last_hidden_state", v_feat_types="clip", a_feat_types="pann", max_q_l=32, max_v_l=75, max_a_l=75,
-                 ctx_mode="video", clip_len=2, max_windows=5, span_loss_type="l1", 
-                 load_labels=True):
+                 q_feat_type="last_hidden_state", v_feat_types="clip", a_feat_types="pann", 
+                 max_q_l=32, max_v_l=75, max_a_l=75, ctx_mode="video", clip_len=2,
+                 max_windows=5, span_loss_type="l1", load_labels=True):
         self.dset_name = dset_name
         self.domain = domain
         self.data_path = data_path
@@ -513,12 +513,11 @@ def prepare_batch_inputs(batched_model_inputs, device, non_blocking=False):
         src_vid=batched_model_inputs["video_feat"][0].to(device, non_blocking=non_blocking),
         src_vid_mask=batched_model_inputs["video_feat"][1].to(device, non_blocking=non_blocking),
     )
+    
     if "audio_feat" in batched_model_inputs:
         model_inputs["src_aud"] = batched_model_inputs["audio_feat"][0].to(device, non_blocking=non_blocking)
         model_inputs["src_aud_mask"] = batched_model_inputs["audio_feat"][1].to(device, non_blocking=non_blocking)
-    if "query_feat_aud" in batched_model_inputs:
-        model_inputs["src_txt_aud"] = batched_model_inputs["query_feat_aud"][0].to(device, non_blocking=non_blocking)
-        model_inputs["src_txt_aud_mask"] = src_txt_aud_mask=batched_model_inputs["query_feat_aud"][1].to(device, non_blocking=non_blocking)
+
     targets = {}
     if "span_labels" in batched_model_inputs:
         targets["span_labels"] = [
