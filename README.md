@@ -101,7 +101,7 @@ Highlight detection
 - [x] : ResNet+GloVe
 - [x] : CLIP
 - [x] : CLIP+Slowfast
-- [ ] : CLIP+Slowfast+PANNs (Audio) for QVHighlights
+- [x] : CLIP+Slowfast+PANNs (Audio) for QVHighlights
 - [x] : I3D+CLIP (Text) for TVSum
 
 ## Reproduce the experiments
