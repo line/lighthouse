@@ -51,7 +51,7 @@ from lighthouse.feature_extractor import VideoFeatureExtractor
 
 
 class BasePredictor:
-    def __init__(self, model_name, ckpt_path, device, feature_name, slowfast_path=None):
+    def __init__(self, model_name, ckpt_path, device, feature_name, slowfast_path=None, pann_path=None):
         ckpt = torch.load(ckpt_path, map_location="cpu")
         args = ckpt["opt"]
         self.clip_len = args.clip_length
@@ -59,7 +59,7 @@ class BasePredictor:
         args.device = device # for CPU users
         self.feature_extractor = VideoFeatureExtractor(
             framerate=1/self.clip_len, size=224, centercrop=(feature_name != 'resnet_glove'),
-            feature_name=feature_name, device=device, slowfast_path=slowfast_path,
+            feature_name=feature_name, device=device, slowfast_path=slowfast_path, pann_path=pann_path,
         )
         if model_name == 'moment_detr':
             self.model, _ = build_model_moment_detr(args)
@@ -86,6 +86,26 @@ class BasePredictor:
         self.video_feats = None
         self.video_mask = None
         self.video_path = None
+
+    @torch.no_grad()
+    def encode_video_audio(self, video_path):
+        # construct model inputs
+        video_feats = self.feature_extractor.encode_video(video_path)
+        video_feats = F.normalize(video_feats, dim=-1, eps=1e-5)
+        n_frames = len(video_feats)
+        tef_st = torch.arange(0, n_frames, 1.0) / n_frames
+        tef_ed = tef_st + 1.0 / n_frames
+        tef = torch.stack([tef_st, tef_ed], dim=1).to(self.device)
+        video_feats = torch.cat([video_feats, tef], dim=1)
+
+        audio_feats = self.feature_extractor.encode_audio(video_path)
+
+        assert n_frames <= 75, "The positional embedding only support video up to 150 secs (i.e., 75 2-sec clips) in length"
+        video_feats = video_feats.unsqueeze(0)
+        video_mask = torch.ones(1, n_frames).to(self.device)
+        self.video_feats = video_feats
+        self.video_mask = video_mask
+        self.video_path = video_path
 
     @torch.no_grad()
     def encode_video(self, video_path):
