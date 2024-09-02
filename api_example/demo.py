@@ -28,16 +28,28 @@ if not os.path.exists(os.path.join(weight_dir, 'clip_cg_detr_qvhighlight.ckpt'))
     subprocess.run(command, shell=True)
 
 if not os.path.exists('SLOWFAST_8x8_R50.pkl'):
-    subprocess.run('wget https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl')
+    subprocess.run('wget https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl', shell=True)
 
-# slowfast_path is necesary if you use clip_slowfast features
+if not os.path.exists('Cnn14_mAP=0.431.pth'):
+    subprocess.run('wget https://zenodo.org/record/3987831/files/Cnn14_mAP%3D0.431.pth', shell=True)
+
 weight_path = os.path.join(weight_dir, 'clip_cg_detr_qvhighlight.ckpt')
-query = 'A woman wearing a glass is speaking in front of the camera'
-model = CGDETRPredictor(weight_path, device=device, feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
+model = CGDETRPredictor(weight_path, device=device, feature_name='clip', slowfast_path=None, pann_path=None)
+
+"""
+# slowfast_path is necesary if you use clip_slowfast features
+weight_path = os.path.join(weight_dir, 'clip_slowfast_cg_detr_qvhighlight.ckpt')
+model = CGDETRPredictor(weight_path, device=device, feature_name='clip_slowfast', slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path=None)
+
+# slowfast_path and pann_path are necesary if you use clip_slowfast_pann features
+weight_path = os.path.join(weight_dir, 'clip_slowfast_cg_detr_qvhighlight.ckpt')
+model = CGDETRPredictor(weight_path, device=device, feature_name='clip_slowfast_pann', slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path='Cnn14_mAP=0.431.pth')
+"""
 
 # encode video features
 model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
 
 # moment retrieval & highlight detection
+query = 'A woman wearing a glass is speaking in front of the camera'
 prediction = model.predict(query)
 pprint.pp(prediction)

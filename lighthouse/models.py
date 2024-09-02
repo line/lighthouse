@@ -88,26 +88,6 @@ class BasePredictor:
         self.video_path = None
 
     @torch.no_grad()
-    def encode_video_audio(self, video_path):
-        # construct model inputs
-        video_feats = self.feature_extractor.encode_video(video_path)
-        video_feats = F.normalize(video_feats, dim=-1, eps=1e-5)
-        n_frames = len(video_feats)
-        tef_st = torch.arange(0, n_frames, 1.0) / n_frames
-        tef_ed = tef_st + 1.0 / n_frames
-        tef = torch.stack([tef_st, tef_ed], dim=1).to(self.device)
-        video_feats = torch.cat([video_feats, tef], dim=1)
-
-        audio_feats = self.feature_extractor.encode_audio(video_path)
-
-        assert n_frames <= 75, "The positional embedding only support video up to 150 secs (i.e., 75 2-sec clips) in length"
-        video_feats = video_feats.unsqueeze(0)
-        video_mask = torch.ones(1, n_frames).to(self.device)
-        self.video_feats = video_feats
-        self.video_mask = video_mask
-        self.video_path = video_path
-
-    @torch.no_grad()
     def encode_video(self, video_path):
         # construct model inputs
         video_feats = self.feature_extractor.encode_video(video_path)
@@ -118,16 +98,23 @@ class BasePredictor:
         tef = torch.stack([tef_st, tef_ed], dim=1).to(self.device)
         video_feats = torch.cat([video_feats, tef], dim=1)
         assert n_frames <= 75, "The positional embedding only support video up to 150 secs (i.e., 75 2-sec clips) in length"
+        
         video_feats = video_feats.unsqueeze(0)
         video_mask = torch.ones(1, n_frames).to(self.device)
         self.video_feats = video_feats
         self.video_mask = video_mask
         self.video_path = video_path
+        if self.feature_name == 'clip_slowfast_pann':
+            self.audio_feats = self.feature_extractor.encode_audio(video_path)
+        else:
+            self.audio_feats = None 
 
     @torch.no_grad()
     def predict(self, query):
         if self.video_feats is None or self.video_mask is None or self.video_path is None:
-            # raise ValueError('Video features are not encoded. First run .encode_video() before predict().')
+            return None
+
+        if self.feature_name == 'clip_slowfast_pann' and self.audio_feats is None:
             return None
 
         query_feats, query_mask = self.feature_extractor.encode_text(query)  # #text * (L, d) -> CLIP or GloVe
@@ -140,6 +127,7 @@ class BasePredictor:
                 src_vid_mask=self.video_mask,
                 src_txt=query_feats,
                 src_txt_mask=query_mask,
+                src_aud=self.audio_feats,
                 vid=None, qid=None
             )
         else:
@@ -147,9 +135,10 @@ class BasePredictor:
                 src_vid=self.video_feats,
                 src_vid_mask=self.video_mask,
                 src_txt=query_feats,
-                src_txt_mask=query_mask
+                src_txt_mask=query_mask,
+                src_aud=self.audio_feats
             )
-            
+
         # decode outputs
         if self.model_name == 'taskweave':
             model_inputs["epoch_i"] = None
@@ -177,35 +166,35 @@ class BasePredictor:
 
 
 class MomentDETRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path):
-        super().__init__('moment_detr', ckpt_path, device, feature_name, slowfast_path)
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+        super().__init__('moment_detr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class QDDETRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path):
-        super().__init__('qd_detr', ckpt_path, device, feature_name, slowfast_path)
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+        super().__init__('qd_detr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class EaTRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path):
-        super().__init__('eatr', ckpt_path, device, feature_name, slowfast_path)
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+        super().__init__('eatr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class CGDETRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path):
-        super().__init__('cg_detr', ckpt_path, device, feature_name, slowfast_path)
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+        super().__init__('cg_detr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class TRDETRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path):
-        super().__init__('tr_detr', ckpt_path, device, feature_name, slowfast_path)
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+        super().__init__('tr_detr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class UVCOMPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path):
-        super().__init__('uvcom', ckpt_path, device, feature_name, slowfast_path)
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+        super().__init__('uvcom', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class TaskWeavePredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path):
-        super().__init__('taskweave', ckpt_path, device, feature_name, slowfast_path)
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+        super().__init__('taskweave', ckpt_path, device, feature_name, slowfast_path, pann_path)

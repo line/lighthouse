@@ -105,7 +105,7 @@ class VideoFeatureExtractor:
             self.slowfast_extractor = slowfast_model_loader(slowfast_path, device=device).eval()
             self.pann_extractor = PannExtractor(pann_path, device=device)
 
-        if feature_name == 'clip_slowfast':
+        elif feature_name == 'clip_slowfast':
             self.slowfast_feature_dim = 2304
             self.slowfast_norm = SlowFastNormalize(mean=[0.45, 0.45, 0.45], std=[0.225, 0.225, 0.225], device=device)
             self.sf_loader = SlowfastVideoReader(device=device, framerate=30, size=size, clip_len=1/framerate, centercrop=centercrop)
@@ -132,7 +132,7 @@ class VideoFeatureExtractor:
             self.embedding = torch.nn.Embedding.from_pretrained(self.vocab.vectors)
         
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
         self.feature_name = feature_name
         self.tokenizer = clip.tokenize
@@ -205,7 +205,7 @@ class VideoFeatureExtractor:
 
     @torch.no_grad()
     def encode_video(self, video_path):
-        if self.feature_name == 'clip_slowfast':
+        if self.feature_name == 'clip_slowfast' or self.feature_name == 'clip_slowfast_pann':
             video_frames = self.video_loader.read_video_from_file(video_path)  # (T, H, W, 3)
             slowfast_frames = self.sf_loader.read_video_from_file(video_path)
             
@@ -236,7 +236,7 @@ class VideoFeatureExtractor:
             return video_features
         
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
     @property
     def dtype(self):
