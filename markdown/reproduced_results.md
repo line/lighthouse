@@ -10,7 +10,7 @@ Val set scores are reported.
 |     EaTR    | **54.9** |   36.0   | **35.1** | **54.7** |[ckpt](https://drive.google.com/file/d/1_n22fn-sZy-YM5eAE0mJVbOrfS_FPwm0/view?usp=sharing)|
 |   TR-DETR   |   48.3   |   32.9   |   34.9   |   51.4   |[ckpt](https://drive.google.com/file/d/1Z_NyefuQMmLzkTtVpSLwdkdsqTItdBOR/view?usp=sharing)|
 |    UVCOM    |   53.7   | **39.7** |   34.9   |   53.0   |[ckpt](https://drive.google.com/file/d/1UY51b4TixPaJUHpr6UU7F1M-sS2l4aY_/view?usp=sharing)|
-|  TaskWeave  |   51.7   |   37.4   |   32.6   |   45.2   |[ckpt]()|
+|  TaskWeave  |   51.7   |   37.4   |   32.6   |   45.2   |[mr2hd](https://drive.google.com/file/d/1iS5DOC07t0tt5PIegbfNukfs8_3_TI89/view?usp=sharing)/[hd2mr](https://drive.google.com/file/d/10GlTJhBE6onrw4C7koHiXMn4ylnn7pIS/view?usp=sharing)|
 |   CG-DETR   |   51.9   |   39.0   |   34.1   |   53.2   |[ckpt](https://drive.google.com/file/d/1Mk3lZM7qkzcYCKQBVgwXv3B5Z5KHMtwV/view?usp=sharing)|
 
 ### CLIP
@@ -21,7 +21,7 @@ Val set scores are reported.
 |     EaTR    |   54.9   |   36.0   |   35.1   |   54.7   |[ckpt](https://drive.google.com/file/d/1fK6ZZXEaAAemJZP0J1BBqfOkgy1Y_XGs/view?usp=sharing)|
 |   TR-DETR   |   63.6   |   43.9   | **40.1** |   63.2   |[ckpt](https://drive.google.com/file/d/1Z71dOFq9tFhuAQPOkTv4HK8FufUjZplJ/view?usp=sharing)|
 |    UVCOM    |   64.8   |   48.0   |   38.7   |   62.2   |[ckpt](https://drive.google.com/file/d/1i8g5vakVkPO93oQBFIFP7GNi7Ru95MAn/view?usp=sharing)|
-|  TaskWeave  |   60.1   |   38.7   |   38.0   |   58.9   |[ckpt]()|
+|  TaskWeave  |   60.1   |   38.7   |   38.0   |   58.9   |[mr2hd](https://drive.google.com/file/d/1RLI3A26HnRMePwzpZv4wCMMmOksUe59L/view?usp=sharing)/[hd2mr](https://drive.google.com/file/d/1lkACuOy_Xv1Eov4rLwMdtTIEOQ4Ni3Sy/view?usp=sharing)|
 |   CG-DETR   | **66.6** | **49.9** |   39.9   | **64.3** |[ckpt](https://drive.google.com/file/d/1uzyba_mPPe73lnZ7w51IUIjL2Fglgg0a/view?usp=sharing)|
 
 ### CLIP+Slowfast
@@ -32,19 +32,19 @@ Val set scores are reported.
 |     EaTR    |   59.6   |   40.3   |   36.6   |   57.9   |[ckpt](https://drive.google.com/file/d/1h7JnU2CbB1el9kSdaZFSdgmTjGZOqClO/view?usp=sharing)|
 |   TR-DETR   |   66.5   |   48.8   | **40.8** |   66.2   |[ckpt](https://drive.google.com/file/d/11vLZgEQUyAZ2DG9LGDKJ8jCXR9kUMJh9/view?usp=sharing)|
 |    UVCOM    |   64.0   |   49.4   |   39.7   |   64.3   |[ckpt](https://drive.google.com/file/d/1dVuR6FMWcayrxZMfsBVBr-RxThF48_47/view?usp=sharing)|
-|  TaskWeave  |   64.2   |   49.2   |   39.0   |   62.7   |[ckpt]()|
+|  TaskWeave  |   64.2   |   49.2   |   39.0   |   62.7   |[mr2hd](https://drive.google.com/file/d/1JT9k0k-YehMwc2IGU9TuP4DzH15GdVoz/view?usp=sharing)/[hd2mr](https://drive.google.com/file/d/1623wMIOo59UDAwNO2aZwSAlhPruoJQoW/view?usp=sharing)|
 |   CG-DETR   | **65.6** | **52.1** | **40.7** | **67.0** |[ckpt](https://drive.google.com/file/d/1E0Jnf10dCUTV9jCth9YpfjwT4Bw_5w0i/view?usp=sharing)|
 
 ### CLIP+Slowfast+PANNs
 |    Models   |  R1@0.5  |  R1@0.7  |  HD mAP  |   HIT@1  | checkpoint |
 |:-----------:|:--------:|:--------:|:--------:|:--------:|:----------:|
-| Moment DETR |   54.6   |   37.0   |  35.8    |    55.4  |[ckpt]()|
-|   QD-DETR   |   62.0   |   45.8   |  39.3    |    62.8  |[ckpt]()|
-|     EaTR    |   57.7   |   41.7   |  36.3    |    57.0  |[ckpt]()|
-|   TR-DETR   |   66.9   |   50.1   |  40.7    |    64.7  |[ckpt]()|
+| Moment DETR |   54.6   |   37.0   |  35.8    |    55.4  |[ckpt](https://drive.google.com/file/d/1NxJRPSgTCC-dnab6Rg9hYHSuVacpJ93E/view?usp=sharing)|
+|   QD-DETR   |   62.0   |   45.8   |  39.3    |    62.8  |[ckpt](https://drive.google.com/file/d/1shPZBO6mLEWCmT9lghbHWZhydOyyLBBA/view?usp=sharing)|
+|     EaTR    |   57.7   |   41.7   |  36.3    |    57.0  |[ckpt](https://drive.google.com/file/d/1NVrhGGesa2TkFmmFW3rEodOqw5G1h7ph/view?usp=sharing)|
+|   TR-DETR   |   66.9   |   50.1   |  40.7    |    64.7  |[ckpt](https://drive.google.com/file/d/13vaw9k0jD6rP_XNKc2y3TO6EWwLaYX0Q/view?usp=sharing)|
 |    UVCOM    |          |          |          |          |[ckpt]()|
-|  TaskWeave  |          |          |          |          |[ckpt]()|
-|   CG-DETR   |   65.0   |   49.8   |  40.3    |    65.4  |[ckpt]()|
+|  TaskWeave  |   63.0   |   48.3   |  38.4    |    61.0  |[mr2hd](https://drive.google.com/file/d/1xeMI7862lWGrCdac_MRzLefLUjI1uvR2/view?usp=sharing)/[hd2mr](https://drive.google.com/file/d/1zJku1ive3BlIcpU1TQyAB8Ahkd8bT_w5/view?usp=sharing)|
+|   CG-DETR   |   65.0   |   49.8   |  40.3    |    65.4  |[ckpt](https://drive.google.com/file/d/1X3oaS8xcPRuV3pUdNWiHkVAIHK7wVfG2/view?usp=sharing)|
 
 ### ActivityNet Captions (Moment retrieval)
 Val_1 scores are reported.
