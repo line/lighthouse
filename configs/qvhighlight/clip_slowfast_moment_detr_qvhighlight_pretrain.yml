@@ -7,7 +7,7 @@ train_path: data/qvhighlight/subs_train.jsonl
 eval_path: data/qvhighlight/highlight_val_release.jsonl
 eval_split_name: val
 v_feat_dirs: ['features/QVHighlight/clip', 'features/QVHighlight/slowfast']
-t_feat_dir: features/QVHighlight/clip_text_subs_train/moment_detr
+t_feat_dir: features/QVHighlight/clip_text_subs_train
 t_feat_dir_eval: features/QVHighlight/clip_text
 v_feat_dim: 2818
 t_feat_dim: 512

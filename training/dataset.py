@@ -204,12 +204,12 @@ class StartEndDataset(Dataset):
                 model_inputs["pos_mask"] = self.get_pos_mask(meta, ctx_l) # necessary for TR-DETR. If you dont use it, ignore.
 
                 if 'qvhighlight' in self.dset_name:
-                    if "subs_train" not in self.data_path:
-                        model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
-                            self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
-                    else: # for pretraining
+                    if "subs_train" in self.data_path: # for pretraining
                         model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                             self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], ctx_l)
+                    else:
+                        model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                            self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)                        
                 
                 elif self.dset_name in ['charades', 'tacos', 'activitynet']:
                     model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
@@ -432,12 +432,12 @@ class StartEndDataset(Dataset):
         else:
             if self.dset_name == 'tacos':
                 q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
-            elif "subs_train" not in self.data_path:
-                q_feat_path = join(self.q_feat_dir, f"qid{qid}.npz")
-            else: # for pretrain
+            elif "subs_train" in self.data_path: # for pretrain
                 vid = "_".join(qid.split("_")[:-1])
                 subid = qid.split("_")[-1]
                 q_feat_path = join(self.q_feat_dir, f"{vid}/{subid}.npz")
+            else:
+                q_feat_path = join(self.q_feat_dir, f"qid{qid}.npz")
 
             q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
             if self.q_feat_type == "last_hidden_state":

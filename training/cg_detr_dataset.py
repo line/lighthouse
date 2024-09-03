@@ -189,12 +189,12 @@ class CGDETR_StartEndDataset(Dataset):
                 if "relevant_windows" in meta: ## For Qvhighlights test set
                     model_inputs["span_labels"] = self.get_span_labels(meta["relevant_windows"], ctx_l)  # (#windows, 2)
                     if 'qvhighlight' in self.dset_name:
-                        if "subs_train" not in self.data_path:
-                            model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
-                                self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
-                        else: # for pretraining
+                        if "subs_train" in self.data_path: # for pretraining
                             model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                                 self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], meta["duration"] , ctx_l)
+                        else:
+                            model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
+                                self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
                     elif self.dset_name in ['charades', 'tacos', 'activitynet']: ## charades, tacos, nlq
                         model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                             self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], meta["duration"], ctx_l)  # only one gt
@@ -406,12 +406,12 @@ class CGDETR_StartEndDataset(Dataset):
         
         else:
             # QVhighlight dataset
-            if "subs_train" not in self.data_path:
-                q_feat_path = join(self.q_feat_dir, f"qid{qid}.npz")
-            else: # for pretrain
+            if "subs_train" in self.data_path: # for pretrain
                 vid = "_".join(qid.split("_")[:-1])
                 subid = qid.split("_")[-1]
                 q_feat_path = join(self.q_feat_dir, f"{vid}/{subid}.npz")
+            else:
+                q_feat_path = join(self.q_feat_dir, f"qid{qid}.npz")
             q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
             if self.q_feat_type == "last_hidden_state":
                 q_feat = q_feat[:self.max_q_l]

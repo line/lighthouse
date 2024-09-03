@@ -206,7 +206,7 @@ def train(model, criterion, optimizer, lr_scheduler, train_dataset, val_dataset,
                 rename_latest_to_best(latest_file_paths)
 
 
-def main(yaml_path, model_path, domain):
+def main(yaml_path, pretrained_model_path, domain):
     logger.info("Setup config, data and model...")
     opt = BaseOptions().parse(yaml_path, domain)
     set_seed(opt.seed)
@@ -240,10 +240,10 @@ def main(yaml_path, model_path, domain):
     model, criterion, optimizer, lr_scheduler = setup_model(opt)
     logger.info(f"Model {model}")
     # load checkpoint
-    if model_path is not None:
-        checkpoint = torch.load(model_path)
+    if pretrained_model_path is not None:
+        checkpoint = torch.load(pretrained_model_path)
         model.load_state_dict(checkpoint["model"])
-        logger.info("Model checkpoint: {}".format(model_path))
+        logger.info("Model checkpoint: {}".format(pretrained_model_path))
     count_parameters(model)
     logger.info("Start Training...")
     
@@ -254,10 +254,10 @@ def main(yaml_path, model_path, domain):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, required=True, help='yaml config path for training. e.g., configs/qd_detr_qvhighlight.yml')
-    parser.add_argument('--model_path', type=str, help='saved model path', default=None)
+    parser.add_argument('--pretrained_model_path', type=str, help='saved model path', default=None)
     parser.add_argument('--domain', type=str, help='training domain for TVSum and YouTube Highlights . e.g., BK and dog. Note that they are not necessary for other datasets')
     args = parser.parse_args()
     yaml_path = args.config
-    model_path = args.model_path
+    pretrained_model_path = args.pretrained_model_path
     domain = args.domain
-    main(yaml_path, model_path, domain)
+    main(yaml_path, pretrained_model_path, domain)
