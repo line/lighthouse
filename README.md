@@ -86,7 +86,7 @@ Moment retrieval & highlight detection
 Moment retrieval & highlight detection
 - [x] : [QVHighlights (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
 - [x] : [QVHighlights w/ Audio Features (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
-- [ ] : [QVHighlights ASR Pretraining (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
+- [x] : [QVHighlights ASR Pretraining (Lei et al. NeurIPS21)](https://arxiv.org/abs/2107.09609)
 
 Moment retrieval
 - [x] : [ActivityNet Captions (Krishna et al. ICCV17)](https://arxiv.org/abs/1705.00754)
@@ -225,7 +225,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## Todo
 - [ ] : Support Wandb
 - [ ] : Support DeDiMo
-- [ ] : Support ASR-based pretraining on QVHighlights
 
 ## LICENSE
 Apache License 2.0

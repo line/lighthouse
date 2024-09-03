@@ -219,7 +219,7 @@ def compute_mr_results(epoch_i, model, eval_loader, opt, criterion=None):
             cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
             cur_ranked_preds = [[float(f"{e:.4f}") for e in row] for row in cur_ranked_preds]
 
-            if opt.dset_name == 'qvhighlight':
+            if opt.dset_name in ['qvhighlight', 'qvhighlight_pretrain']:
                 cur_query_pred = dict(
                     qid=meta["qid"],
                     query=meta["query"],
@@ -246,7 +246,7 @@ def compute_mr_results(epoch_i, model, eval_loader, opt, criterion=None):
             for k, v in loss_dict.items():
                 loss_meters[k].update(float(v) * weight_dict[k] if k in weight_dict else float(v))
 
-    if opt.dset_name == 'qvhighlight':
+    if opt.dset_name in ['qvhighlight', 'qvhighlight_pretrain']:
         post_processor = PostProcessorDETR(
             clip_length=opt.clip_length, min_ts_val=0, max_ts_val=150,
             min_w_l=2, max_w_l=150, move_window_method="left",
@@ -361,7 +361,8 @@ def start_inference(yaml_path, model_path, split, eval_path, domain):
         domain=opt.domain,
         data_path=opt.eval_path,
         v_feat_dirs=opt.v_feat_dirs,
-        q_feat_dir=opt.t_feat_dir,
+        a_feat_dirs=opt.a_feat_dirs if "a_feat_dirs" in opt else [],
+        q_feat_dir=opt.t_feat_dir_eval if "t_feat_dir_eval" in opt else opt.t_feat_dir,
         q_feat_type="last_hidden_state",
         max_q_l=opt.max_q_l,
         max_v_l=opt.max_v_l,
