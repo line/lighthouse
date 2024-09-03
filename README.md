@@ -92,7 +92,6 @@ Moment retrieval
 - [x] : [ActivityNet Captions (Krishna et al. ICCV17)](https://arxiv.org/abs/1705.00754)
 - [x] : [Charades-STA (Gao et al. ICCV17)](https://arxiv.org/abs/1705.02101)
 - [x] : [TaCoS (Regneri et al. TACL13)](https://aclanthology.org/Q13-1003/)
-- [ ] : [DiDeMo (Hendricks et al. EMNLP18)](https://arxiv.org/abs/1809.01337)
 
 Highlight detection
 - [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
@@ -221,10 +220,6 @@ See [here](markdown/reproduced_results.md). You can download individual checkpoi
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## Todo
-- [ ] : Support Wandb
-- [ ] : Support DeDiMo
 
 ## LICENSE
 Apache License 2.0
