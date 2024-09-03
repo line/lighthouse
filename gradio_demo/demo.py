@@ -25,7 +25,7 @@ from lighthouse.models import *
 # use GPU if available
 device = "cuda" if torch.cuda.is_available() else "cpu"
 MODEL_NAMES = ['cg_detr', 'moment_detr', 'eatr', 'qd_detr', 'tr_detr', 'uvcom']
-FEATURES = ['clip', 'clip_slowfast']
+FEATURES = ['clip', 'clip_slowfast', 'clip_slowfast_pann']
 TOPK_MOMENT = 5
 TOPK_HIGHLIGHT = 5
 
