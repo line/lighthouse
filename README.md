@@ -97,7 +97,6 @@ Moment retrieval
 Highlight detection
 - [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 - [x] : [YouTube Highlights (Sun et al. ECCV14)](https://grail.cs.washington.edu/wp-content/uploads/2015/08/sun2014rdh.pdf)
-- [ ] : [TVSum Audio Training (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 
 ### Features
 - [x] : ResNet+GloVe
