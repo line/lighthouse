@@ -234,6 +234,7 @@ def main(yaml_path, pretrained_model_path, domain):
     train_dataset = CGDETR_StartEndDataset(**dataset_config) if opt.model_name == 'cg_detr' else StartEndDataset(**dataset_config)    
     copied_eval_config = copy.deepcopy(dataset_config)
     copied_eval_config.data_path = opt.eval_path
+    copied_eval_config.q_feat_dir = opt.t_feat_dir_eval if "t_feat_dir_eval" in opt else opt.t_feat_dir
     eval_dataset = CGDETR_StartEndDataset(**copied_eval_config) if opt.model_name == 'cg_detr' else StartEndDataset(**copied_eval_config)
     
     # prepare model
