@@ -86,6 +86,7 @@ class BasePredictor:
         self.video_feats = None
         self.video_mask = None
         self.video_path = None
+        self.audio_feats = None
 
     @torch.no_grad()
     def encode_video(self, video_path):
@@ -106,8 +107,6 @@ class BasePredictor:
         self.video_path = video_path
         if self.feature_name == 'clip_slowfast_pann':
             self.audio_feats = self.feature_extractor.encode_audio(video_path)
-        else:
-            self.audio_feats = None 
 
     @torch.no_grad()
     def predict(self, query):
