@@ -43,6 +43,7 @@ from torchtext import vocab
 
 from lighthouse.video_loader import VideoLoader, SlowfastVideoReader, pack_pathway_output
 from lighthouse.slowfast.model import slowfast_model_loader
+from lighthouse.audio_extractor import PannExtractor
 
 
 class Preprocessing(object):
@@ -94,8 +95,17 @@ class GlobalAvgPool(torch.nn.Module):
 
 
 class VideoFeatureExtractor:
-    def __init__(self, framerate, size, centercrop, feature_name, device, slowfast_path):
-        if feature_name == 'clip_slowfast':
+    def __init__(self, framerate, size, centercrop, feature_name, device, slowfast_path, pann_path):
+        if feature_name == 'clip_slowfast_pann':
+            self.slowfast_feature_dim = 2304
+            self.slowfast_norm = SlowFastNormalize(mean=[0.45, 0.45, 0.45], std=[0.225, 0.225, 0.225], device=device)
+            self.sf_loader = SlowfastVideoReader(device=device, framerate=30, size=size, clip_len=1/framerate, centercrop=centercrop)
+            self.video_loader = VideoLoader(framerate=framerate, size=size, centercrop=centercrop)
+            self.clip_extractor, _ = clip.load('ViT-B/32', device=device, jit=False)
+            self.slowfast_extractor = slowfast_model_loader(slowfast_path, device=device).eval()
+            self.pann_extractor = PannExtractor(pann_path, device=device)
+
+        elif feature_name == 'clip_slowfast':
             self.slowfast_feature_dim = 2304
             self.slowfast_norm = SlowFastNormalize(mean=[0.45, 0.45, 0.45], std=[0.225, 0.225, 0.225], device=device)
             self.sf_loader = SlowfastVideoReader(device=device, framerate=30, size=size, clip_len=1/framerate, centercrop=centercrop)
@@ -122,7 +132,7 @@ class VideoFeatureExtractor:
             self.embedding = torch.nn.Embedding.from_pretrained(self.vocab.vectors)
         
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
         self.feature_name = feature_name
         self.tokenizer = clip.tokenize
@@ -184,10 +194,18 @@ class VideoFeatureExtractor:
         slowfast_features = features.cpu()
         return slowfast_features
 
+    @torch.no_grad()
+    def encode_audio(self, video_path):
+        """
+        Given a input video path, the pann extractor outputs the feature embeddings.
+        **NOTE**: The output embeddings of PANN is slightly different from the original UMT work.
+        However, the authors said that PANN codes are unavailable now. See https://github.com/TencentARC/UMT/issues/48
+        """
+        return self.pann_extractor.extract_feature(video_path)
 
     @torch.no_grad()
-    def encode_video(self, video_path, bsz=60):
-        if self.feature_name == 'clip_slowfast':
+    def encode_video(self, video_path):
+        if self.feature_name == 'clip_slowfast' or self.feature_name == 'clip_slowfast_pann':
             video_frames = self.video_loader.read_video_from_file(video_path)  # (T, H, W, 3)
             slowfast_frames = self.sf_loader.read_video_from_file(video_path)
             
@@ -218,14 +236,14 @@ class VideoFeatureExtractor:
             return video_features
         
         else:
-            raise NotImplementedError()
+            raise NotImplementedError
 
     @property
     def dtype(self):
         return self.clip_extractor.visual.conv1.weight.dtype
 
     @torch.no_grad()
-    def encode_text(self, query, bsz=60):
+    def encode_text(self, query):
         if self.feature_name == 'resnet_glove':
             word_inds = torch.LongTensor(
                 [self.vocab.stoi.get(w.lower(), 400000) for w in query.split()])

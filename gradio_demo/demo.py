@@ -25,7 +25,7 @@ from lighthouse.models import *
 # use GPU if available
 device = "cuda" if torch.cuda.is_available() else "cpu"
 MODEL_NAMES = ['cg_detr', 'moment_detr', 'eatr', 'qd_detr', 'tr_detr', 'uvcom']
-FEATURES = ['clip', 'clip_slowfast']
+FEATURES = ['clip', 'clip_slowfast', 'clip_slowfast_pann']
 TOPK_MOMENT = 5
 TOPK_HIGHLIGHT = 5
 
@@ -37,7 +37,7 @@ def load_pretrained_weights():
     for model_name in MODEL_NAMES:
         for feature in FEATURES:
             file_urls.append(
-                "https://zenodo.org/records/13363606/files/{}_{}_qvhighlight.ckpt".format(feature, model_name)
+                "https://zenodo.org/records/13639198/files/{}_{}_qvhighlight.ckpt".format(feature, model_name)
             )
     for file_url in tqdm(file_urls):
         if not os.path.exists('gradio_demo/weights/' + os.path.basename(file_url)):
@@ -47,6 +47,10 @@ def load_pretrained_weights():
     # Slowfast weights
     if not os.path.exists('SLOWFAST_8x8_R50.pkl'):
         subprocess.run('wget https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl', shell=True)
+
+    # PANNs weights
+    if not os.path.exists('Cnn14_mAP=0.431.pth'):
+        subprocess.run('wget https://zenodo.org/record/3987831/files/Cnn14_mAP%3D0.431.pth', shell=True)
 
     return file_urls
 
@@ -61,7 +65,7 @@ Model initialization
 """
 load_pretrained_weights()
 model = CGDETRPredictor('gradio_demo/weights/clip_cg_detr_qvhighlight.ckpt', device=device, 
-                        feature_name='clip', slowfast_path='SLOWFAST_8x8_R50.pkl')
+                        feature_name='clip', slowfast_path=None, pann_path=None)
 
 js_codes = ["""() => {{
             let moment_text = document.getElementById('result_{}').textContent;
@@ -102,15 +106,14 @@ def model_load(radio):
             model_class = TRDETRPredictor
         elif model_name == 'uvcom':
             model_class = UVCOMPredictor
-        elif model_name == 'taskweave':
-            model_class = TaskWeavePredictor
         elif model_name == 'cg_detr':
             model_class = CGDETRPredictor
         else:
             raise gr.Error("Select from the models")
         
         model = model_class('gradio_demo/weights/{}_{}_qvhighlight.ckpt'.format(feature, model_name),
-                            device=device, feature_name='{}'.format(feature), slowfast_path='SLOWFAST_8x8_R50.pkl')
+                            device=device, feature_name='{}'.format(feature),
+                            slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path='Cnn14_mAP=0.431.pth')
         yield gr.update(value="Model loaded: {}".format(radio), visible=True)
 
 def predict(textbox, line, gallery):

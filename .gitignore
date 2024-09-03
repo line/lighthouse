@@ -7,6 +7,7 @@ tmp
 gradio_demo/weights/*.ckpt
 highlight_*.png
 SLOWFAST_8x8_R50.pkl
+Cnn14_mAP=0.431.pth
 
 # Mac
 .DS_Store
