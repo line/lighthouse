@@ -12,7 +12,7 @@ t_feat_dir_eval: features/QVHighlight/clip_text
 v_feat_dim: 2818
 t_feat_dim: 512
 aux_loss: True
-results_dir: my_results/clip_slowfast_moment_detr_pretrain/qvhighlight
+results_dir: results/clip_slowfast_moment_detr_pretrain/qvhighlight
 ckpt_filename: best.ckpt
 train_log_filename: train.log
 eval_log_filename: val.log
