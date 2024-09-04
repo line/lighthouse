@@ -1,0 +1,5 @@
+ctx_mode: video_tef
+v_feat_types: slowfast_clip
+t_feat_type: clip
+v_feat_dim: 2818
+t_feat_dim: 512

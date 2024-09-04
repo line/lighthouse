@@ -1,3 +1,4 @@
+ctx_mode: video_tef
 v_feat_types: resnet
 t_feat_type: glove
 v_feat_dim: 2050

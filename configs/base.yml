@@ -38,8 +38,5 @@ label_loss_coef: 4
 eos_coef: 0.1
 lw_saliency: 1
 
-train_log_filename: train.log
-eval_log_filename: val.log
-
 model_ema: False # If you use EMA, set True (Taskweave uses EMA)
 ema_decay: 0.9

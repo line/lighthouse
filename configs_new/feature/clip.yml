@@ -1,0 +1,5 @@
+ctx_mode: video_tef
+v_feat_types: clip
+t_feat_type: clip
+v_feat_dim: 514
+t_feat_dim: 512

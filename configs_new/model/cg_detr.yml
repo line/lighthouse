@@ -1,0 +1,14 @@
+model_name: cg_detr
+enc_layers: 3
+dec_layers: 3
+t2v_layers: 2
+sent_layers: 1
+moment_layers: 1
+dummy_layers: 2
+num_dummies: 45
+total_prompts: 10
+num_prompts: 2
+lw_saliency: 1
+lw_wattn: 1
+lw_ms_align: 1
+lw_distill: 1
