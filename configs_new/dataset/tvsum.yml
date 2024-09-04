@@ -1,0 +1,4 @@
+dset_name: tvsum
+clip_length: 2
+max_q_l: 100
+max_v_l: 1000
