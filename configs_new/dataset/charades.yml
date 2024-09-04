@@ -1,1 +1,3 @@
 dset_name: charades
+train_path: data/charades/charades_train_release.jsonl
+eval_path: data/charades/charades_test_release.jsonl

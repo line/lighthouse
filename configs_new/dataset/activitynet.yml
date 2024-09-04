@@ -1,2 +1,4 @@
 dset_name: activitynet
 clip_length: 2
+train_path: data/activitynet/activitynet_train_release.jsonl
+eval_path: data/activitynet/activitynet_val_release.jsonl

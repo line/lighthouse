@@ -2,6 +2,7 @@ model_name: uvcom
 dset_name: qvhighlight
 ctx_mode: video_audio_tef
 v_feat_types: slowfast_clip
+a_feat_types: pann
 t_feat_type: clip
 train_path: data/qvhighlight/highlight_train_release.jsonl
 eval_path: data/qvhighlight/highlight_val_release.jsonl

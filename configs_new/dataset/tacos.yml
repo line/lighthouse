@@ -1,4 +1,6 @@
 dset_name: tacos
 clip_length: 2
+train_path: data/tacos/tacos_train_release.jsonl
+eval_path: data/tacos/tacos_test_release.jsonl
 max_v_l: -1
 max_q_l: 100
