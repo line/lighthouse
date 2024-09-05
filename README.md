@@ -200,7 +200,7 @@ python training/train.py --model moment_detr --dataset qvhighlight --feature cli
 ```
 python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast_pann
 ```
-(**Pre-train & Fine-tuning**) Lighthouse supports pre-training. Run:
+(**Pre-train & Fine-tuning, QVHighlights only**) Lighthouse supports pre-training. Run:
 ```
 python training/train.py --model moment_detr --dataset qvhighlight_pretrain --feature clip_slowfast
 ```
