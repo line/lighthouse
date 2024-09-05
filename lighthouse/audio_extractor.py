@@ -26,7 +26,7 @@ class PannExtractor:
         self.model.load_state_dict(checkpoint['model'])
         self.model.eval()
 
-    @torch.no_grad
+    @torch.no_grad()
     def extract_feature(self, video_path, feature_time=2, sr=32000):
         (audio, _) = librosa.core.load(video_path, sr=32000, mono=True)
         time = audio.shape[-1] / sr
