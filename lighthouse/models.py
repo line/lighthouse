@@ -165,35 +165,35 @@ class BasePredictor:
 
 
 class MomentDETRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path=None):
         super().__init__('moment_detr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class QDDETRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path=None):
         super().__init__('qd_detr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class EaTRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path=None):
         super().__init__('eatr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class CGDETRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path=None):
         super().__init__('cg_detr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class TRDETRPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path=None):
         super().__init__('tr_detr', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class UVCOMPredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path=None):
         super().__init__('uvcom', ckpt_path, device, feature_name, slowfast_path, pann_path)
 
 
 class TaskWeavePredictor(BasePredictor):
-    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path):
+    def __init__(self, ckpt_path, device, feature_name, slowfast_path, pann_path=None):
         super().__init__('taskweave', ckpt_path, device, feature_name, slowfast_path, pann_path)
