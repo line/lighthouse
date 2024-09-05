@@ -109,7 +109,6 @@ def calculate_taskweave_losses(loss_dict, weight_dict, hd_log_var, mr_log_var):
                 grouped_losses["loss_hd"].append(loss_dict[k])
     loss_mr = sum(grouped_losses["loss_mr"])
     loss_hd = sum(grouped_losses["loss_hd"])
-    # hd_log_var, mr_log_var = hd_log_var.to(loss_hd.device), mr_log_var.to(loss_mr.device)
     losses = 2 * loss_hd * torch.exp(-hd_log_var) + 1 * loss_mr * torch.exp(-mr_log_var) + hd_log_var + mr_log_var
     return losses
 
@@ -236,7 +235,7 @@ def main(opt, resume=None, domain=None):
     train_dataset = CGDETR_StartEndDataset(**dataset_config) if opt.model_name == 'cg_detr' else StartEndDataset(**dataset_config)    
     copied_eval_config = copy.deepcopy(dataset_config)
     copied_eval_config.data_path = opt.eval_path
-    copied_eval_config.q_feat_dir = opt.t_feat_dir_eval if "t_feat_dir_eval" in opt else opt.t_feat_dir
+    copied_eval_config.q_feat_dir = opt.t_feat_dir_pretrain_eval if opt.t_feat_dir_pretrain_eval is not None else opt.t_feat_dir
     eval_dataset = CGDETR_StartEndDataset(**copied_eval_config) if opt.model_name == 'cg_detr' else StartEndDataset(**copied_eval_config)
     
     # prepare model
@@ -290,12 +289,12 @@ if __name__ == '__main__':
     if is_valid:
         option_manager = BaseOptions(args.model, args.dataset, args.feature)
         option_manager.parse()
-        option_manager.makedirs()
+        option_manager.clean_and_makedirs()
         opt = option_manager.option
         
         if 'domains' in opt:
             for domain in opt.domains:
-                self.opt.results_dir = os.path.join(self.opt.results_dir, domain)
+                opt.results_dir = os.path.join(opt.results_dir, domain)
                 main(opt, resume=args.resume, domain=domain)
         else:
             main(opt, resume=args.resume)
