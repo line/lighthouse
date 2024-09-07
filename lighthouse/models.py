@@ -92,24 +92,22 @@ class BasePredictor:
         args: Dict[str, Union[str, float, int, List[str]]],
         model_name: str) -> Union[MomentDETR, QDDETR, EaTR, UVCOM, TaskWeave, CGDETR, TRDETR]:
         
-        if model_name == 'moment_detr':
-            model, _ = build_model_moment_detr(args)
-        elif model_name == 'qd_detr':
-            model, _ = build_model_qd_detr(args)
-        elif model_name == 'eatr':
-            model, _ = build_model_eatr(args)
-        elif model_name == 'cg_detr':
-            model, _ = build_model_cg_detr(args)
-        elif model_name == 'tr_detr':
-            model, _ = build_model_tr_detr(args)
-        elif model_name == 'uvcom':
-            model, _ = build_model_uvcom(args)
-        elif model_name == 'taskweave':
-            model, _ = build_model_task_weave(args)
-        else:
-            raise NotImplementedError
+        model_builders = {
+            'moment_detr': build_model_moment_detr,
+            'qd_detr': build_model_qd_detr,
+            'eatr': build_model_eatr,
+            'cg_detr': build_model_cg_detr,
+            'tr_detr': build_model_tr_detr,
+            'uvcom': build_model_uvcom,
+            'taskweave': build_model_task_weave
+        }
 
-        return model
+        if model_name in model_builders:
+            model, _ = model_builders[model_name](args)
+            return model
+        else:
+            raise NotImplementedError(f'The {model_name} is not implemented. Choose from'
+                                      '[moment_detr, qd_detr, eatr, cg_detr, tr_detr, uvcom, taskweave]')
 
     def load_weights(
         self, 
@@ -218,33 +216,33 @@ class BasePredictor:
         self,
         query: str) -> Optional[Dict[str, List[float]]]:
         is_predictable = self.is_predictable()
-        if is_predictable:
-            # extract text feature
-            query_feats: torch.Tensor
-            query_mask: torch.Tensor
-            query_feats, query_mask = self.feature_extractor.encode_text(query)            
-            if self.feature_name != "resnet_glove":
-                query_feats = F.normalize(query_feats, dim=-1, eps=1e-5)
-
-            # forward inputs to the model - taskweave returns a tuple of prediction and losses
-            inputs = self.prepare_batch(query_feats, query_mask)
-            if self.model_name == 'taskweave':
-                outputs, _ = self.model(**inputs)
-            else:
-                outputs = self.model(**inputs)
-
-            ranked_moments, saliency_scores = self.post_processing(inputs, outputs)
-
-            if len(ranked_moments) == 0 and len(ranked_moments) == 0:
-                return None
-            else:
-                prediction = {
-                    "pred_relevant_windows": ranked_moments,
-                    "pred_saliency_scores": saliency_scores,
-                }
-                return prediction
-        else:
+        if not is_predictable:
             return None
+
+        # extract text feature
+        query_feats: torch.Tensor
+        query_mask: torch.Tensor
+        query_feats, query_mask = self.feature_extractor.encode_text(query)            
+        if self.feature_name != "resnet_glove":
+            query_feats = F.normalize(query_feats, dim=-1, eps=1e-5)
+
+        # forward inputs to the model - taskweave returns a tuple of prediction and losses
+        inputs = self.prepare_batch(query_feats, query_mask)
+        if self.model_name == 'taskweave':
+            outputs, _ = self.model(**inputs)
+        else:
+            outputs = self.model(**inputs)
+
+        ranked_moments, saliency_scores = self.post_processing(inputs, outputs)
+
+        if len(ranked_moments) == 0 and len(ranked_moments) == 0:
+            return None
+        
+        prediction = {
+            "pred_relevant_windows": ranked_moments,
+            "pred_saliency_scores": saliency_scores,
+        }
+        return prediction
 
 
 class MomentDETRPredictor(BasePredictor):
