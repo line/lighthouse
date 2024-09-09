@@ -46,16 +46,10 @@ from lighthouse.common.uvcom import build_model as build_model_uvcom
 from lighthouse.common.tr_detr import build_model as build_model_tr_detr
 from lighthouse.common.taskweave import build_model as build_model_task_weave
 
-from lighthouse.common.qd_detr import QDDETR
-from lighthouse.common.moment_detr import MomentDETR
-from lighthouse.common.cg_detr import CGDETR
-from lighthouse.common.eatr import EaTR
-from lighthouse.common.uvcom import UVCOM
-from lighthouse.common.tr_detr import TRDETR
-from lighthouse.common.taskweave import TaskWeave
-
 from lighthouse.common.utils.span_utils import span_cxw_to_xx
-from lighthouse.feature_extractor import VideoFeatureExtractor
+from lighthouse.feature_extractor.vision_encoder import VisionEncoder
+from lighthouse.feature_extractor.text_encoder import TextEncoder
+from lighthouse.feature_extractor.audio_encoder import AudioEncoder
 
 from typing import Optional, Union, Mapping, Any, Dict, List, Tuple
 
@@ -71,23 +65,26 @@ class BasePredictor:
         
         ckpt = torch.load(ckpt_path, map_location='cpu')
         args = ckpt['opt']
-        self.clip_len: float = args.clip_length
-        self.device: str = device
+        self._clip_len: float = args.clip_length
+        self._device: str = device
         args.device = device # for CPU users
-        self.feature_extractor = VideoFeatureExtractor(
-            framerate=1/self.clip_len, size=224, centercrop=(feature_name != 'resnet_glove'),
-            feature_name=feature_name, device=device, slowfast_path=slowfast_path, pann_path=pann_path,
-        )
-        self.model: torch.nn.Module = self.initialize_model(args, model_name)
-        self.load_weights(ckpt['model'])
-        self.feature_name: str = feature_name
-        self.model_name: str = model_name
-        self.video_feats: Optional[torch.Tensor] = None
-        self.video_mask: Optional[torch.Tensor] = None
-        self.video_path: Optional[str] = None
-        self.audio_feats: Optional[torch.Tensor] = None
+        self._size = 224 # Image size
 
-    def initialize_model(
+        self._visual_encoder: VisionEncoder = self._initialize_vision_encoder(feature_name, slowfast_path)
+        self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
+        self._audio_encoder: Optional[AudioEncoder] = self._initialize_audio_encoder(feature_name, pann_path)
+
+        self._model: torch.nn.Module = self._initialize_model(args, model_name)
+        self._load_weights(ckpt['model'])
+        
+        self._feature_name: str = feature_name
+        self._model_name: str = model_name
+        self._video_feats: Optional[torch.Tensor] = None
+        self._video_mask: Optional[torch.Tensor] = None
+        self._video_path: Optional[str] = None
+        self._audio_feats: Optional[torch.Tensor] = None
+
+    def _initialize_model(
         self,
         args: Dict[str, Union[str, float, int, List[str]]],
         model_name: str) -> torch.nn.Module:
@@ -109,86 +106,81 @@ class BasePredictor:
             raise NotImplementedError(f'The {model_name} is not implemented. Choose from'
                                       '[moment_detr, qd_detr, eatr, cg_detr, tr_detr, uvcom, taskweave]')
 
-    def load_weights(
+    def _initialize_vision_encoder(
+        self,
+        feature_name: str,
+        slowfast_path: str) -> VisionEncoder:
+        framerate = 1 / self._clip_len
+        return VisionEncoder(feature_name, framerate, 
+                             self._size, self._device, slowfast_path)
+
+    def _initialize_text_encoder(
+        self,
+        feature_name: str) -> TextEncoder:
+        return TextEncoder(feature_name, self._device)
+
+    def _initialize_audio_encoder(
+        self,
+        feature_name: str,
+        pann_path: str) -> Optional[AudioEncoder]:
+        return AudioEncoder(self._device, pann_path) if feature_name else None
+
+    def _load_weights(
         self, 
         model_weight: Mapping[str, Any]) -> None:
-        self.model.load_state_dict(model_weight)
-        self.model.to(self.device)
-        self.model.eval()
+        self._model.load_state_dict(model_weight)
+        self._model.to(self.device)
+        self._model.eval()
 
-    def normalize_and_concat_with_timestamps(
+    def _normalize_and_concat_with_timestamps(
         self,
         video_feats: torch.Tensor) -> torch.Tensor:
         normalized_video_feats = F.normalize(video_feats, dim=-1, eps=1e-5)
         n_frames = len(normalized_video_feats)
         tef_st = torch.arange(0, n_frames, 1.0) / n_frames
         tef_ed = tef_st + 1.0 / n_frames
-        tef = torch.stack([tef_st, tef_ed], dim=1).to(self.device)
+        tef = torch.stack([tef_st, tef_ed], dim=1).to(self._device)
         timestamped_video_feats = torch.cat([video_feats, tef], dim=1)
         return timestamped_video_feats
-
-    @torch.no_grad()
-    def encode_video(
-        self,
-        video_path: str) -> None:
-        video_feats: torch.Tensor = self.feature_extractor.encode_video(video_path)
-        timestamed_video_feats: torch.Tensor = self.normalize_and_concat_with_timestamps(video_feats)
-        n_frames: int = len(timestamed_video_feats)
-
-        if n_frames > 75:
-            raise ValueError('The positional embedding only support video up to 150 secs (i.e., 75 2-sec clips) in length')
-        
-        timestamed_video_feats = timestamed_video_feats.unsqueeze(0)
-        video_mask: torch.Tensor = torch.ones(1, n_frames).to(self.device)
-        self.video_feats = timestamed_video_feats
-        self.video_mask = video_mask
-        self.video_path = video_path
-        if self.feature_name == 'clip_slowfast_pann':
-            self.audio_feats = self.encode_audio(video_path)
     
-    def encode_audio(
-        self,
-        video_path: str) -> torch.Tensor:
-        return self.feature_extractor.encode_audio(video_path)
-
-    def is_predictable(
+    def _is_predictable(
         self,
         ) -> bool:
-        if self.video_feats is None or self.video_mask is None or self.video_path is None:
+        if self._video_feats is None or self._video_mask is None or self._video_path is None:
             return False
-        if self.feature_name == 'clip_slowfast_pann' and self.audio_feats is None:
+        if self._feature_name == 'clip_slowfast_pann' and self._audio_feats is None:
             return False
         return True
 
-    def prepare_batch(
+    def _prepare_batch(
         self,
         query_feats: torch.Tensor,
         query_mask: torch.Tensor) -> Dict[str, Optional[torch.Tensor]]:
         
-        if self.model_name == 'cg_detr':
+        if self._model_name == 'cg_detr':
             model_inputs = dict(
-                src_vid=self.video_feats,
-                src_vid_mask=self.video_mask,
+                src_vid=self._video_feats,
+                src_vid_mask=self._video_mask,
                 src_txt=query_feats,
                 src_txt_mask=query_mask,
-                src_aud=self.audio_feats,
+                src_aud=self._audio_feats,
                 vid=None, qid=None
             )
         else:
             model_inputs = dict(
-                src_vid=self.video_feats,
-                src_vid_mask=self.video_mask,
+                src_vid=self._video_feats,
+                src_vid_mask=self._video_mask,
                 src_txt=query_feats,
                 src_txt_mask=query_mask,
-                src_aud=self.audio_feats
+                src_aud=self._audio_feats
             )
         
-        if self.model_name == 'taskweave':
+        if self._model_name == 'taskweave':
             model_inputs["epoch_i"] = None
 
         return model_inputs
 
-    def post_processing(
+    def _post_processing(
         self,
         inputs: Dict[str, Optional[torch.Tensor]],
         outputs: Dict[str, torch.Tensor],
@@ -197,10 +189,10 @@ class BasePredictor:
         scores = prob[:,0]
         pred_spans = outputs["pred_spans"].squeeze(0).cpu()
         
-        if self.video_feats is None:
+        if self._video_feats is None:
             return [], []
 
-        video_duration = self.video_feats.shape[1] * self.clip_len
+        video_duration = self._video_feats.shape[1] * self._clip_len
         pred_spans = torch.clamp(span_cxw_to_xx(pred_spans) * video_duration, min=0, max=video_duration)
         cur_ranked_preds = torch.cat([pred_spans, scores[:, None]], dim=1).tolist()
         cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
@@ -209,29 +201,58 @@ class BasePredictor:
 
         return cur_ranked_preds, saliency_scores
 
+    def _encode_audio(
+        self,
+        video_path: str) -> torch.Tensor:
+        return self._audio_encoder.encode(video_path)
+    
+    def _encode_text(
+        self,
+        query: str) -> Tuple[torch.Tensor, torch.Tensor]:
+        # extract text feature
+        query_feats: torch.Tensor
+        query_mask: torch.Tensor
+        query_feats, query_mask = self._text_encoder.encode(query)            
+        if self.feature_name != 'resnet_glove':
+            query_feats = F.normalize(query_feats, dim=-1, eps=1e-5)
+        return query_feats, query_mask
+
+    @torch.no_grad()
+    def encode_video(
+        self,
+        video_path: str) -> None:
+        video_feats: torch.Tensor = self._vision_encoder.encode(video_path)
+        timestamed_video_feats: torch.Tensor = self._normalize_and_concat_with_timestamps(video_feats)
+        n_frames: int = len(timestamed_video_feats)
+
+        if n_frames > 75:
+            raise ValueError('The positional embedding only support video up to 150 secs (i.e., 75 2-sec clips) in length')
+        
+        timestamed_video_feats = timestamed_video_feats.unsqueeze(0)
+        video_mask: torch.Tensor = torch.ones(1, n_frames).to(self._device)
+        self._video_feats = timestamed_video_feats
+        self._video_mask = video_mask
+        self._video_path = video_path
+        if self._audio_encoder is not None:
+            self._audio_feats = self._encode_audio(video_path)
+
     @torch.no_grad()
     def predict(
         self,
         query: str) -> Optional[Dict[str, List[float]]]:
-        is_predictable = self.is_predictable()
+        is_predictable = self._is_predictable()
         if not is_predictable:
             return None
 
-        # extract text feature
-        query_feats: torch.Tensor
-        query_mask: torch.Tensor
-        query_feats, query_mask = self.feature_extractor.encode_text(query)            
-        if self.feature_name != 'resnet_glove':
-            query_feats = F.normalize(query_feats, dim=-1, eps=1e-5)
+        query_feats, query_mask = self._encode_text(query)
+        inputs = self._prepare_batch(query_feats, query_mask)
 
-        # forward inputs to the model - taskweave returns a tuple of prediction and losses
-        inputs = self.prepare_batch(query_feats, query_mask)
         if self.model_name == 'taskweave':
             outputs, _ = self.model(**inputs)
         else:
             outputs = self.model(**inputs)
 
-        ranked_moments, saliency_scores = self.post_processing(inputs, outputs)
+        ranked_moments, saliency_scores = self._post_processing(inputs, outputs)
 
         if len(ranked_moments) == 0 and len(ranked_moments) == 0:
             return None
