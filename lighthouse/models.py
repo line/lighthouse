@@ -78,7 +78,7 @@ class BasePredictor:
             framerate=1/self.clip_len, size=224, centercrop=(feature_name != 'resnet_glove'),
             feature_name=feature_name, device=device, slowfast_path=slowfast_path, pann_path=pann_path,
         )
-        self.model: Union[MomentDETR, QDDETR, EaTR, UVCOM, TaskWeave, CGDETR, TRDETR] = self.initialize_model(args, model_name)
+        self.model: torch.nn.Module = self.initialize_model(args, model_name)
         self.load_weights(ckpt['model'])
         self.feature_name: str = feature_name
         self.model_name: str = model_name
@@ -90,7 +90,7 @@ class BasePredictor:
     def initialize_model(
         self,
         args: Dict[str, Union[str, float, int, List[str]]],
-        model_name: str) -> Union[MomentDETR, QDDETR, EaTR, UVCOM, TaskWeave, CGDETR, TRDETR]:
+        model_name: str) -> torch.nn.Module:
         
         model_builders = {
             'moment_detr': build_model_moment_detr,
@@ -112,7 +112,6 @@ class BasePredictor:
     def load_weights(
         self, 
         model_weight: Mapping[str, Any]) -> None:
-        
         self.model.load_state_dict(model_weight)
         self.model.to(self.device)
         self.model.eval()
@@ -198,16 +197,15 @@ class BasePredictor:
         scores = prob[:,0]
         pred_spans = outputs["pred_spans"].squeeze(0).cpu()
         
-        if self.video_feats is not None:
-            video_duration = self.video_feats.shape[1] * self.clip_len
-            pred_spans = torch.clamp(span_cxw_to_xx(pred_spans) * video_duration, min=0, max=video_duration)
-            cur_ranked_preds = torch.cat([pred_spans, scores[:, None]], dim=1).tolist()
-            cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
-            cur_ranked_preds = [[float(f"{e:.4f}") for e in row] for row in cur_ranked_preds]
-            saliency_scores = outputs["saliency_scores"][inputs["src_vid_mask"] == 1].cpu().tolist()
-        else:
-            cur_ranked_preds = []
-            saliency_scores = []
+        if self.video_feats is None:
+            return [], []
+
+        video_duration = self.video_feats.shape[1] * self.clip_len
+        pred_spans = torch.clamp(span_cxw_to_xx(pred_spans) * video_duration, min=0, max=video_duration)
+        cur_ranked_preds = torch.cat([pred_spans, scores[:, None]], dim=1).tolist()
+        cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
+        cur_ranked_preds = [[float(f"{e:.4f}") for e in row] for row in cur_ranked_preds]
+        saliency_scores = outputs["saliency_scores"][inputs["src_vid_mask"] == 1].cpu().tolist()
 
         return cur_ranked_preds, saliency_scores
 
@@ -223,7 +221,7 @@ class BasePredictor:
         query_feats: torch.Tensor
         query_mask: torch.Tensor
         query_feats, query_mask = self.feature_extractor.encode_text(query)            
-        if self.feature_name != "resnet_glove":
+        if self.feature_name != 'resnet_glove':
             query_feats = F.normalize(query_feats, dim=-1, eps=1e-5)
 
         # forward inputs to the model - taskweave returns a tuple of prediction and losses
