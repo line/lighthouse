@@ -40,6 +40,7 @@ def convert_to_float(
 class BaseLoader:
     def __init__(
     self,
+    clip_len: float,
     framerate: float,
     size: int,
     device: str,
@@ -48,7 +49,7 @@ class BaseLoader:
         self._size = size
         self._device = device
         self._centercrop = centercrop
-        self._clip_len = int(1 / framerate)
+        self._clip_len = clip_len
 
     def _video_info(
         self,
@@ -80,9 +81,9 @@ class BaseLoader:
         self,
         h: int,
         w: int) -> Tuple[int, int]:
-        if isinstance(self.size, tuple) and len(self.size) == 2:
-            return self.size
+        if isinstance(self._size, tuple) and len(self._size) == 2:
+            return self._size
         elif h >= w:
-            return int(h * self.size / w), self.size
+            return int(h * self._size / w), self._size
         else:
-            return self.size, int(w * self.size / h)
+            return self._size, int(w * self._size / h)

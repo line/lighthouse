@@ -15,6 +15,7 @@ class VisionEncoder(BaseEncoder):
     def __init__(
         self,
         feature_name: str,
+        clip_len: float,
         framerate: float,
         size: int,
         device: str,
@@ -22,6 +23,7 @@ class VisionEncoder(BaseEncoder):
 
         self._feature_name: str = feature_name
         self._framerate: float = framerate
+        self._clip_len: float = clip_len
         self._size: int = size
         self._device: str = device
         self._slowfast_path: Optional[str] = slowfast_path
@@ -35,7 +37,16 @@ class VisionEncoder(BaseEncoder):
             'clip_slowfast': [CLIPLoader, SlowFastLoader],
             'clip_slowfast_pann': [CLIPLoader, SlowFastLoader],
         }
-        loader_instances = [loader(self._framerate, self._size, self._device) for loader in frame_loaders[self._feature_name]]
+
+        framerate_dict = {
+            'resnet_glove': [self._framerate],
+            'clip': [self._framerate],
+            'clip_slowfast': [self._framerate, 30], # 30 is for Slowfast framerate
+            'clip_slowfast_pann': [self._framerate, 30],
+        }
+
+        loader_instances = [loader(self._clip_len, framerate, self._size, self._device) 
+                            for loader, framerate in zip(frame_loaders[self._feature_name], framerate_dict[self._feature_name])]
         return loader_instances
     
     def _select_visual_encoders(self):
@@ -52,8 +63,7 @@ class VisionEncoder(BaseEncoder):
         input_path: str) -> torch.Tensor:
         assert len(self._frame_loaders) == len(self._visual_encoders)
         frame_inputs = [loader(input_path) for loader in self._frame_loaders]
-        has_none = any([item is None for item in frame_inputs])
-        if has_none:
-            raise ValueError('frame_inputs has None, thus video loading failed.')
+        assert not any([item is None for item in frame_inputs]), 'one of the loaders return None object.'
+        import ipdb; ipdb.set_trace()
         visual_features = [encoder(frames) for encoder, frames in zip(self._visual_encoders, frame_inputs)]
         return visual_features

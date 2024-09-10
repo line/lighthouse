@@ -38,6 +38,10 @@ SOFTWARE.
 import torch
 import torch.nn.functional as F
 
+import sys
+import os
+sys.path.append('.') # delete
+
 from lighthouse.common.qd_detr import build_model as build_model_qd_detr
 from lighthouse.common.moment_detr import build_model as build_model_moment_detr
 from lighthouse.common.cg_detr import build_model as build_model_cg_detr
@@ -70,9 +74,9 @@ class BasePredictor:
         args.device = device # for CPU users
         self._size = 224 # Image size
 
-        self._visual_encoder: VisionEncoder = self._initialize_vision_encoder(feature_name, slowfast_path)
-        self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
-        self._audio_encoder: Optional[AudioEncoder] = self._initialize_audio_encoder(feature_name, pann_path)
+        self._vision_encoder: VisionEncoder = self._initialize_vision_encoder(feature_name, slowfast_path)
+        # self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
+        # self._audio_encoder: Optional[AudioEncoder] = self._initialize_audio_encoder(feature_name, pann_path)
 
         self._model: torch.nn.Module = self._initialize_model(args, model_name)
         self._load_weights(ckpt['model'])
@@ -111,7 +115,7 @@ class BasePredictor:
         feature_name: str,
         slowfast_path: str) -> VisionEncoder:
         framerate = 1 / self._clip_len
-        return VisionEncoder(feature_name, framerate, 
+        return VisionEncoder(feature_name, self._clip_len, framerate, 
                              self._size, self._device, slowfast_path)
 
     def _initialize_text_encoder(
@@ -129,7 +133,7 @@ class BasePredictor:
         self, 
         model_weight: Mapping[str, Any]) -> None:
         self._model.load_state_dict(model_weight)
-        self._model.to(self.device)
+        self._model.to(self._device)
         self._model.eval()
 
     def _normalize_and_concat_with_timestamps(
@@ -353,3 +357,23 @@ class TaskWeavePredictor(BasePredictor):
         ) -> None:
         super().__init__('taskweave', ckpt_path, device,
                          feature_name, slowfast_path, pann_path)
+
+
+if __name__ == "__main__":
+    # use GPU if available
+    device: str = 'cuda' if torch.cuda.is_available() else 'cpu'
+    weight_dir: str = 'gradio_demo/weights'
+    weight_path: str = os.path.join(weight_dir, 'clip_slowfast_cg_detr_qvhighlight.ckpt')
+    # model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip', 
+    #                                        slowfast_path=None, pann_path=None)
+    model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip_slowfast', 
+                                             slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path=None)
+
+
+    # encode video features
+    model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
+
+    # moment retrieval & highlight detection
+    query: str = 'A woman wearing a glass is speaking in front of the camera'
+    prediction: Optional[Dict[str, List[float]]] = model.predict(query)
+    print(prediction)

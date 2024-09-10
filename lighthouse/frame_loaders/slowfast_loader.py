@@ -26,14 +26,15 @@ from lighthouse.frame_loaders.base_loader import BaseLoader, convert_to_float
 class SlowFastLoader(BaseLoader):
     def __init__(
         self,
-        framerate: float,
+        clip_len: float,
+        framerate: int, # override = 30 for PySlowFast implementation
         size: int,
         device: str,
         centercrop: bool = True) -> None:
-        super().__init__(framerate, size, device, centercrop)
+        super().__init__(clip_len, framerate, size, device, centercrop)
         self._preprocess = Preprocessing('3d', device=device, target_fps=framerate,
-                                         size=224, clip_len=self._clip_len, 
-                                         padding_mode='tile', min_num_clips=1)
+                                        size=224, clip_len=clip_len,
+                                        padding_mode='tile', min_num_clips=1)
 
     def __call__(
         self,
@@ -44,7 +45,7 @@ class SlowFastLoader(BaseLoader):
             return None
 
         h, w = info["height"], info["width"]
-        height, width = self._get_output_dim(h, w)
+        height, width = self._output_dim(h, w)
         
         cmd = (
             ffmpeg
@@ -95,20 +96,20 @@ class Preprocessing:
         self._min_num_clips = min_num_clips
 
 
-    def _pad_frames(self, tensor, mode='tile', value=0):
+    def _pad_frames(self, tensor, value=0):
         n = self._target_fps - len(tensor) % self._target_fps
         if n == self._target_fps:
             return tensor
-        if mode == "constant":
+        if self._padding_mode == "constant":
             z = torch.ones(n, tensor.shape[1], tensor.shape[2], tensor.shape[3], dtype=torch.uint8)
             z *= value
             return torch.cat((tensor, z), 0)
-        elif mode == "tile":
+        elif self._padding_mode == "tile":
             z = torch.cat(n * [tensor[-1:, :, :, :]])
             return torch.cat((tensor, z), 0)
         else:
             raise NotImplementedError(
-                f'Mode {mode} not implemented in _pad_frames.')
+                f'Mode {self._padding_mode} not implemented in _pad_frames.')
 
     def _pad_clips(self, tensor):
         n = self._clip_len - len(tensor) % self._clip_len
@@ -122,7 +123,7 @@ class Preprocessing:
     def __call__(self, tensor, info):
         tensor = self._pad_frames(tensor, self._padding_mode)
         tensor = tensor.view(-1, self._target_fps, self._size, self._size, 3)
-        tensor = self._pad_clips(tensor, self._padding_mode)
+        tensor = self._pad_clips(tensor)
         clip_len = convert_to_float(self._clip_len)
         clips = tensor.view(
                 -1, int(clip_len * self._target_fps), self._size, self._size, 3)

@@ -22,11 +22,13 @@ from lighthouse.frame_loaders.base_loader import BaseLoader
 class CLIPLoader(BaseLoader):
     def __init__(
         self,
+        clip_len: float,
         framerate: float,
         size: int,
         device: str,
         centercrop: bool = True) -> None:
-        super().__init__(framerate, size, device, centercrop)
+        super().__init__(clip_len, framerate, size, device, centercrop)
+        assert self._clip_len == 1. / self._framerate, 'clip_len and inverse of framerate should be equal for CLIPLoader.'
 
     def __call__(
         self,
@@ -56,7 +58,7 @@ class CLIPLoader(BaseLoader):
             .filter('scale', width, height)
         )
 
-        if self.centercrop:
+        if self._centercrop:
             x = int((width - self._size) / 2.0)
             y = int((height - self._size) / 2.0)
             cmd = cmd.crop(x, y, self._size, self._size)
