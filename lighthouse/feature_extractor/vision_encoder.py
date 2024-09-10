@@ -35,7 +35,7 @@ class VisionEncoder(BaseEncoder):
             'clip_slowfast': [CLIPLoader, SlowFastLoader],
             'clip_slowfast_pann': [CLIPLoader, SlowFastLoader],
         }
-        loader_instances = [loader() for loader in frame_loaders[self._feature_name]]
+        loader_instances = [loader(self._framerate, self._size, self._device) for loader in frame_loaders[self._feature_name]]
         return loader_instances
     
     def _select_visual_encoders(self):
@@ -52,6 +52,8 @@ class VisionEncoder(BaseEncoder):
         input_path: str) -> torch.Tensor:
         assert len(self._frame_loaders) == len(self._visual_encoders)
         frame_inputs = [loader(input_path) for loader in self._frame_loaders]
+        has_none = any([item is None for item in frame_inputs])
+        if has_none:
+            raise ValueError('frame_inputs has None, thus video loading failed.')
         visual_features = [encoder(frames) for encoder, frames in zip(self._visual_encoders, frame_inputs)]
-        # TODO: concat
         return visual_features
