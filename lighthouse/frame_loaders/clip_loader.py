@@ -15,74 +15,19 @@ under the License.
 """
 import torch
 import ffmpeg
-import math
 import numpy as np
+from typing import Optional
+from lighthouse.frame_loaders.base_loader import BaseLoader
 
-from typing import Optional, Dict, Union, Tuple
-
-def convert_to_float(frac_str):
-    try:
-        return float(frac_str)
-    except ValueError:
-        try:
-            num, denom = frac_str.split('/')
-        except ValueError:
-            return None
-        try:
-            leading, num = num.split(' ')
-        except ValueError:
-            return float(num) / float(denom)
-        if float(leading) < 0:
-            sign_mult = -1
-        else:
-            sign_mult = 1
-        return float(leading) + sign_mult * (float(num) / float(denom))
-
-class CLIPLoader:
+class CLIPLoader(BaseLoader):
     def __init__(
         self,
         framerate: float,
         size: int,
         device: str,
         centercrop: bool = True) -> None:
-        self._framerate = framerate
-        self._size = size
-        self._device = device
-        self._centercrop = centercrop
-    
-    def _video_info(
-        self,
-        video_path: str) -> Optional[Dict[str, Union[int, float]]]:
-        probe = ffmpeg.probe(video_path)
-        video_stream = next((stream for stream in probe['streams']
-                             if stream['codec_type'] == 'video'), None)
-        width = int(video_stream['width'])
-        height = int(video_stream['height'])
-        fps = math.floor(convert_to_float(video_stream['avg_frame_rate']))
-        
-        try:
-            frames_length = int(video_stream['nb_frames'])
-            duration = float(video_stream['duration'])
-        
-        except Exception:
-            return None
-        
-        info = {"duration": duration, "frames_length": frames_length,
-                "fps": fps, "height": height, "width": width}
-        
-        return info
+        super().__init__(framerate, size, device, centercrop)
 
-    def _output_dim(
-        self,
-        h: int,
-        w: int) -> Tuple[int, int]:
-        if isinstance(self.size, tuple) and len(self.size) == 2:
-            return self.size
-        elif h >= w:
-            return int(h * self.size / w), self.size
-        else:
-            return self.size, int(w * self.size / h)        
-    
     def __call__(
         self,
         video_path: str) -> Optional[torch.Tensor]:
