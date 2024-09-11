@@ -2,7 +2,7 @@ import math
 import torch
 import torchvision
 
-from typing import List
+from typing import List, Optional
 
 class GlobalAvgPool(torch.nn.Module):
     def __init__(self):
@@ -40,7 +40,9 @@ class ResNetPreprocessing:
 class ResNet152:
     def __init__(
         self,
-        device: str) -> None:
+        device: str,
+        model_path: Optional[str] = None) -> None:
+        assert model_path is None, 'ResNet152 does not use model_path, so should be set None.'
         self._device = device
         resnet_model = torchvision.models.resnet152(pretrained=True)
         self._resnet_extractor = torch.nn.Sequential(
@@ -48,6 +50,7 @@ class ResNet152:
             GlobalAvgPool()).eval().to(device)
         self._preprocess = ResNetPreprocessing()
     
+    @torch.no_grad()
     def __call__(
         self,
         video_frames: torch.Tensor,

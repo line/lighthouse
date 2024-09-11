@@ -10,6 +10,7 @@ from lighthouse.frame_loaders.slowfast_loader import SlowFastLoader
 
 from typing import Optional
 
+SLOWFAST_FRAMERATE: int = 30 # 30 is for Slowfast framerate
 
 class VisionEncoder(BaseEncoder):
     def __init__(
@@ -41,8 +42,8 @@ class VisionEncoder(BaseEncoder):
         framerate_dict = {
             'resnet_glove': [self._framerate],
             'clip': [self._framerate],
-            'clip_slowfast': [self._framerate, 30], # 30 is for Slowfast framerate
-            'clip_slowfast_pann': [self._framerate, 30],
+            'clip_slowfast': [self._framerate, SLOWFAST_FRAMERATE],
+            'clip_slowfast_pann': [self._framerate, SLOWFAST_FRAMERATE],
         }
 
         loader_instances = [loader(self._clip_len, framerate, self._size, self._device) 
@@ -56,13 +57,23 @@ class VisionEncoder(BaseEncoder):
             'clip_slowfast': [CLIPVision, SlowFast],
             'clip_slowfast_pann': [CLIPVision, SlowFast],
         }
-        visual_encoders = [encoder(self._device) for encoder in visual_encoders[self._feature_name]]
+
+        model_path_dict = {
+            'resnet_glove': [None],
+            'clip': ['ViT-B/32'],
+            'clip_slowfast': ['ViT-B/32', self._slowfast_path],
+            'clip_slowfast_pann': ['ViT-B/32', self._slowfast_path]
+        }
+
+        visual_encoders = [encoder(self._device, model_path)
+                           for encoder, model_path in zip(visual_encoders[self._feature_name], model_path_dict[self._feature_name])]
         return visual_encoders
 
     def encode(self,
         input_path: str) -> torch.Tensor:
-        assert len(self._frame_loaders) == len(self._visual_encoders)
+        assert len(self._frame_loaders) == len(self._visual_encoders), 'the number of frame_loaders and visual_encoders is different.'
         frame_inputs = [loader(input_path) for loader in self._frame_loaders]
         assert not any([item is None for item in frame_inputs]), 'one of the loaders return None object.'
         visual_features = [encoder(frames) for encoder, frames in zip(self._visual_encoders, frame_inputs)]
+        import ipdb; ipdb.set_trace()
         return visual_features

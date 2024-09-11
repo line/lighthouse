@@ -2,7 +2,7 @@ import clip
 import torch
 import math
 
-from typing import List
+from typing import List, Optional
 
 
 class Normalize:
@@ -23,7 +23,9 @@ class CLIPPreprocessing:
             mean=[0.48145466, 0.4578275, 0.40821073],
             std=[0.26862954, 0.26130258, 0.27577711])
 
-    def __call__(self, tensor):
+    def __call__(
+        self,
+        tensor: torch.Tensor):
         tensor = tensor / 255.0
         tensor = self._norm(tensor)
         return tensor
@@ -32,12 +34,14 @@ class CLIPPreprocessing:
 class CLIPVision:
     def __init__(
         self,
-        device: str) -> None:
+        device: str,
+        model_path: Optional[str]) -> None:
+        assert model_path is not None, 'CLIPVision use model_path, so should be set but None.'
         self._device = device
-        self._clip_extractor = clip.load('ViT-B/32', device=device, jit=False)
-        self._clip_extractor.eval()
+        self._clip_extractor, _ = clip.load(model_path, device=device, jit=False)
         self._preprocess = CLIPPreprocessing()
     
+    @torch.no_grad()
     def __call__(
         self,
         video_frames: torch.Tensor,
@@ -49,7 +53,7 @@ class CLIPVision:
         for i in range(n_batch):
             st_idx = i * bsz
             ed_idx = (i+1) * bsz
-            _video_frames = video_frames[st_idx:ed_idx].to(self.device)
+            _video_frames = video_frames[st_idx:ed_idx].to(self._device)
             _video_features = self._clip_extractor.encode_image(_video_frames)
             video_features.append(_video_features)
         video_features = torch.cat(video_features, dim=0)
