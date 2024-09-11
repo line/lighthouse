@@ -5,7 +5,7 @@ import math
 from typing import List
 
 
-class Normalize(object):
+class Normalize:
     def __init__(self,
         mean: List[float],
         std: List[float]) -> None:
@@ -17,7 +17,7 @@ class Normalize(object):
         return tensor
 
 
-class CLIPPreprocessing(object):
+class CLIPPreprocessing:
     def __init__(self) -> None:
         self._norm = Normalize(
             mean=[0.48145466, 0.4578275, 0.40821073],
