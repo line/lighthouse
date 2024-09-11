@@ -69,11 +69,11 @@ class VisionEncoder(BaseEncoder):
                            for encoder, model_path in zip(visual_encoders[self._feature_name], model_path_dict[self._feature_name])]
         return visual_encoders
 
-    def encode(self,
+    def encode(
+        self,
         input_path: str) -> torch.Tensor:
         assert len(self._frame_loaders) == len(self._visual_encoders), 'the number of frame_loaders and visual_encoders is different.'
         frame_inputs = [loader(input_path) for loader in self._frame_loaders]
         assert not any([item is None for item in frame_inputs]), 'one of the loaders return None object.'
         visual_features = [encoder(frames) for encoder, frames in zip(self._visual_encoders, frame_inputs)]
-        import ipdb; ipdb.set_trace()
         return visual_features
