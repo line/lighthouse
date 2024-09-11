@@ -56,7 +56,7 @@ class VisionEncoder(BaseEncoder):
             'clip_slowfast': [CLIPVision, SlowFast],
             'clip_slowfast_pann': [CLIPVision, SlowFast],
         }
-        visual_encoders = [encoder() for encoder in visual_encoders[self._feature_name]]
+        visual_encoders = [encoder(self._device) for encoder in visual_encoders[self._feature_name]]
         return visual_encoders
 
     def encode(self,
@@ -64,6 +64,5 @@ class VisionEncoder(BaseEncoder):
         assert len(self._frame_loaders) == len(self._visual_encoders)
         frame_inputs = [loader(input_path) for loader in self._frame_loaders]
         assert not any([item is None for item in frame_inputs]), 'one of the loaders return None object.'
-        import ipdb; ipdb.set_trace()
         visual_features = [encoder(frames) for encoder, frames in zip(self._visual_encoders, frame_inputs)]
         return visual_features
