@@ -1,7 +1,8 @@
 import torch
 
 from lighthouse.feature_extractor.base_encoder import BaseEncoder
-from lighthouse.feature_extractor.text_encoders import GloVe, CLIPText
+from lighthouse.feature_extractor.text_encoders.clip_t import CLIPText
+from lighthouse.feature_extractor.text_encoders.glove import GloVe
 
 class TextEncoder(BaseEncoder):
     def __init__(
@@ -35,6 +36,6 @@ class TextEncoder(BaseEncoder):
         self,
         query: str) -> torch.Tensor:
         outputs = [encoder(query) for encoder in self._text_encoders]
-        text_features = [o[0] for o in outputs]
-        text_masks = [o[1] for o in outputs]
+        text_features = torch.cat([o[0] for o in outputs])
+        text_masks = torch.cat([o[1] for o in outputs])
         return text_features, text_masks

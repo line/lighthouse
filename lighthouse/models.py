@@ -75,8 +75,8 @@ class BasePredictor:
         self._size = 224 # Image size
 
         self._vision_encoder: VisionEncoder = self._initialize_vision_encoder(feature_name, slowfast_path)
-        # self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
-        # self._audio_encoder: Optional[AudioEncoder] = self._initialize_audio_encoder(feature_name, pann_path)
+        self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
+        self._audio_encoder: Optional[AudioEncoder] = self._initialize_audio_encoder(feature_name, pann_path)
 
         self._model: torch.nn.Module = self._initialize_model(args, model_name)
         self._load_weights(ckpt['model'])
@@ -127,7 +127,7 @@ class BasePredictor:
         self,
         feature_name: str,
         pann_path: str) -> Optional[AudioEncoder]:
-        return AudioEncoder(self._device, pann_path) if feature_name else None
+        return AudioEncoder(self._device, pann_path) if feature_name == 'clip_slowfast_pann' else None
 
     def _load_weights(
         self, 
@@ -216,8 +216,8 @@ class BasePredictor:
         # extract text feature
         query_feats: torch.Tensor
         query_mask: torch.Tensor
-        query_feats, query_mask = self._text_encoder.encode(query)            
-        if self.feature_name != 'resnet_glove':
+        query_feats, query_mask = self._text_encoder.encode(query)
+        if self._feature_name != 'resnet_glove':
             query_feats = F.normalize(query_feats, dim=-1, eps=1e-5)
         return query_feats, query_mask
 
@@ -225,15 +225,14 @@ class BasePredictor:
     def encode_video(
         self,
         video_path: str) -> None:
-        video_feats: torch.Tensor = self._vision_encoder.encode(video_path)
+        video_feats: torch.Tensor
+        video_mask: torch.Tensor
+        video_feats, video_mask = self._vision_encoder.encode(video_path)
         timestamed_video_feats: torch.Tensor = self._normalize_and_concat_with_timestamps(video_feats)
         n_frames: int = len(timestamed_video_feats)
-
         if n_frames > 75:
             raise ValueError('The positional embedding only support video up to 150 secs (i.e., 75 2-sec clips) in length')
-        
         timestamed_video_feats = timestamed_video_feats.unsqueeze(0)
-        video_mask: torch.Tensor = torch.ones(1, n_frames).to(self._device)
         self._video_feats = timestamed_video_feats
         self._video_mask = video_mask
         self._video_path = video_path
@@ -251,10 +250,10 @@ class BasePredictor:
         query_feats, query_mask = self._encode_text(query)
         inputs = self._prepare_batch(query_feats, query_mask)
 
-        if self.model_name == 'taskweave':
-            outputs, _ = self.model(**inputs)
+        if self._model_name == 'taskweave':
+            outputs, _ = self._model(**inputs)
         else:
-            outputs = self.model(**inputs)
+            outputs = self._model(**inputs)
 
         ranked_moments, saliency_scores = self._post_processing(inputs, outputs)
 
@@ -368,7 +367,6 @@ if __name__ == "__main__":
     #                                        slowfast_path=None, pann_path=None)
     model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip_slowfast', 
                                              slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path=None)
-
 
     # encode video features
     model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')

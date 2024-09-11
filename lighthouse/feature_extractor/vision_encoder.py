@@ -76,4 +76,7 @@ class VisionEncoder(BaseEncoder):
         frame_inputs = [loader(input_path) for loader in self._frame_loaders]
         assert not any([item is None for item in frame_inputs]), 'one of the loaders return None object.'
         visual_features = [encoder(frames) for encoder, frames in zip(self._visual_encoders, frame_inputs)]
-        return visual_features
+        
+        concat_features = torch.concat(visual_features, dim=-1)
+        visual_mask = torch.ones(1, len(concat_features)).to(self._device)
+        return concat_features, visual_mask
