@@ -356,22 +356,3 @@ class TaskWeavePredictor(BasePredictor):
         ) -> None:
         super().__init__('taskweave', ckpt_path, device,
                          feature_name, slowfast_path, pann_path)
-
-
-if __name__ == "__main__":
-    # use GPU if available
-    device: str = 'cuda' if torch.cuda.is_available() else 'cpu'
-    weight_dir: str = 'gradio_demo/weights'
-    weight_path: str = os.path.join(weight_dir, 'clip_slowfast_cg_detr_qvhighlight.ckpt')
-    # model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip', 
-    #                                        slowfast_path=None, pann_path=None)
-    model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip_slowfast', 
-                                             slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path=None)
-
-    # encode video features
-    model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
-
-    # moment retrieval & highlight detection
-    query: str = 'A woman wearing a glass is speaking in front of the camera'
-    prediction: Optional[Dict[str, List[float]]] = model.predict(query)
-    print(prediction)
