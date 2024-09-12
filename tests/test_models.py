@@ -1,2 +1,3 @@
 
-def test_
+def test():
+    return True
