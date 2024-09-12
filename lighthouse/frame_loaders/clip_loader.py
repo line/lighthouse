@@ -1,3 +1,9 @@
+import torch
+import ffmpeg
+import numpy as np
+from typing import Optional
+from lighthouse.frame_loaders.base_loader import BaseLoader
+
 """
 Copyright $today.year LY Corporation
 
@@ -13,11 +19,6 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 """
-import torch
-import ffmpeg
-import numpy as np
-from typing import Optional
-from lighthouse.frame_loaders.base_loader import BaseLoader
 
 class CLIPLoader(BaseLoader):
     def __init__(

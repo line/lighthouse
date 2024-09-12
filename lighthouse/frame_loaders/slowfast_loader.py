@@ -1,3 +1,12 @@
+import math
+import torch
+import ffmpeg
+import numpy as np
+import random
+
+from typing import Optional, Tuple, List
+from lighthouse.frame_loaders.base_loader import BaseLoader, convert_to_float
+
 """
 Copyright $today.year LY Corporation
 
@@ -13,14 +22,6 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 """
-import math
-import torch
-import ffmpeg
-import numpy as np
-import random
-
-from typing import Optional, Tuple, List
-from lighthouse.frame_loaders.base_loader import BaseLoader, convert_to_float
 
 
 class SlowFastLoader(BaseLoader):

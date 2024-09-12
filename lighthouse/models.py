@@ -1,3 +1,21 @@
+import torch
+import torch.nn.functional as F
+
+from lighthouse.common.qd_detr import build_model as build_model_qd_detr
+from lighthouse.common.moment_detr import build_model as build_model_moment_detr
+from lighthouse.common.cg_detr import build_model as build_model_cg_detr
+from lighthouse.common.eatr import build_model as build_model_eatr
+from lighthouse.common.uvcom import build_model as build_model_uvcom
+from lighthouse.common.tr_detr import build_model as build_model_tr_detr
+from lighthouse.common.taskweave import build_model as build_model_task_weave
+
+from lighthouse.common.utils.span_utils import span_cxw_to_xx
+from lighthouse.feature_extractor.vision_encoder import VisionEncoder
+from lighthouse.feature_extractor.text_encoder import TextEncoder
+from lighthouse.feature_extractor.audio_encoder import AudioEncoder
+
+from typing import Optional, Union, Mapping, Any, Dict, List, Tuple
+
 """
 Copyright $today.year LY Corporation
 
@@ -35,23 +53,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import torch
-import torch.nn.functional as F
-
-from lighthouse.common.qd_detr import build_model as build_model_qd_detr
-from lighthouse.common.moment_detr import build_model as build_model_moment_detr
-from lighthouse.common.cg_detr import build_model as build_model_cg_detr
-from lighthouse.common.eatr import build_model as build_model_eatr
-from lighthouse.common.uvcom import build_model as build_model_uvcom
-from lighthouse.common.tr_detr import build_model as build_model_tr_detr
-from lighthouse.common.taskweave import build_model as build_model_task_weave
-
-from lighthouse.common.utils.span_utils import span_cxw_to_xx
-from lighthouse.feature_extractor.vision_encoder import VisionEncoder
-from lighthouse.feature_extractor.text_encoder import TextEncoder
-from lighthouse.feature_extractor.audio_encoder import AudioEncoder
-
-from typing import Optional, Union, Mapping, Any, Dict, List, Tuple
 
 class BasePredictor:
     def __init__(

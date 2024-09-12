@@ -1,3 +1,6 @@
+import torch.nn as nn
+from lighthouse.feature_extractor.vision_encoders.slowfast_model.models.nonlocal_helper import Nonlocal
+
 """
 Copyright $today.year LY Corporation
 
@@ -16,9 +19,6 @@ under the License.
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 """Video models."""
-
-import torch.nn as nn
-from lighthouse.slowfast.slowfast.models.nonlocal_helper import Nonlocal
 
 
 def get_trans_func(name):

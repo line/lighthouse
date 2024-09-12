@@ -1,3 +1,5 @@
+from lighthouse.feature_extractor.vision_encoders.slowfast_model.models.video_model_builder import SlowFastModel
+
 """
 Copyright $today.year LY Corporation
 
@@ -15,8 +17,6 @@ under the License.
 """
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 """Model construction functions."""
-import torch
-from lighthouse.slowfast.slowfast.models.video_model_builder import SlowFastModel
 
 def build_model():
     """

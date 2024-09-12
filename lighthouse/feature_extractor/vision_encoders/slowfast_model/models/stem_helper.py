@@ -1,3 +1,5 @@
+import torch.nn as nn
+
 """
 Copyright $today.year LY Corporation
 
@@ -16,8 +18,6 @@ under the License.
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 """ResNe(X)t 3D stem helper."""
-
-import torch.nn as nn
 
 
 class VideoModelStem(nn.Module):

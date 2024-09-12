@@ -1,3 +1,5 @@
+import re
+
 """
 Copyright $today.year LY Corporation
 
@@ -17,8 +19,6 @@ under the License.
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 """Caffe2 to PyTorch checkpoint name converting utility."""
-
-import re
 
 
 def get_name_convert_func():

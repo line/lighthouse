@@ -1,3 +1,8 @@
+import torch
+
+from lighthouse.feature_extractor.vision_encoders.slowfast_model.utils.checkpoint import load_checkpoint
+from lighthouse.feature_extractor.vision_encoders.slowfast_model.models import model_builder
+
 """
 Copyright $today.year LY Corporation
 
@@ -15,10 +20,6 @@ under the License.
 """
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 """Build a video classification model."""
-import torch
-
-from lighthouse.feature_extractor.vision_encoders.slowfast_model.utils.checkpoint import load_checkpoint
-from lighthouse.feature_extractor.vision_encoders.slowfast_model.models import model_builder
 
 def slowfast_model_loader(
     model_weight_path: str,

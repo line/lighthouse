@@ -1,3 +1,8 @@
+import ffmpeg
+import math
+import torch
+from typing import Optional, Dict, Union, Tuple
+
 """
 Copyright $today.year LY Corporation
 
@@ -13,10 +18,6 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 """
-import ffmpeg
-import math
-import torch
-from typing import Optional, Dict, Union, Tuple
 
 def convert_to_float(
     frac_str: str) -> float:

@@ -4,7 +4,21 @@ import math
 from typing import List, Optional
 from lighthouse.feature_extractor.vision_encoders.slowfast_model.model_loader import slowfast_model_loader
 
-SLOWFAST_FEATURE_DIM = 2304
+"""
+Copyright $today.year LY Corporation
+
+LY Corporation licenses this file to you under the Apache License,
+version 2.0 (the "License"); you may not use this file except in compliance
+with the License. You may obtain a copy of the License at:
+
+  https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+"""
 
 class Normalize(object):
     def __init__(
@@ -34,6 +48,9 @@ class SlowFastNormalize(object):
 
 
 class SlowFast:
+
+    SLOWFAST_FEATURE_DIM = 2304
+
     def __init__(
         self,
         device: str,
@@ -76,7 +93,7 @@ class SlowFast:
         slowfast_frames: torch.Tensor,
         bsz: int = 45):
         n_chunk = len(slowfast_frames)
-        features = torch.HalfTensor(n_chunk, SLOWFAST_FEATURE_DIM,
+        features = torch.HalfTensor(n_chunk, self.SLOWFAST_FEATURE_DIM,
                                     device=self._device).fill_(0)
         n_batch = int(math.ceil(n_chunk / bsz))
         for i in range(n_batch):

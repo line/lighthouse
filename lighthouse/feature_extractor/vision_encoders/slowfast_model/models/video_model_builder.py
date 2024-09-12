@@ -1,3 +1,9 @@
+import torch
+import torch.nn as nn
+
+import lighthouse.feature_extractor.vision_encoders.slowfast_model.utils.weight_init_helper as init_helper
+from lighthouse.feature_extractor.vision_encoders.slowfast_model.models import head_helper, resnet_helper, stem_helper
+
 """
 Copyright $today.year LY Corporation
 
@@ -16,12 +22,6 @@ under the License.
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 """Video models."""
-
-import torch
-import torch.nn as nn
-
-import lighthouse.slowfast.slowfast.utils.weight_init_helper as init_helper
-from lighthouse.slowfast.slowfast.models import head_helper, resnet_helper, stem_helper
 
 # Number of blocks for different stages given the model depth.
 _MODEL_STAGE_DEPTH = {50: (3, 4, 6, 3), 101: (3, 4, 23, 3)}
