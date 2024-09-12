@@ -2,6 +2,11 @@ name: Run mypy
 
 on:
   push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   test:
@@ -10,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Python Setup
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v3
         with:
           python-version: 3.9
 
