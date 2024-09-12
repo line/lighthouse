@@ -19,8 +19,12 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Run mypy install
-        run: pip install mypy
+      - name: Run dependency libraries
+        run: |
+          pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
+          pip install easydict pandas tqdm pyyaml scikit-learn ffmpeg-python ftfy regex einops fvcore gradio torchlibrosa librosa
+          pip install 'clip@git+https://github.com/openai/CLIP.git'
+          pip install mypy
 
       - name: Run mypy
         run: find lighthouse -type f -name "*.py" -not -path 'lighthouse/common/*' | xargs mypy
