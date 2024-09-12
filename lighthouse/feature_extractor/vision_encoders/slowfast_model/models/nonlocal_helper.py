@@ -1,3 +1,6 @@
+import torch
+import torch.nn as nn
+
 """
 Copyright $today.year LY Corporation
 
@@ -16,9 +19,6 @@ under the License.
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 
 """Non-local helper"""
-
-import torch
-import torch.nn as nn
 
 
 class Nonlocal(nn.Module):

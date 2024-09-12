@@ -1,4 +1,4 @@
-name: Run mypy
+name: Run mypy and ruff
 
 on:
   push:
@@ -24,7 +24,10 @@ jobs:
           pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
           pip install easydict pandas tqdm pyyaml scikit-learn ffmpeg-python ftfy regex einops fvcore gradio torchlibrosa librosa
           pip install 'clip@git+https://github.com/openai/CLIP.git'
-          pip install mypy
+          pip install mypy ruff
 
       - name: Run mypy
         run: find lighthouse -type f -name "*.py" -not -path 'lighthouse/common/*' | xargs mypy
+
+      - name: Run ruff
+        run: find lighthouse -type f -name "*.py" -not -path 'lighthouse/common/*' | xargs -I {} sh -c 'ruff check "{}"'

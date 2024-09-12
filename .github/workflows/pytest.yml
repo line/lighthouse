@@ -1,0 +1,30 @@
+name: Run pytest
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Python Setup
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.9
+
+      - name: Run dependency libraries
+        run: |
+          pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
+          pip install easydict pandas tqdm pyyaml scikit-learn ffmpeg-python ftfy regex einops fvcore gradio torchlibrosa librosa
+          pip install 'clip@git+https://github.com/openai/CLIP.git'
+          pip install pytest
+
+      - name: Run pytest
+        run: pytest tests/test_models.py

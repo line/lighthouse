@@ -1,3 +1,8 @@
+import torch
+
+from lighthouse.feature_extractor.vision_encoders.slowfast_model.utils.checkpoint import load_checkpoint
+from lighthouse.feature_extractor.vision_encoders.slowfast_model.models import model_builder
+
 """
 Copyright $today.year LY Corporation
 
@@ -16,21 +21,13 @@ under the License.
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 """Build a video classification model."""
 
-import lighthouse.slowfast.slowfast.utils.checkpoint as cu
-from lighthouse.slowfast.slowfast.models import model_builder
-
-
-def slowfast_model_loader(model_weight_path, device):
-    """
-    Build slowfast model
-    Args:
-        cfg (CfgNode): configs. Details can be found in
-            slowfast/config/defaults.py
-    """
+def slowfast_model_loader(
+    model_weight_path: str,
+    device: str) -> torch.nn.Module:
     # Build the video model and print model statistics.
     model = model_builder.build_model()
-    cu.load_checkpoint(model_weight_path, model,
-                       data_parallel=False, optimizer=None,
-                       convert_from_caffe2=True)
+    load_checkpoint(model_weight_path, model,
+                    data_parallel=False, optimizer=None,
+                    convert_from_caffe2=True)
     model.to(device)
     return model

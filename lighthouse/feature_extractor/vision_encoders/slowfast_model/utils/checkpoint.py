@@ -1,3 +1,10 @@
+import os
+import pickle
+import torch
+
+from collections import OrderedDict
+from lighthouse.feature_extractor.vision_encoders.slowfast_model.utils.c2_model_loading import get_name_convert_func
+
 """
 Copyright $today.year LY Corporation
 
@@ -13,17 +20,8 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 """
-
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
-
 """Functions that handle saving and loading of checkpoints."""
-
-import os
-import pickle
-from collections import OrderedDict
-import torch
-
-from lighthouse.slowfast.slowfast.utils.c2_model_loading import get_name_convert_func
 
 
 def inflate_weight(state_dict_2d, state_dict_3d):

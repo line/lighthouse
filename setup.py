@@ -6,5 +6,5 @@ setup(
     install_requires=['easydict', 'pandas', 'tqdm', 'pyyaml', 'scikit-learn', 'ffmpeg-python',
                       'ftfy', 'regex', 'einops', 'fvcore', 'gradio', 'torchlibrosa', 'librosa',
                       'clip@git+https://github.com/openai/CLIP.git'],
-    packages=find_packages(),
+    packages=find_packages(exclude=['training']),
 )

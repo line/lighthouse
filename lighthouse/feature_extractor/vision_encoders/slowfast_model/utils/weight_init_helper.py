@@ -1,3 +1,6 @@
+import torch.nn as nn
+from fvcore.nn.weight_init import c2_msra_fill
+
 """
 Copyright $today.year LY Corporation
 
@@ -13,14 +16,8 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 """
-
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
-
 """Utility function for weight initialization"""
-
-import torch.nn as nn
-from fvcore.nn.weight_init import c2_msra_fill
-
 
 def init_weights(model, fc_init_std=0.01, zero_init_final_bn=True):
     """

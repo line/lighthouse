@@ -1,3 +1,8 @@
+import abc
+import torch
+
+from typing import Tuple
+
 """
 Copyright $today.year LY Corporation
 
@@ -11,5 +16,16 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
-under the License. 
+under the License.
 """
+
+class BaseEncoder(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def encode(
+        self,
+        input: str) -> Tuple[torch.Tensor, torch.Tensor]:
+        """
+        Input nature is different between text encoder and vision/audio encoders.
+        The former expects a query, the latter expects the path to the video and audio file.
+        """
+        return torch.Tensor([]), torch.Tensor([])
