@@ -38,10 +38,6 @@ SOFTWARE.
 import torch
 import torch.nn.functional as F
 
-import sys
-import os
-sys.path.append('.') # delete
-
 from lighthouse.common.qd_detr import build_model as build_model_qd_detr
 from lighthouse.common.moment_detr import build_model as build_model_moment_detr
 from lighthouse.common.cg_detr import build_model as build_model_cg_detr
@@ -113,7 +109,7 @@ class BasePredictor:
     def _initialize_vision_encoder(
         self,
         feature_name: str,
-        slowfast_path: str) -> VisionEncoder:
+        slowfast_path: Optional[str]) -> VisionEncoder:
         framerate = 1 / self._clip_len
         return VisionEncoder(feature_name, self._clip_len, framerate, 
                              self._size, self._device, slowfast_path)
@@ -126,8 +122,8 @@ class BasePredictor:
     def _initialize_audio_encoder(
         self,
         feature_name: str,
-        pann_path: str) -> Optional[AudioEncoder]:
-        return AudioEncoder(self._device, pann_path) if feature_name == 'clip_slowfast_pann' else None
+        pann_path: Optional[str]) -> Optional[AudioEncoder]:
+        return AudioEncoder(feature_name, self._device, pann_path) if feature_name == 'clip_slowfast_pann' else None
 
     def _load_weights(
         self, 
@@ -207,8 +203,13 @@ class BasePredictor:
 
     def _encode_audio(
         self,
-        video_path: str) -> torch.Tensor:
-        return self._audio_encoder.encode(video_path)
+        video_path: str) -> Optional[torch.Tensor]:
+        if self._audio_encoder is None:
+            return None
+        audio_feats: torch.Tensor
+        _: torch.Tensor # mask, but not used.
+        audio_feats, _ = self._audio_encoder.encode(video_path)
+        return audio_feats
     
     def _encode_text(
         self,
@@ -236,8 +237,7 @@ class BasePredictor:
         self._video_feats = timestamed_video_feats
         self._video_mask = video_mask
         self._video_path = video_path
-        if self._audio_encoder is not None:
-            self._audio_feats = self._encode_audio(video_path)
+        self._audio_feats = self._encode_audio(video_path)
 
     @torch.no_grad()
     def predict(

@@ -33,6 +33,6 @@ class GloVe:
         e.g., 'a man is speaking in front of the camera'
         """
         word_inds = torch.LongTensor(
-            [self.vocab.stoi.get(w.lower(), 400000) for w in query.split()])
+            [self._vocab.stoi.get(w.lower(), 400000) for w in query.split()])
         mask = torch.ones((1, word_inds.shape[0])).to(self._device)
-        return self.embedding(word_inds).unsqueeze(0).to(self._device), mask
+        return self._embedding(word_inds).unsqueeze(0).to(self._device), mask

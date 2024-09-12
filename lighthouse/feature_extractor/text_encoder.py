@@ -4,6 +4,8 @@ from lighthouse.feature_extractor.base_encoder import BaseEncoder
 from lighthouse.feature_extractor.text_encoders.clip_t import CLIPText
 from lighthouse.feature_extractor.text_encoders.glove import GloVe
 
+from typing import Tuple
+
 class TextEncoder(BaseEncoder):
     def __init__(
         self,
@@ -34,7 +36,7 @@ class TextEncoder(BaseEncoder):
 
     def encode(
         self,
-        query: str) -> torch.Tensor:
+        query: str) -> Tuple[torch.Tensor, torch.Tensor]:
         outputs = [encoder(query) for encoder in self._text_encoders]
         text_features = torch.cat([o[0] for o in outputs])
         text_masks = torch.cat([o[1] for o in outputs])

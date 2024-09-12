@@ -16,12 +16,16 @@ under the License.
 import os
 import subprocess
 import torch
+
+import sys
+sys.path.append('.')
+
 from lighthouse.models import CGDETRPredictor
 from typing import Dict, List, Optional
 
 def load_weights(weight_dir: str) -> None:
-    if not os.path.exists(os.path.join(weight_dir, 'clip_cg_detr_qvhighlight.ckpt')):  
-        command = 'wget -P gradio_demo/weights/ https://zenodo.org/records/13363606/files/clip_cg_detr_qvhighlight.ckpt'
+    if not os.path.exists(os.path.join(weight_dir, 'clip_slowfast_pann_cg_detr_qvhighlight.ckpt')):  
+        command = 'wget -P gradio_demo/weights/ https://zenodo.org/records/13363606/files/clip_slowfast_pann_cg_detr_qvhighlight.ckpt'
         subprocess.run(command, shell=True)
 
     if not os.path.exists('SLOWFAST_8x8_R50.pkl'):
@@ -33,9 +37,13 @@ def load_weights(weight_dir: str) -> None:
 # use GPU if available
 device: str = 'cuda' if torch.cuda.is_available() else 'cpu'
 weight_dir: str = 'gradio_demo/weights'
-weight_path: str = os.path.join(weight_dir, 'clip_cg_detr_qvhighlight.ckpt')
-model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip', 
-                                        slowfast_path=None, pann_path=None)
+#weight_path: str = os.path.join(weight_dir, 'clip_cg_detr_qvhighlight.ckpt')
+#model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip', 
+#                                        slowfast_path=None, pann_path=None)
+weight_path: str = os.path.join(weight_dir, 'clip_slowfast_pann_cg_detr_qvhighlight.ckpt')
+model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip_slowfast_pann', 
+                                        slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path='Cnn14_mAP=0.431.pth')
+
 
 # encode video features
 model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')

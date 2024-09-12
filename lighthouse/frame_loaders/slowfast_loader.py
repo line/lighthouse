@@ -67,9 +67,9 @@ class SlowFastLoader(BaseLoader):
             height, width = self._size, self._size
         video = np.frombuffer(out, np.uint8).reshape(
             [-1, height, width, 3])
-        video = torch.from_numpy(video)
-        video = self._preprocess(video, info)
-        return video
+        video_tensor = torch.from_numpy(video)
+        video_tensor = self._preprocess(video_tensor, info)
+        return video_tensor
 
 
 class Preprocessing:
@@ -79,7 +79,7 @@ class Preprocessing:
         device: str,
         target_fps: int = 16,
         size: int = 112,
-        clip_len: int = 2,
+        clip_len: float = 2.,
         padding_mode: str = 'tile',
         min_num_clips: int = 1):
         self._type = type
@@ -121,12 +121,13 @@ class Preprocessing:
         return torch.cat((tensor, z), 0)
 
     def __call__(self, tensor, info):
+        target_fps = int(self._target_fps)
         tensor = self._pad_frames(tensor, self._padding_mode)
-        tensor = tensor.view(-1, self._target_fps, self._size, self._size, 3)
+        tensor = tensor.view(-1, target_fps, self._size, self._size, 3)
         tensor = self._pad_clips(tensor)
         clip_len = convert_to_float(self._clip_len)
         clips = tensor.view(
-                -1, int(clip_len * self._target_fps), self._size, self._size, 3)
+                -1, int(clip_len * target_fps), self._size, self._size, 3)
         
         try:
             duration = info["duration"]
@@ -192,10 +193,10 @@ def get_start_end_idx(
     """
     delta = max(video_size - clip_size, 0)
     if clip_idx == -1:
-        start_idx = random.uniform(0, delta)
+        start_idx = int(random.uniform(0, delta))
     else:
-        start_idx = delta * clip_idx / num_clips
-    end_idx = start_idx + clip_size - 1
+        start_idx = int(delta * clip_idx / num_clips)
+    end_idx = int(start_idx + clip_size - 1)
     return start_idx, end_idx
 
 

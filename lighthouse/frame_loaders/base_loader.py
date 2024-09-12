@@ -15,6 +15,7 @@ under the License.
 """
 import ffmpeg
 import math
+import torch
 from typing import Optional, Dict, Union, Tuple
 
 def convert_to_float(
@@ -57,6 +58,9 @@ class BaseLoader:
         probe = ffmpeg.probe(video_path)
         video_stream = next((stream for stream in probe['streams']
                              if stream['codec_type'] == 'video'), None)
+        if video_stream is None:
+            return None
+        
         width = int(video_stream['width'])
         height = int(video_stream['height'])
         fps = math.floor(convert_to_float(video_stream['avg_frame_rate']))
@@ -79,11 +83,14 @@ class BaseLoader:
 
     def _output_dim(
         self,
-        h: int,
-        w: int) -> Tuple[int, int]:
-        if isinstance(self._size, tuple) and len(self._size) == 2:
-            return self._size
-        elif h >= w:
+        h: Union[int,float],
+        w: Union[int,float]) -> Tuple[int, int]:
+        if h >= w:
             return int(h * self._size / w), self._size
         else:
             return self._size, int(w * self._size / h)
+    
+    def __call__(
+        self,
+        video_path: str) -> Optional[torch.Tensor]:
+        return torch.Tensor([])

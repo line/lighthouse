@@ -71,6 +71,6 @@ class CLIPLoader(BaseLoader):
 
         video = np.frombuffer(out, np.uint8).reshape(
             [-1, height, width, 3])
-        video = torch.from_numpy(video.astype('float32'))
-        video = video.permute(0, 3, 1, 2)
-        return video
+        video_tensor = torch.from_numpy(video.astype('float32'))
+        video_tensor = video_tensor.permute(0, 3, 1, 2)
+        return video_tensor

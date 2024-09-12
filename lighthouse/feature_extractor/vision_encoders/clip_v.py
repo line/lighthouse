@@ -56,6 +56,6 @@ class CLIPVision:
             _video_frames = video_frames[st_idx:ed_idx].to(self._device)
             _video_features = self._clip_extractor.encode_image(_video_frames)
             video_features.append(_video_features)
-        video_features = torch.cat(video_features, dim=0)
-        return video_features
+        video_feature_tensor = torch.cat(video_features, dim=0)
+        return video_feature_tensor
     

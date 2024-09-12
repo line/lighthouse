@@ -12,4 +12,4 @@ class BaseEncoder(metaclass=abc.ABCMeta):
         Input nature is different between text encoder and vision/audio encoders.
         The former expects a query, the latter expects the path to the video and audio file.
         """
-        return torch.Tensor([])
+        return torch.Tensor([]), torch.Tensor([])

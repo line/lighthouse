@@ -62,9 +62,9 @@ class ResNet152:
         for i in range(n_batch):
             st_idx = i * bsz
             ed_idx = (i+1) * bsz
-            _video_frames = video_frames[st_idx:ed_idx].to(self.device)
+            _video_frames = video_frames[st_idx:ed_idx].to(self._device)
             _video_features = self._resnet_extractor(_video_frames)
             _video_features = torch.nn.functional.normalize(_video_features, dim=-1)
             video_features.append(_video_features)
-        video_features = torch.cat(video_features, dim=0)
-        return video_features
+        video_feature_tensor = torch.cat(video_features, dim=0)
+        return video_feature_tensor
