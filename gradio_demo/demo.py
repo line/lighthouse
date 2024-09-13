@@ -129,7 +129,7 @@ def predict(textbox, line, gallery):
             buttons.append(gr.Button(value='moment {}: [{}, {}] Score: {}'.format(i+1, pred[0], pred[1], pred[2]), visible=True))
         
         # Visualize the HD score
-        seconds = [model.clip_len * i for i in range(len(hl_results))]
+        seconds = [model._vision_encoder._clip_len * i for i in range(len(hl_results))]
         hl_data = pd.DataFrame({ 'second': seconds, 'saliency_score': hl_results })
         min_val, max_val = min(hl_results), max(hl_results) + 1
         min_x, max_x = min(seconds), max(seconds)
@@ -145,7 +145,7 @@ def predict(textbox, line, gallery):
             output_path = "gradio_demo/highlight_frames/highlight_{}.png".format(i)
             (
                 ffmpeg
-                .input(model.video_path, ss=second)
+                .input(model._video_path, ss=second)
                 .output(output_path, vframes=1, qscale=2)
                 .global_args('-loglevel', 'quiet', '-y')
                 .run()
