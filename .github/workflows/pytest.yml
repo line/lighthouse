@@ -19,6 +19,12 @@ jobs:
         with:
           python-version: 3.9
 
+      - name: Run ffmpeg
+        run: |
+          apt update
+          apt upgrade
+          apt install -y ffmpeg
+
       - name: Run dependency libraries
         run: |
           pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
