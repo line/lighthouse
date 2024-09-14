@@ -21,9 +21,9 @@ jobs:
 
       - name: Run ffmpeg
         run: |
-          apt update
-          apt upgrade
-          apt install -y ffmpeg
+          sudo apt-get update
+          sudo apt-get upgrade
+          sudo apt-get install -y ffmpeg
 
       - name: Run dependency libraries
         run: |
