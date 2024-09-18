@@ -13,7 +13,7 @@ It supports seven models, four features (video and audio features), and six data
 
 ## Milestones
 We will release v1.0 until the end of September. Our plan includes:
-- [ ] : Reduce the configuration files (issue #19)
+- [x] : Reduce the configuration files (issue #19)
 - [ ] : Update the trained weights and feature files on Google Drive and Zenodo
 - [ ] : Introduce PyTest for inference API (issue #21)
 - [x] : Introduce Linter for inference API (issue #20)
