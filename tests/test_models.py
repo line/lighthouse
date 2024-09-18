@@ -36,12 +36,13 @@ def test_save_model_weights():
 
 @pytest.mark.dependency()
 def test_load_slowfast_pann_weights():
-    result = subprocess.run('wget -P tests/ https://dl.fbaipublicfiles.com/pyslowfast/'
-                            'model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl', shell=True)
-    assert result == 0, '[Save slowfast weights] return_code should be set 0.'
-    result = subprocess.run('wget -P tests/ https://zenodo.org/record/3987831/files/'
-                            'Cnn14_mAP%3D0.431.pth', shell=True)
-    assert result == 0, '[Save PANNs weights] return_code should be set 0.'
+    if not os.path.exists('tests/SLOWFAST_8x8_R50.pkl'):
+        result = subprocess.run('wget -P tests/ https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl', shell=True)
+        assert result.returncode == 0, '[Save slowfast weights] return_code should be set 0.'
+    
+    if not os.path.exists('tests/Cnn14_mAP=0.431.pth'):
+        result = subprocess.run('wget -P tests/ https://zenodo.org/record/3987831/files/Cnn14_mAP%3D0.431.pth', shell=True)
+        assert result.returncode == 0, '[Save PANNs weights] return_code should be set 0.'
 
 @pytest.mark.dependency(depends=['test_generate_multiple_duration_videos', 
                                  'test_save_model_weights', 
