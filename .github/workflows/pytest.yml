@@ -32,6 +32,7 @@ jobs:
           pip install 'clip@git+https://github.com/openai/CLIP.git'
           pip install 'git+https://github.com/line/lighthouse.git'
           pip install pytest
+          pip install numpy --upgrade
 
 
       - name: Run pytest
