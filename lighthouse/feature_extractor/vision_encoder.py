@@ -87,6 +87,11 @@ class VisionEncoder(BaseEncoder):
                                                           model_path_dict[self._feature_name])]
         return visual_encoders
 
+    def _trim_shorter_length(self, visual_features):
+        min_length = min([x.shape[0] for x in visual_features])
+        trimmed_visual_features = [x[:min_length] for x in visual_features]
+        return trimmed_visual_features
+
     def encode(
         self,
         input_path: str) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -94,6 +99,6 @@ class VisionEncoder(BaseEncoder):
         frame_inputs = [loader(input_path) for loader in self._frame_loaders]
         assert not any([item is None for item in frame_inputs]), 'one of the loaders return None object.'
         visual_features = [encoder(frames) for encoder, frames in zip(self._visual_encoders, frame_inputs)]
-        concat_features = torch.concat(visual_features, dim=-1)
+        concat_features = torch.concat(self._trim_shorter_length(visual_features), dim=-1)
         visual_mask = torch.ones(1, len(concat_features)).to(self._device)
         return concat_features, visual_mask

@@ -102,11 +102,11 @@ class Preprocessing:
         if n == self._target_fps:
             return tensor
         if self._padding_mode == "constant":
-            z = torch.ones(n, tensor.shape[1], tensor.shape[2], tensor.shape[3], dtype=torch.uint8)
+            z = torch.ones(int(n), tensor.shape[1], tensor.shape[2], tensor.shape[3], dtype=torch.uint8)
             z *= value
             return torch.cat((tensor, z), 0)
         elif self._padding_mode == "tile":
-            z = torch.cat(n * [tensor[-1:, :, :, :]])
+            z = torch.cat(int(n) * [tensor[-1:, :, :, :]])
             return torch.cat((tensor, z), 0)
         else:
             raise NotImplementedError(

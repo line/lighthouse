@@ -198,10 +198,10 @@ class BasePredictor:
         pred_spans = torch.clamp(span_cxw_to_xx(pred_spans) * video_duration, min=0, max=video_duration)
         cur_ranked_preds = torch.cat([pred_spans, scores[:, None]], dim=1).tolist()
         cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
-        cur_ranked_preds = [[float(f"{e:.4f}") for e in row] for row in cur_ranked_preds][:self._moment_num]
+        cur_ranked_preds = [[float(f"{e:.4f}") for e in row] for row in cur_ranked_preds]
         saliency_scores = outputs["saliency_scores"][inputs["src_vid_mask"] == 1].cpu().tolist()
-
-        return cur_ranked_preds, saliency_scores
+        
+        return cur_ranked_preds[:self._moment_num], saliency_scores
 
     def _encode_audio(
         self,
