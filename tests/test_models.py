@@ -3,7 +3,8 @@ import math
 import pytest
 import subprocess
 from lighthouse.models import (MomentDETRPredictor, QDDETRPredictor, EaTRPredictor, 
-                               CGDETRPredictor, TRDETRPredictor, UVCOMPredictor)
+                               CGDETRPredictor, UVCOMPredictor)
+
 
 FEATURES = ['clip', 'clip_slowfast']
 MODELS = ['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom']
@@ -81,7 +82,6 @@ def test_model_prediction():
                 for second in range(MIN_DURATION, MAX_DURATION):
                     video_path = f'tests/test_videos/video_duration_{second}.mp4'
                     model.encode_video(video_path)
-
                     query = 'A woman wearing a glass is speaking in front of the camera'
                     prediction = model.predict(query)
                     assert len(prediction['pred_relevant_windows']) == MOMENT_NUM, \
