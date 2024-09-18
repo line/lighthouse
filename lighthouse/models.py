@@ -68,8 +68,9 @@ class BasePredictor:
         args = ckpt['opt']
         self._clip_len: float = args.clip_length
         self._device: str = device
-        args.device = device # for CPU users
-        self._size = 224 # Image size
+        args.device = device
+        self._size = 224
+        self._moment_num = 10
 
         self._vision_encoder: VisionEncoder = self._initialize_vision_encoder(feature_name, slowfast_path)
         self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
@@ -197,7 +198,7 @@ class BasePredictor:
         pred_spans = torch.clamp(span_cxw_to_xx(pred_spans) * video_duration, min=0, max=video_duration)
         cur_ranked_preds = torch.cat([pred_spans, scores[:, None]], dim=1).tolist()
         cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
-        cur_ranked_preds = [[float(f"{e:.4f}") for e in row] for row in cur_ranked_preds]
+        cur_ranked_preds = [[float(f"{e:.4f}") for e in row] for row in cur_ranked_preds][:self._moment_num]
         saliency_scores = outputs["saliency_scores"][inputs["src_vid_mask"] == 1].cpu().tolist()
 
         return cur_ranked_preds, saliency_scores

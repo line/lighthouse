@@ -1,0 +1,7 @@
+dset_name: charades
+train_path: data/charades/charades_train_release.jsonl
+eval_path: data/charades/charades_test_release.jsonl
+
+lw_saliency: 4
+lr: 0.0002
+lr_drop: 40

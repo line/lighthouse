@@ -1,0 +1,4 @@
+dset_name: qvhighlight
+clip_length: 2
+train_path: data/qvhighlight/highlight_train_release.jsonl
+eval_path: data/qvhighlight/highlight_val_release.jsonl

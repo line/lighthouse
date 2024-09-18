@@ -13,7 +13,7 @@ It supports seven models, four features (video and audio features), and six data
 
 ## Milestones
 We will release v1.0 until the end of September. Our plan includes:
-- [ ] : Reduce the configuration files (issue #19)
+- [x] : Reduce the configuration files (issue #19)
 - [ ] : Update the trained weights and feature files on Google Drive and Zenodo
 - [ ] : Introduce PyTest for inference API (issue #21)
 - [x] : Introduce Linter for inference API (issue #20)
@@ -184,40 +184,45 @@ lighthouse/
 ### Training and evaluation
 
 #### Training
-The general training command is:
+The training command is:
 ```
-PYTHONPATH=. python training/train.py --config configs/DATASET/FEATURE_MODEL_DATASET.yml
+python training/train.py --model MODEL --dataset DATASET --feature FEATURE [--resume RESUME]
 ```
-|         | Options                                                            |
-|---------|--------------------------------------------------------------------|
-| Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave     |
-| Feature | resnet_glove, clip, clip_slowfast, clip_slowfast_pann              |
-| Dataset | qvhighlight, activitynet, charades, tacos, tvsum, youtube_highlight|
+|         | Options                                                                                  |
+|---------|------------------------------------------------------------------------------------------|
+| Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_mr2hd, taskweave_hd2mr    |
+| Feature | resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip                          |
+| Dataset | qvhighlight, qvhighlight_pretrain, activitynet, charades, tacos, tvsum, youtube_highlight|
 
-For example, to train moment_detr on QVHighlights with CLIP+Slowfast features, run:
+(**Example 1**) Moment DETR w/ CLIP+Slowfast on QVHighlights:
 ```
-PYTHONPATH=. python training/train.py --config configs/qvhighlight/clip_slowfast_moment_detr_qvhighlight.yml
+python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast
 ```
-To train the models on HD datasets (i.e., TVSum and YouTube Highlight), you need to specify the domain.<br>
-For example, to train moment_detr in BK domain on TVSum, run:
+(**Example 2**) Moment DETR w/ CLIP+Slowfast+PANNs (Audio) on QVHighlights:
 ```
-PYTHONPATH=. python training/train.py --config configs/tvsum/clip_slowfast_moment_detr_tvsum.yml --domain BK
+python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast_pann
+```
+(**Pre-train & Fine-tuning, QVHighlights only**) Lighthouse supports pre-training. Run:
+```
+python training/train.py --model moment_detr --dataset qvhighlight_pretrain --feature clip_slowfast
+```
+Then fine-tune the model with `--resume` option:
+```
+python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast --resume results/moment_detr/qvhighlight_pretrain/clip_slowfast/best.ckpt
 ```
 
 #### Evaluation
-The evaluation command is (in this example, we evaluate QD-DETR/CLIP+Slowfast on the QVHighlight val set):
+The evaluation command is:
 ```
-PYTHONPATH=. python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
-                                         --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
-                                         --eval_split_name val \
-                                         --eval_path data/qvhighlight/highlight_val_release.jsonl
+python training/evaluate.py --model MODEL --dataset DATASET --feature FEATURE --split {val,test} --model_path MODEL_PATH
 ```
-To generate submission files for QVHighlight test sets, run (**QVHighlights only**):
+(**Example 1**) Evaluating Moment DETR w/ CLIP+Slowfast on the QVHighlights val set:
 ```
-PYTHONPATH=. python training/evaluate.py --config configs/qvhighlight/clip_slowfast_qd_detr_qvhighlight.yml \ 
-                                         --model_path results/clip_slowfast_qd_detr/qvhighlight/best.ckpt \
-                                         --eval_split_name test \
-                                         --eval_path data/qvhighlight/highlight_test_release.jsonl
+python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast --split val --model_path results/moment_detr/qvhighlight/clip_slowfast/best.ckpt
+```
+To generate submission files for QVHighlight test sets, change split into test (**QVHighlights only**):
+```
+python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast --split test --model_path results/moment_detr/qvhighlight/clip_slowfast/best.ckpt
 ```
 Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it to the [Codalab](https://codalab.lisn.upsaclay.fr/competitions/6937) (**QVHighlights only**):
 ```

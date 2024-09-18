@@ -1,0 +1,3 @@
+model_name: tr_detr
+VTC_loss_coef: 0.3
+CTC_loss_coef: 0.5
