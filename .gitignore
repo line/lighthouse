@@ -8,6 +8,8 @@ gradio_demo/weights/*.ckpt
 highlight_*.png
 SLOWFAST_8x8_R50.pkl
 Cnn14_mAP=0.431.pth
+tests/test_videos/video_duration_*
+tests/weights/*.ckpt
 
 # Mac
 .DS_Store

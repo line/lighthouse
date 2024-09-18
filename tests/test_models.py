@@ -1,26 +1,80 @@
 import os
+import pytest
 import subprocess
+from lighthouse.models import (MomentDETRPredictor, QDDETRPredictor, EaTRPredictor, 
+                               CGDETRPredictor, TRDETRPredictor, UVCOMPredictor)
 
-def generate_multiple_duration_videos():
+FEATURES = ['clip', 'clip_slowfast']
+MODELS = ['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr']
+DATASETS = ['qvhighlight']
+
+@pytest.mark.dependency()
+def test_generate_multiple_duration_videos():
     MIN_DURATION = 10
     MAX_DURATION = 151
     durations = [i for i in range(MIN_DURATION, MAX_DURATION)]
     return_codes = []
     for duration in durations:
-        cmd = 'ffmpeg -i api_example/RoripwjYFp8_60.0_210.0.mp4 -t {} -c copy tests/test_videos/video_duration_{}.mp4'.format(duration, duration)
+        cmd = f'ffmpeg -y -i api_example/RoripwjYFp8_60.0_210.0.mp4 -t {duration} -c copy tests/test_videos/video_duration_{duration}.mp4'
         result = subprocess.run(cmd, shell=True)
         return_codes.append(result.returncode)
-    
-    print(os.listdir('tests/test_videos'))
     for return_code in return_codes:
-        assert return_code == 0, 'return_code should be set 0.'
+        assert return_code == 0, '[ffmpeg conversion] return_code should be set 0.'
 
+@pytest.mark.dependency()
+def test_save_model_weights():
+    return_codes = []
+    for feature in FEATURES:
+        for model in MODELS:
+            for dataset in DATASETS:
+                if not os.path.exists(f'tests/weights/{feature}_{model}_{dataset}.ckpt'):
+                    cmd = f'wget -P tests/weights/ https://zenodo.org/records/13363606/files/{feature}_{model}_{dataset}.ckpt'
+                    result = subprocess.run(cmd, shell=True)
+                    return_codes.append(result.returncode)
+    for return_code in return_codes:
+        assert return_code == 0, '[save model weights] return_code should be set 0.'
+
+@pytest.mark.dependency()
+def test_load_slowfast_pann_weights():
+    result = subprocess.run('wget -P tests/ https://dl.fbaipublicfiles.com/pyslowfast/'
+                            'model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl', shell=True)
+    assert result == 0, '[Save slowfast weights] return_code should be set 0.'
+    result = subprocess.run('wget -P tests/ https://zenodo.org/record/3987831/files/'
+                            'Cnn14_mAP%3D0.431.pth', shell=True)
+    assert result == 0, '[Save PANNs weights] return_code should be set 0.'
+
+@pytest.mark.dependency(depends=['test_generate_multiple_duration_videos', 
+                                 'test_save_model_weights', 
+                                 'test_load_slowfast_pann_weights'])
 def test_model_prediction():
-    features = ['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann']
-    models = ['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr', 'taskweave_mr2hd', 'taskweave_hd2mr']
-    datasets = ['qvhighlight']
-    # TODO: test all of the models on all of the settings.
+    """
+    Test all of the trained models, except for resnet_glove features and taskweave
+    ResNet+GloVe is skipped due to their low performance.
+    CLIP+Slowfast+PANNs is skipped due to their low latency.
+    Taskweave is skiiped because two strategies are neccesary for prediction.
+    """
+    model_loaders  = {
+        'moment_detr': MomentDETRPredictor,
+        'qd_detr': QDDETRPredictor,
+        'eatr': EaTRPredictor,
+        'cg_detr': CGDETRPredictor,
+        'tr_detr': TRDETRPredictor,
+        'uvcom': UVCOMPredictor,
+    }
 
+    for feature in FEATURES:
+        for model in MODELS:
+            for dataset in DATASETS:
+                model_weight = os.path.join('tests/weights/', f'{feature}_{model}_{dataset}.ckpt')
+                model = model_loaders[model](model_weight, device='cpu', feature_name=feature, 
+                                             slowfast_path='tests/SLOWFAST_8x8_R50.pkl', 
+                                             pann_path='tests/Cnn14_mAP=0.431.pth')
+                
+                # test model on 10s to 150s
+                for video_path in os.listdir('tests/test_videos/'):
+                    video_path = os.path.join('tests/test_videos/', video_path)
+                    model.encode_video(video_path)
 
-
-    return True
+                    query = 'A woman wearing a glass is speaking in front of the camera'
+                    prediction = model.predict(query)
+                    import ipdb; ipdb.set_trace()
