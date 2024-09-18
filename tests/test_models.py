@@ -6,7 +6,7 @@ from lighthouse.models import (MomentDETRPredictor, QDDETRPredictor, EaTRPredict
                                CGDETRPredictor, TRDETRPredictor, UVCOMPredictor)
 
 FEATURES = ['clip', 'clip_slowfast']
-MODELS = ['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr']
+MODELS = ['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom']
 DATASETS = ['qvhighlight']
 MIN_DURATION = 10
 MAX_DURATION = 151
@@ -53,16 +53,19 @@ def test_load_slowfast_pann_weights():
 def test_model_prediction():
     """
     Test all of the trained models, except for resnet_glove features and taskweave
-    ResNet+GloVe is skipped due to their low performance.
-    CLIP+Slowfast+PANNs is skipped due to their low latency.
-    Taskweave is skiiped because two strategies are neccesary for prediction.
+    Untested features:
+        - ResNet+GloVe is skipped due to their low performance.
+        - CLIP+Slowfast+PANNs is skipped due to their low latency.
+    
+    Untested models:
+        - TR-DETR is skipped because model use .cuda() function. We need to remove it.
+        - Taskweave is skiped because two strategies are neccesary for prediction.
     """
     model_loaders  = {
         'moment_detr': MomentDETRPredictor,
         'qd_detr': QDDETRPredictor,
         'eatr': EaTRPredictor,
         'cg_detr': CGDETRPredictor,
-        'tr_detr': TRDETRPredictor,
         'uvcom': UVCOMPredictor,
     }
 
