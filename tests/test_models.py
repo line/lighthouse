@@ -1,4 +1,5 @@
 import os
+import math
 import pytest
 import subprocess
 from lighthouse.models import (MomentDETRPredictor, QDDETRPredictor, EaTRPredictor, 
@@ -7,11 +8,13 @@ from lighthouse.models import (MomentDETRPredictor, QDDETRPredictor, EaTRPredict
 FEATURES = ['clip', 'clip_slowfast']
 MODELS = ['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr']
 DATASETS = ['qvhighlight']
+MIN_DURATION = 10
+MAX_DURATION = 151
+MOMENT_NUM = 10
+
 
 @pytest.mark.dependency()
 def test_generate_multiple_duration_videos():
-    MIN_DURATION = 10
-    MAX_DURATION = 151
     durations = [i for i in range(MIN_DURATION, MAX_DURATION)]
     return_codes = []
     for duration in durations:
@@ -64,17 +67,24 @@ def test_model_prediction():
     }
 
     for feature in FEATURES:
-        for model in MODELS:
+        for model_name in MODELS:
             for dataset in DATASETS:
-                model_weight = os.path.join('tests/weights/', f'{feature}_{model}_{dataset}.ckpt')
-                model = model_loaders[model](model_weight, device='cpu', feature_name=feature, 
-                                             slowfast_path='tests/SLOWFAST_8x8_R50.pkl', 
-                                             pann_path='tests/Cnn14_mAP=0.431.pth')
+                model_weight = os.path.join('tests/weights/', f'{feature}_{model_name}_{dataset}.ckpt')
+                model = model_loaders[model_name](model_weight, device='cpu', feature_name=feature, 
+                                                slowfast_path='tests/SLOWFAST_8x8_R50.pkl', 
+                                                pann_path='tests/Cnn14_mAP=0.431.pth')
                 
                 # test model on 10s to 150s
-                for video_path in os.listdir('tests/test_videos/'):
-                    video_path = os.path.join('tests/test_videos/', video_path)
+                for second in range(MIN_DURATION, MAX_DURATION):
+                    video_path = f'tests/test_videos/video_duration_{second}.mp4'
                     model.encode_video(video_path)
 
                     query = 'A woman wearing a glass is speaking in front of the camera'
                     prediction = model.predict(query)
+                    try:
+                        assert len(prediction['pred_relevant_windows']) == MOMENT_NUM, \
+                            f'The number of moments from {feature}_{model_name}_{dataset} is expected {MOMENT_NUM}, but got {len(prediction["pred_relevant_windows"])}.'
+                        assert len(prediction['pred_saliency_scores']) == math.ceil(second / model._clip_len), \
+                            f'The number of saliency scores from {feature}_{model_name}_{dataset} is expected {math.ceil(second / model._clip_len)}, but got {len(prediction["pred_saliency_scores"])}.'
+                    except:
+                        import ipdb; ipdb.set_trace()
