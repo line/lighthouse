@@ -81,10 +81,7 @@ def test_model_prediction():
 
                     query = 'A woman wearing a glass is speaking in front of the camera'
                     prediction = model.predict(query)
-                    try:
-                        assert len(prediction['pred_relevant_windows']) == MOMENT_NUM, \
-                            f'The number of moments from {feature}_{model_name}_{dataset} is expected {MOMENT_NUM}, but got {len(prediction["pred_relevant_windows"])}.'
-                        assert len(prediction['pred_saliency_scores']) == math.ceil(second / model._clip_len), \
-                            f'The number of saliency scores from {feature}_{model_name}_{dataset} is expected {math.ceil(second / model._clip_len)}, but got {len(prediction["pred_saliency_scores"])}.'
-                    except:
-                        import ipdb; ipdb.set_trace()
+                    assert len(prediction['pred_relevant_windows']) == MOMENT_NUM, \
+                        f'The number of moments from {feature}_{model_name}_{dataset} is expected {MOMENT_NUM}, but got {len(prediction["pred_relevant_windows"])}.'
+                    assert len(prediction['pred_saliency_scores']) == math.ceil(second / model._clip_len), \
+                        f'The number of saliency scores from {feature}_{model_name}_{dataset} is expected {math.ceil(second / model._clip_len)}, but got {len(prediction["pred_saliency_scores"])}.'
