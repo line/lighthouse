@@ -38,5 +38,12 @@ label_loss_coef: 4
 eos_coef: 0.1
 lw_saliency: 1
 
-model_ema: False # If you use EMA, set True (Taskweave uses EMA)
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+eval_split_name: val
+aux_loss: True
+
+model_ema: False
 ema_decay: 0.9
+results_dir: results

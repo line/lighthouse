@@ -52,10 +52,13 @@ from torch.utils.data import DataLoader
 
 from easydict import EasyDict
 
-from training.config import BaseOptions
-from training.dataset import StartEndDataset, start_end_collate, prepare_batch_inputs
-from training.cg_detr_dataset import CGDETR_StartEndDataset, cg_detr_start_end_collate, cg_detr_prepare_batch_inputs
-from training.evaluate import eval_epoch, start_inference, setup_model
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from config import BaseOptions
+from dataset import StartEndDataset, start_end_collate, prepare_batch_inputs
+from cg_detr_dataset import CGDETR_StartEndDataset, cg_detr_start_end_collate, cg_detr_prepare_batch_inputs
+from evaluate import eval_epoch, start_inference, setup_model
 
 from lighthouse.common.utils.basic_utils import AverageMeter, dict_to_markdown, write_log, save_checkpoint, rename_latest_to_best
 from lighthouse.common.utils.model_utils import count_parameters, ModelEMA
@@ -106,7 +109,6 @@ def calculate_taskweave_losses(loss_dict, weight_dict, hd_log_var, mr_log_var):
                 grouped_losses["loss_hd"].append(loss_dict[k])
     loss_mr = sum(grouped_losses["loss_mr"])
     loss_hd = sum(grouped_losses["loss_hd"])
-    # hd_log_var, mr_log_var = hd_log_var.to(loss_hd.device), mr_log_var.to(loss_mr.device)
     losses = 2 * loss_hd * torch.exp(-hd_log_var) + 1 * loss_mr * torch.exp(-mr_log_var) + hd_log_var + mr_log_var
     return losses
 
@@ -206,23 +208,22 @@ def train(model, criterion, optimizer, lr_scheduler, train_dataset, val_dataset,
                 rename_latest_to_best(latest_file_paths)
 
 
-def main(yaml_path, pretrained_model_path, domain):
+def main(opt, resume=None, domain=None):
     logger.info("Setup config, data and model...")
-    opt = BaseOptions().parse(yaml_path, domain)
     set_seed(opt.seed)
 
     # dataset & data loader
     dataset_config = EasyDict(
         dset_name=opt.dset_name,
-        domain=opt.domain,
+        domain=domain,
         data_path=opt.train_path,
         ctx_mode=opt.ctx_mode,
         v_feat_dirs=opt.v_feat_dirs,
-        a_feat_dirs=opt.a_feat_dirs if "a_feat_dirs" in opt else [],
+        a_feat_dirs=opt.a_feat_dirs,
         q_feat_dir=opt.t_feat_dir,
         q_feat_type="last_hidden_state",
         v_feat_types=opt.v_feat_types,
-        a_feat_types=opt.a_feat_types if "a_feat_types" in opt else None,
+        a_feat_types=opt.a_feat_types,
         max_q_l=opt.max_q_l,
         max_v_l=opt.max_v_l,
         clip_len=opt.clip_length,
@@ -234,17 +235,19 @@ def main(yaml_path, pretrained_model_path, domain):
     train_dataset = CGDETR_StartEndDataset(**dataset_config) if opt.model_name == 'cg_detr' else StartEndDataset(**dataset_config)    
     copied_eval_config = copy.deepcopy(dataset_config)
     copied_eval_config.data_path = opt.eval_path
-    copied_eval_config.q_feat_dir = opt.t_feat_dir_eval if "t_feat_dir_eval" in opt else opt.t_feat_dir
+    copied_eval_config.q_feat_dir = opt.t_feat_dir_pretrain_eval if opt.t_feat_dir_pretrain_eval is not None else opt.t_feat_dir
     eval_dataset = CGDETR_StartEndDataset(**copied_eval_config) if opt.model_name == 'cg_detr' else StartEndDataset(**copied_eval_config)
     
     # prepare model
     model, criterion, optimizer, lr_scheduler = setup_model(opt)
     logger.info(f"Model {model}")
-    # load checkpoint
-    if pretrained_model_path is not None:
-        checkpoint = torch.load(pretrained_model_path)
+    
+    # load checkpoint for QVHighlight pretrain -> finetune
+    if resume is not None:
+        checkpoint = torch.load(resume)
         model.load_state_dict(checkpoint["model"])
-        logger.info("Model checkpoint: {}".format(pretrained_model_path))
+        logger.info("Loaded model checkpoint: {}".format(resume))
+    
     count_parameters(model)
     logger.info("Start Training...")
     
@@ -252,13 +255,49 @@ def main(yaml_path, pretrained_model_path, domain):
     train(model, criterion, optimizer, lr_scheduler, train_dataset, eval_dataset, opt)
 
 
+def check_valid_combination(dataset, feature):
+    if feature == 'i3d_clip':
+        return dataset == 'tvsum'
+    
+    if feature == 'clip_slowfast_pann':
+        return dataset == 'qvhighlight' or dataset == 'qvhighlight_pretrain'
+    
+    if dataset == 'youtube_highlight':
+        # Due to unavailable access to the original videos, we publish only CLIP and CLIP+Slowfast for YouTube Highlight.
+        return dataset != 'resnet_glove'
+    
+    return True
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', type=str, required=True, help='yaml config path for training. e.g., configs/qd_detr_qvhighlight.yml')
-    parser.add_argument('--pretrained_model_path', type=str, help='saved model path', default=None)
-    parser.add_argument('--domain', type=str, help='training domain for TVSum and YouTube Highlights . e.g., BK and dog. Note that they are not necessary for other datasets')
+    parser.add_argument('--model', '-m', type=str, required=True, 
+                        choices=['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr', 'taskweave_hd2mr', 'taskweave_mr2hd'],
+                        help='model name. select from [moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_hd2mr, taskweave_mr2hd]')
+    parser.add_argument('--dataset', '-d', type=str, required=True,
+                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight'],
+                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight]')
+    parser.add_argument('--feature', '-f', type=str, required=True,
+                        choices=['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip'],
+                        help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip].'
+                             'NOTE: i3d_clip and clip_slowfast_pann are only for TVSum and QVHighlight, respectively')
+    parser.add_argument('--resume', '-r', type=str, help='specify model path for fine-tuning. If None, train the model from scratch.')
     args = parser.parse_args()
-    yaml_path = args.config
-    pretrained_model_path = args.pretrained_model_path
-    domain = args.domain
-    main(yaml_path, pretrained_model_path, domain)
+
+    is_valid = check_valid_combination(args.dataset, args.feature)
+
+    if is_valid:
+        option_manager = BaseOptions(args.model, args.dataset, args.feature)
+        option_manager.parse()
+        option_manager.clean_and_makedirs()
+        opt = option_manager.option
+        
+        if 'domains' in opt:
+            for domain in opt.domains:
+                opt.results_dir = os.path.join(opt.results_dir, domain)
+                main(opt, resume=args.resume, domain=domain)
+        else:
+            main(opt, resume=args.resume)
+    
+    else:
+        raise ValueError('The combination of dataset and feature is invalid: dataset={}, feature={}'.format(args.dataset, args.feature))

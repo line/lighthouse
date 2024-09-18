@@ -1,0 +1,22 @@
+dset_name: tvsum
+clip_length: 2
+train_path: data/tvsum/tvsum_train_release.jsonl
+eval_path: data/tvsum/tvsum_val_release.jsonl
+max_q_l: 100
+max_v_l: 1000
+seed: 2018
+lr: 0.001
+lr_drop: 2000
+n_epoch: 2000
+bsz: 4
+domains:
+  - BK
+  - BT
+  - DS
+  - FM
+  - GA
+  - MS
+  - PK
+  - PR
+  - VT
+  - VU

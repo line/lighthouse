@@ -35,11 +35,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import pprint
-import numpy as np
 import torch
-from lighthouse.common.utils.basic_utils import load_jsonl
-from training.standalone_eval.eval import eval_submission
 from tqdm import tqdm
 
 

@@ -215,7 +215,7 @@ class StartEndDataset(Dataset):
                     model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                         self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], ctx_l)
                 else:
-                    raise NotImplementedError()
+                    raise NotImplementedError
 
         return dict(meta=meta, model_inputs=model_inputs)
 
@@ -471,19 +471,16 @@ class StartEndDataset(Dataset):
     def _get_audio_feat_by_vid(self, vid):
         a_feat_list = []
         for _feat_dir in self.a_feat_dirs:
-            if self.dset_name == 'qvhighlight':
-                if self.a_feat_types == "clap":
-                    _feat_path = join(_feat_dir, f"{vid}.npz")
-                    _feat = np.load(_feat_path)["features"][:self.max_a_l].astype(np.float32)
-                elif self.a_feat_types == "pann":
+            if self.dset_name == 'qvhighlight' or self.dset_name == 'qvhighlight_pretrain':
+                if self.a_feat_types == "pann":
                     _feat_path = join(_feat_dir, f"{vid}.npy")
                     _feat = np.load(_feat_path)[:self.max_a_l].astype(np.float32)
                 else:
-                    raise NotImplementedError()
+                    raise NotImplementedError
                 _feat = l2_normalize_np_array(_feat) # normalize?
                 a_feat_list.append(_feat)
             else:
-                raise NotImplementedError()
+                raise NotImplementedError
         
         # some features are slightly longer than the others
         min_len = min([len(e) for e in a_feat_list])
