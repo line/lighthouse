@@ -78,4 +78,3 @@ def test_model_prediction():
 
                     query = 'A woman wearing a glass is speaking in front of the camera'
                     prediction = model.predict(query)
-                    import ipdb; ipdb.set_trace()
