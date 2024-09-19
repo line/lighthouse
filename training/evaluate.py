@@ -258,7 +258,8 @@ def compute_mr_results(epoch_i, model, eval_loader, opt, criterion=None):
             min_w_l=2, max_w_l=60, move_window_method="left",
             process_func_names=("clip_ts", "round_multiple")
         )
-    elif opt.dset_name == 'tacos' or opt.dset_name == 'activitynet' or opt.dset_name == 'youtube_highlight':
+    elif opt.dset_name == 'tacos' or opt.dset_name == 'activitynet' or opt.dset_name == 'youtube_highlight' \
+        or opt.dset_name == 'clotho-moment':
         post_processor = PostProcessorDETR(
             clip_length=opt.clip_length, min_ts_val=0, max_ts_val=50000,
             min_w_l=0, max_w_l=50000, move_window_method="left",

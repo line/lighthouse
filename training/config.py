@@ -113,6 +113,11 @@ class BaseOptions(object):
                 v_feat_dirs = [f'features/{self.dataset}/i3d']
                 t_feat_dir = f'features/{self.dataset}/clip_text'
 
+            elif self.feature == 'clap':
+                a_feat_dirs = [f'features/{self.dataset}/clap']
+                a_feat_types = self.opt.a_feat_types
+                t_feat_dir = f'features/{self.dataset}/clap_text'
+
         self.opt.v_feat_dirs = v_feat_dirs
         self.opt.t_feat_dir = t_feat_dir
         self.opt.a_feat_dirs = a_feat_dirs
