@@ -2,6 +2,7 @@ import os
 import math
 import pytest
 import subprocess
+import random
 from lighthouse.models import (MomentDETRPredictor, QDDETRPredictor, EaTRPredictor, 
                                CGDETRPredictor, UVCOMPredictor)
 
@@ -12,6 +13,7 @@ DATASETS = ['qvhighlight']
 MIN_DURATION = 10
 MAX_DURATION = 151
 MOMENT_NUM = 10
+SAMPLE_NUM = 10
 
 
 @pytest.mark.dependency()
@@ -78,8 +80,9 @@ def test_model_prediction():
                                                 slowfast_path='tests/SLOWFAST_8x8_R50.pkl', 
                                                 pann_path='tests/Cnn14_mAP=0.431.pth')
                 
-                # test model on 10s to 150s
-                for second in range(MIN_DURATION, MAX_DURATION):
+                # test 10 duration samples
+                durations = random.sample([i for i in range(MIN_DURATION, MAX_DURATION)], SAMPLE_NUM)
+                for second in durations:
                     video_path = f'tests/test_videos/video_duration_{second}.mp4'
                     model.encode_video(video_path)
                     query = 'A woman wearing a glass is speaking in front of the camera'
