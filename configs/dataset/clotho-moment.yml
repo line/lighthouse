@@ -1,0 +1,4 @@
+dset_name: clotho-moment
+clip_length: 1
+train_path: data/clotho_moment/clotho_moment_train_release.jsonl
+eval_path: data/clotho_moment/clotho_moment_val_release.jsonl
