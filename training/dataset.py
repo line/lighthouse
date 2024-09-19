@@ -212,7 +212,7 @@ class StartEndDataset(Dataset):
                         model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                             self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)                        
                 
-                elif self.dset_name in ['charades', 'tacos', 'activitynet', 'clotho-moment']:
+                elif self.dset_name in ['charades', 'tacos', 'activitynet', 'clotho-moment', 'unav100']:
                     model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                         self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], ctx_l)
                 else:
@@ -241,7 +241,7 @@ class StartEndDataset(Dataset):
         else:
             mask[pos_idx] = 1
 
-        if self.dset_name in ['charades', 'tacos', 'activitynet', 'clotho-moment']:
+        if self.dset_name in ['charades', 'tacos', 'activitynet', 'clotho-moment', 'unav100']:
             mask = mask[:ctx_l]
 
         return mask
@@ -480,7 +480,7 @@ class StartEndDataset(Dataset):
                     raise NotImplementedError
                 _feat = l2_normalize_np_array(_feat) # normalize?
                 a_feat_list.append(_feat)
-            elif self.dset_name == 'clotho-moment':
+            elif self.dset_name == 'clotho-moment' or self.dset_name == 'unav100':
                 if self.a_feat_types == "clap":
                     _feat_path = join(_feat_dir, f"{vid}.npz")
                     _feat = np.load(_feat_path)["features"][:self.max_a_l].astype(np.float32)

@@ -259,7 +259,7 @@ def compute_mr_results(epoch_i, model, eval_loader, opt, criterion=None):
             process_func_names=("clip_ts", "round_multiple")
         )
     elif opt.dset_name == 'tacos' or opt.dset_name == 'activitynet' or opt.dset_name == 'youtube_highlight' \
-        or opt.dset_name == 'clotho-moment':
+        or opt.dset_name == 'clotho-moment' or opt.dset_name == 'unav100':
         post_processor = PostProcessorDETR(
             clip_length=opt.clip_length, min_ts_val=0, max_ts_val=50000,
             min_w_l=0, max_w_l=50000, move_window_method="left",
@@ -410,8 +410,8 @@ if __name__ == '__main__':
                         choices=['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr', 'taskweave_hd2mr', 'taskweave_mr2hd'],
                         help='model name. select from [moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_hd2mr, taskweave_mr2hd]')
     parser.add_argument('--dataset', '-d', type=str, required=True,
-                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment'],
-                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment]')
+                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment', 'unav100'],
+                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment, unav100]')
     parser.add_argument('--feature', '-f', type=str, required=True,
                         choices=['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip', 'clap'],
                         help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap].'
@@ -427,6 +427,7 @@ if __name__ == '__main__':
         option_manager = BaseOptions(args.model, args.dataset, args.feature)
         option_manager.parse()
         opt = option_manager.option
+        os.makedirs(opt.results_dir, exist_ok=True)
 
         opt.model_path = args.model_path
         opt.eval_split_name = args.eval_split_name
