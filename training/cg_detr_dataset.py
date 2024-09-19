@@ -157,7 +157,8 @@ class CGDETR_StartEndDataset(Dataset):
                 model_inputs["audio_feat"] = model_inputs["audio_feat"][:ctx_l]
                 ctx_l_a = ctx_l
             elif ctx_l > ctx_l_a:
-                model_inputs["video_feat"] = model_inputs["video_feat"][:ctx_l_a] # TODO: Sometimes, audio length is not equal to video length.
+                if self.use_video:
+                    model_inputs["video_feat"] = model_inputs["video_feat"][:ctx_l_a] # TODO: Sometimes, audio length is not equal to video length.
                 ctx_l = ctx_l_a
         else:
             ctx_l_a = self.max_a_l
@@ -195,7 +196,7 @@ class CGDETR_StartEndDataset(Dataset):
                         else:
                             model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                                 self.get_saliency_labels_all(meta["relevant_clip_ids"], meta["saliency_scores"], ctx_l)
-                    elif self.dset_name in ['charades', 'tacos', 'activitynet']: ## charades, tacos, nlq
+                    elif self.dset_name in ['charades', 'tacos', 'activitynet', 'clotho-moment']: ## charades, tacos, nlq
                         model_inputs["saliency_pos_labels"], model_inputs["saliency_neg_labels"], model_inputs["saliency_all_labels"] = \
                             self.get_saliency_labels_sub_as_query(meta["relevant_windows"][0], meta["duration"], ctx_l)  # only one gt
                     else:
@@ -453,6 +454,14 @@ class CGDETR_StartEndDataset(Dataset):
                 if self.a_feat_types == "pann":
                     _feat_path = join(_feat_dir, f"{vid}.npy")
                     _feat = np.load(_feat_path)[:self.max_a_l].astype(np.float32)
+                else:
+                    raise NotImplementedError
+                _feat = l2_normalize_np_array(_feat) # normalize?
+                a_feat_list.append(_feat)
+            elif self.dset_name == 'clotho-moment':
+                if self.a_feat_types == "clap":
+                    _feat_path = join(_feat_dir, f"{vid}.npz")
+                    _feat = np.load(_feat_path)["features"][:self.max_a_l].astype(np.float32)
                 else:
                     raise NotImplementedError
                 _feat = l2_normalize_np_array(_feat) # normalize?
