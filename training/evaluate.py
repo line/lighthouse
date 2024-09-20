@@ -252,7 +252,7 @@ def compute_mr_results(epoch_i, model, eval_loader, opt, criterion=None):
             min_w_l=2, max_w_l=150, move_window_method="left",
             process_func_names=("clip_ts", "round_multiple")
         )
-    elif opt.dset_name in ['charades', 'clotho-moment', 'unav100', 'tut2017']:
+    elif opt.dset_name in ['charades', 'clotho-moment', 'unav100-subset', 'tut2017']:
         post_processor = PostProcessorDETR(
             clip_length=opt.clip_length, min_ts_val=0, max_ts_val=150,
             min_w_l=2, max_w_l=60, move_window_method="left",
@@ -409,8 +409,8 @@ if __name__ == '__main__':
                         choices=['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr', 'taskweave_hd2mr', 'taskweave_mr2hd'],
                         help='model name. select from [moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_hd2mr, taskweave_mr2hd]')
     parser.add_argument('--dataset', '-d', type=str, required=True,
-                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment', 'unav100', 'tut2017'],
-                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment, unav100, tut2017]')
+                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment', 'unav100-subset', 'tut2017'],
+                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment, unav100-subset, tut2017]')
     parser.add_argument('--feature', '-f', type=str, required=True,
                         choices=['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip', 'clap'],
                         help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap].'
