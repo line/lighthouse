@@ -1,7 +1,7 @@
 {"qid": 0, "query": "A dog barks at vacuum cleaner cleaning floors.", "duration": 48, "vid": "7bHrke6zbLk", "relevant_windows": [[5.0, 30.0]]}
 {"qid": 1, "query": "A man speaks in a room.", "duration": 48, "vid": "7bHrke6zbLk", "relevant_windows": [[31.0, 47.0]]}
-{"qid": 2, "query": "Two people perform tap dance to background music", "duration": 46, "vid": "2PHV2xNjGVU", "relevant_windows": [[10.0, 37.0]]}
-{"qid": 3, "query": "Someone plays clarinet in a room", "duration": 47, "vid": "3Z1aN7gfkNE", "relevant_windows": [[6.0, 24.0]]}
+{"qid": 2, "query": "Two people perform tap dance to background music.", "duration": 46, "vid": "2PHV2xNjGVU", "relevant_windows": [[10.0, 37.0]]}
+{"qid": 3, "query": "Someone plays clarinet in a room.", "duration": 47, "vid": "3Z1aN7gfkNE", "relevant_windows": [[6.0, 24.0]]}
 {"qid": 4, "query": "Someone dries his hair with a hair dryer.", "duration": 45, "vid": "TtO9wzZ3LFA", "relevant_windows": [[19.0, 34.0]]}
 {"qid": 5, "query": "Someone shoots with machine gun", "duration": 47, "vid": "84RCfcH_xuU", "relevant_windows": [[9.0, 19.0]]}
 {"qid": 6, "query": "Water cascades down from a waterfall.", "duration": 50, "vid": "1a-ODBWMUAE", "relevant_windows": [[5.0, 26.0]]}
