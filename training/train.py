@@ -141,7 +141,9 @@ def train_epoch(model, criterion, train_loader, optimizer, opt, epoch_i):
             loss_dict = criterion(outputs, targets)
             losses = sum(loss_dict[k] * criterion.weight_dict[k] for k in loss_dict.keys() if k in criterion.weight_dict)
             
-            if opt.model_name == 'tr_detr' and opt.dset_name != 'tvsum':
+            if opt.model_name == 'tr_detr' \
+                and (opt.dset_name != 'tvsum' and opt.dset_name != 'youtube_highlight' 
+                    and opt.dset_name != 'qvhighlight_pretrain'):
                 losses += additional_trdetr_losses(model_inputs, outputs, targets, opt)
             
             optimizer.zero_grad()
