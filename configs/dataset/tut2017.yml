@@ -1,0 +1,4 @@
+dset_name: tut2017
+clip_length: 1
+train_path: null
+eval_path: null

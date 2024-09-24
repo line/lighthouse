@@ -252,13 +252,13 @@ def compute_mr_results(epoch_i, model, eval_loader, opt, criterion=None):
             min_w_l=2, max_w_l=150, move_window_method="left",
             process_func_names=("clip_ts", "round_multiple")
         )
-    elif opt.dset_name == 'charades':
+    elif opt.dset_name in ['charades', 'clotho-moment', 'unav100-subset', 'tut2017']:
         post_processor = PostProcessorDETR(
             clip_length=opt.clip_length, min_ts_val=0, max_ts_val=150,
             min_w_l=2, max_w_l=60, move_window_method="left",
             process_func_names=("clip_ts", "round_multiple")
         )
-    elif opt.dset_name == 'tacos' or opt.dset_name == 'activitynet' or opt.dset_name == 'youtube_highlight':
+    elif opt.dset_name in ['tacos', 'activitynet', 'youtube_highlight']:
         post_processor = PostProcessorDETR(
             clip_length=opt.clip_length, min_ts_val=0, max_ts_val=50000,
             min_w_l=0, max_w_l=50000, move_window_method="left",
@@ -342,31 +342,28 @@ def setup_model(opt):
     return model, criterion, optimizer, lr_scheduler
 
 
-def start_inference(yaml_path, model_path, split, eval_path, domain):
-    opt = BaseOptions().parse(yaml_path, domain)
-    opt.model_path = model_path
-    opt.eval_split_name = split
-    opt.eval_path = eval_path
-    opt.domain = domain
-
+def start_inference(opt, domain=None):
     logger.info("Setup config, data and model...")
 
     cudnn.benchmark = True
     cudnn.deterministic = False
-    load_labels = split == 'val'
+    load_labels = opt.eval_split_name == 'val'
     epoch_i = None # for TaskWeave.
     
+    # dataset & data loader
     dataset_config = EasyDict(
         dset_name=opt.dset_name,
-        domain=opt.domain,
+        domain=domain,
         data_path=opt.eval_path,
+        ctx_mode=opt.ctx_mode,
         v_feat_dirs=opt.v_feat_dirs,
-        a_feat_dirs=opt.a_feat_dirs if "a_feat_dirs" in opt else [],
-        q_feat_dir=opt.t_feat_dir_eval if "t_feat_dir_eval" in opt else opt.t_feat_dir,
+        a_feat_dirs=opt.a_feat_dirs,
+        q_feat_dir=opt.t_feat_dir,
         q_feat_type="last_hidden_state",
+        v_feat_types=opt.v_feat_types,
+        a_feat_types=opt.a_feat_types,
         max_q_l=opt.max_q_l,
         max_v_l=opt.max_v_l,
-        ctx_mode=opt.ctx_mode,
         clip_len=opt.clip_length,
         max_windows=opt.max_windows,
         span_loss_type=opt.span_loss_type,
@@ -391,17 +388,56 @@ def start_inference(yaml_path, model_path, split, eval_path, domain):
     if opt.eval_split_name == 'val':
         logger.info("metrics_no_nms {}".format(pprint.pformat(metrics["brief"], indent=4)))
 
+
+def check_valid_combination(dataset, feature):
+    if feature == 'i3d_clip':
+        return dataset == 'tvsum'
+    
+    if feature == 'clip_slowfast_pann':
+        return dataset == 'qvhighlight' or dataset == 'qvhighlight_pretrain'
+    
+    if dataset == 'youtube_highlight':
+        # Due to unavailable access to the original videos, we publish only CLIP and CLIP+Slowfast for YouTube Highlight.
+        return dataset != 'resnet_glove'
+    
+    return True
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', type=str, required=True, help='yaml config path for evaluation. e.g., configs/qd_detr_qvhighlight.yml')
+    parser.add_argument('--model', '-m', type=str, required=True, 
+                        choices=['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr', 'taskweave_hd2mr', 'taskweave_mr2hd'],
+                        help='model name. select from [moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_hd2mr, taskweave_mr2hd]')
+    parser.add_argument('--dataset', '-d', type=str, required=True,
+                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment', 'unav100-subset', 'tut2017'],
+                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment, unav100-subset, tut2017]')
+    parser.add_argument('--feature', '-f', type=str, required=True,
+                        choices=['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip', 'clap'],
+                        help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap].'
+                             'NOTE: i3d_clip and clip_slowfast_pann are only for TVSum and QVHighlight, respectively')
     parser.add_argument('--model_path', type=str, required=True, help='saved model path')
     parser.add_argument('--eval_split_name', type=str, required=True, choices=['val', 'test'], help='val or test')
     parser.add_argument('--eval_path', type=str, required=True, help='evaluation data')
-    parser.add_argument('--domain', type=str, help="training domain for TVSum and YouTube Highlights . e.g., BK and dog. Note that they are not necessary for other datasets")
     args = parser.parse_args()
-    yaml_path = args.config
-    model_path = args.model_path
-    split = args.eval_split_name
-    eval_path = args.eval_path
-    domain = args.domain
-    start_inference(yaml_path, model_path, split, eval_path, domain)
+
+    is_valid = check_valid_combination(args.dataset, args.feature)
+
+    if is_valid:
+        option_manager = BaseOptions(args.model, args.dataset, args.feature)
+        option_manager.parse()
+        opt = option_manager.option
+        os.makedirs(opt.results_dir, exist_ok=True)
+
+        opt.model_path = args.model_path
+        opt.eval_split_name = args.eval_split_name
+        opt.eval_path = args.eval_path
+        
+        if 'domains' in opt:
+            for domain in opt.domains:
+                opt.results_dir = os.path.join(opt.results_dir, domain)
+                start_inference(opt, domain=domain)
+        else:
+            start_inference(opt)
+    
+    else:
+        raise ValueError('The combination of dataset and feature is invalid: dataset={}, feature={}'.format(args.dataset, args.feature))

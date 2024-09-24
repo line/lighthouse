@@ -1,0 +1,100 @@
+{"qid": 0, "query": "A dog barks at vacuum cleaner cleaning floors.", "duration": 48, "vid": "7bHrke6zbLk", "relevant_windows": [[5.0, 30.0]]}
+{"qid": 1, "query": "A man speaks in a room.", "duration": 48, "vid": "7bHrke6zbLk", "relevant_windows": [[31.0, 47.0]]}
+{"qid": 2, "query": "Two people perform tap dance to background music.", "duration": 46, "vid": "2PHV2xNjGVU", "relevant_windows": [[10.0, 37.0]]}
+{"qid": 3, "query": "Someone plays clarinet in a room.", "duration": 47, "vid": "3Z1aN7gfkNE", "relevant_windows": [[6.0, 24.0]]}
+{"qid": 4, "query": "Someone dries his hair with a hair dryer.", "duration": 45, "vid": "TtO9wzZ3LFA", "relevant_windows": [[19.0, 34.0]]}
+{"qid": 5, "query": "Someone shoots with machine gun", "duration": 47, "vid": "84RCfcH_xuU", "relevant_windows": [[9.0, 19.0]]}
+{"qid": 6, "query": "Water cascades down from a waterfall.", "duration": 50, "vid": "1a-ODBWMUAE", "relevant_windows": [[5.0, 26.0]]}
+{"qid": 7, "query": "Lions in snowy field fights fiercely and growling.", "duration": 54, "vid": "AGRoiStB4Lk", "relevant_windows": [[31.0, 44.0]]}
+{"qid": 8, "query": "Two dogs barks loudly.", "duration": 49, "vid": "vyYpxGJr7zI", "relevant_windows": [[28.0, 49.0]]}
+{"qid": 9, "query": "Spectators watch sports and cheer.", "duration": 48, "vid": "0T9__Qqp2Go", "relevant_windows": [[18.0, 41.0]]}
+{"qid": 10, "query": "Men and women sing in a chorus in a hall.", "duration": 46, "vid": "-2FKhYSw_zU", "relevant_windows": [[28.0, 46.0]]}
+{"qid": 11, "query": "Someone Plays harp in a hall.", "duration": 48, "vid": "-HNovkiEoMs", "relevant_windows": [[0.0, 25.0]]}
+{"qid": 12, "query": "A man is interviewed.", "duration": 48, "vid": "-HNovkiEoMs", "relevant_windows": [[29.0, 42.0]]}
+{"qid": 13, "query": "A woman is interviewed.", "duration": 48, "vid": "-HNovkiEoMs", "relevant_windows": [[43.0, 48.0]]}
+{"qid": 14, "query": "Someone Plays ukulele in a room.", "duration": 54, "vid": "FOJgJN4K50Y", "relevant_windows": [[0.0, 16.0]]}
+{"qid": 15, "query": "A baby laughs happily.", "duration": 60, "vid": "2VuKP6zZDDc", "relevant_windows": [[0.0, 4.0]]}
+{"qid": 16, "query": "People plays marimba.", "duration": 46, "vid": "-CI9mVOAK-k", "relevant_windows": [[31.0, 46.0]]}
+{"qid": 17, "query": "A fire truck siren sounds along with music.", "duration": 60, "vid": "3CjS1h8nkYs", "relevant_windows": [[31.0, 60]]}
+{"qid": 18, "query": "Lightning strikes with a very loud sound.", "duration": 45, "vid": "QISybl0-Dtc", "relevant_windows": [[12.0, 25.0]]}
+{"qid": 19, "query": "A baby laughs loudly.", "duration": 60, "vid": "3JYjNHFJfO4", "relevant_windows": [[3.0, 17.0]]}
+{"qid": 20, "query": "Someone pushes a shopping cart.", "duration": 60, "vid": "3JYjNHFJfO4", "relevant_windows": [[17.0, 20.0]]}
+{"qid": 21, "query": "Someone drills a hole in a wood with an electric drill.", "duration": 45, "vid": "EXrUYmn6SXc", "relevant_windows": [[1.0, 3.0]]}
+{"qid": 22, "query": "Someone hits a nail with a hammer.", "duration": 45, "vid": "EXrUYmn6SXc", "relevant_windows": [[1.0, 10.0]]}
+{"qid": 23, "query": "A sports car starts with a loud noise.", "duration": 45, "vid": "sNicRCa4sTI", "relevant_windows": [[35.0, 45.0]]}
+{"qid": 24, "query": "People sing along with music.", "duration": 48, "vid": "Hz8ig_n39IM", "relevant_windows": [[41.0, 48.0]]}
+{"qid": 25, "query": "A train blows its whistle.", "duration": 48, "vid": "Hz8ig_n39IM", "relevant_windows": [[2.0, 13.0]]}
+{"qid": 26, "query": "A train passes nearby.", "duration": 59, "vid": "86WdKppZ9to", "relevant_windows": [[32.0, 52.0]]}
+{"qid": 27, "query": "A female singer sing along with orchestra.", "duration": 48, "vid": "85dylFBVD40", "relevant_windows": [[28.0, 48.0]]}
+{"qid": 28, "query": "Phone rings loudly.", "duration": 51, "vid": "qJqlad8lMJ0", "relevant_windows": [[0.0, 23.0]]}
+{"qid": 29, "query": "Fireworks are launched one by one.", "duration": 46, "vid": "1XMow1fnsPM", "relevant_windows": [[0.0, 29.0]]}
+{"qid": 30, "query": "A man talks alone.", "duration": 46, "vid": "1XMow1fnsPM", "relevant_windows": [[30.0, 46.0]]}
+{"qid": 31, "query": "Three children talks at the same time.", "duration": 45, "vid": "KqF-WZRVs-w", "relevant_windows": [[13.0, 17.0]]}
+{"qid": 32, "query": "A girl talks alone", "duration": 45, "vid": "KqF-WZRVs-w", "relevant_windows": [[27.0, 43.0]]}
+{"qid": 33, "query": "People cheer and clap.", "duration": 60, "vid": "-_iPl2Au1eU", "relevant_windows": [[9.0, 16.0]]}
+{"qid": 34, "query": "A man talks to people.", "duration": 59, "vid": "H0lQonckom4", "relevant_windows": [[46.0, 57.0]]}
+{"qid": 35, "query": "Someone dries paper with a hair dryer.", "duration": 47, "vid": "ezfz-icEVek", "relevant_windows": [[2.0, 9.0]]}
+{"qid": 36, "query": "A train passes nearby with a loud noise.", "duration": 46, "vid": "0_HnD-rW3lI", "relevant_windows": [[25.0, 46.0]]}
+{"qid": 37, "query": "A man speaks something.", "duration": 52, "vid": "4BoA4F8RdIM", "relevant_windows": [[0.0, 14.0]]}
+{"qid": 38, "query": "Someone plays trumpet.", "duration": 52, "vid": "4BoA4F8RdIM", "relevant_windows": [[16.0, 47.0]]}
+{"qid": 39, "query": "A train blows a loud whistle.", "duration": 47, "vid": "ADkBiqGth58", "relevant_windows": [[1.0, 19.0]]}
+{"qid": 40, "query": "People clap loudly.", "duration": 46, "vid": "8ukSET8BiEE", "relevant_windows": [[26.0, 34.0]]}
+{"qid": 41, "query": "A police car siren sounds, and a male police officer talks.", "duration": 46, "vid": "8ukSET8BiEE", "relevant_windows": [[3.0, 19.0]]}
+{"qid": 42, "query": "Someone plays harmonica.", "duration": 46, "vid": "CmA0SkNx594", "relevant_windows": [[0.0, 18.0]]}
+{"qid": 43, "query": "A man talks alone.", "duration": 46, "vid": "CmA0SkNx594", "relevant_windows": [[21.0, 46.0]]}
+{"qid": 44, "query": "Gathered people talks.", "duration": 47, "vid": "bkH3khklMuk", "relevant_windows": [[12.0, 17.0]]}
+{"qid": 45, "query": "A male air traffic controller gives instructions.", "duration": 47, "vid": "4-X3c59e3Hk", "relevant_windows": [[0.0, 11.0]]}
+{"qid": 46, "query": "A strong wind is blowing.", "duration": 47, "vid": "4-X3c59e3Hk", "relevant_windows": [[0.0, 27.0]]}
+{"qid": 47, "query": "An airplane takes off from the runway.", "duration": 47, "vid": "4-X3c59e3Hk", "relevant_windows": [[18.0, 47.0]]}
+{"qid": 48, "query": "Music consisting of guitar, bass and flute is played.", "duration": 56, "vid": "CoSjXpqgi-g", "relevant_windows": [[45.0, 56.0]]}
+{"qid": 49, "query": "A woman sings and whistles.", "duration": 52, "vid": "SNA6ceTxJTQ", "relevant_windows": [[16.0, 22.0]]}
+{"qid": 50, "query": "Someone drying something with a hair dryer.", "duration": 46, "vid": "-xQbyezhw_k", "relevant_windows": [[12.0, 27.0]]}
+{"qid": 51, "query": "A woman talks.", "duration": 46, "vid": "-xQbyezhw_k", "relevant_windows": [[27.0, 46.0]]}
+{"qid": 52, "query": "A man and a woman argues, and one of them gets slapped.", "duration": 55, "vid": "fJCV9vdnnPc", "relevant_windows": [[0.0, 6.0]]}
+{"qid": 53, "query": "An ambulance sounds its siren.", "duration": 59, "vid": "9NjKwk4P9vY", "relevant_windows": [[14.0, 50.0]]}
+{"qid": 54, "query": "Someone blows their nose loudly.", "duration": 51, "vid": "jD3k1rik3Jk", "relevant_windows": [[10.0, 13.0]]}
+{"qid": 55, "query": "A man gives a presentation.", "duration": 47, "vid": "10v59CD0ylk", "relevant_windows": [[31.0, 47.0]]}
+{"qid": 56, "query": "A police car sounds its siren.", "duration": 49, "vid": "RSAyz5c3JmM", "relevant_windows": [[15.0, 35.0]]}
+{"qid": 57, "query": "A heavy rainstorm rages.", "duration": 50, "vid": "MBOUXUm0dow", "relevant_windows": [[20.0, 50.0]]}
+{"qid": 58, "query": "Someone takes a drink.", "duration": 48, "vid": "ApY0vjsu5ts", "relevant_windows": [[4.0, 12.0]]}
+{"qid": 59, "query": "A man sings along to music.", "duration": 56, "vid": "caYu_xoFeF4", "relevant_windows": [[5.0, 13.0]]}
+{"qid": 60, "query": "A woman sings along to the music.", "duration": 56, "vid": "caYu_xoFeF4", "relevant_windows": [[15.0, 25.0]]}
+{"qid": 61, "query": "Someone plays trombone.", "duration": 49, "vid": "3vhWXxE_X0M", "relevant_windows": [[14.0, 35.0]]}
+{"qid": 62, "query": "A train blows a loud whistle.", "duration": 60, "vid": "fUCVZRETzvo", "relevant_windows": [[3.0, 30.0]]}
+{"qid": 63, "query": "Someone shoots with a handgun.", "duration": 47, "vid": "mTM0WQRcfNU", "relevant_windows": [[12.0, 17.0]]}
+{"qid": 64, "query": "A man talks.", "duration": 46, "vid": "1D16NQS1m_8", "relevant_windows": [[2.0, 8.0]]}
+{"qid": 65, "query": "Someone plays the flute.", "duration": 50, "vid": "0e47JpKHBm8", "relevant_windows": [[0.0, 22.0]]}
+{"qid": 66, "query": "A man talks.", "duration": 50, "vid": "0e47JpKHBm8", "relevant_windows": [[25.0, 35.0]]}
+{"qid": 67, "query": "A person claps.", "duration": 48, "vid": "65MOD8EJD0A", "relevant_windows": [[20.0, 24.0]]}
+{"qid": 68, "query": "People cheer and clap.", "duration": 49, "vid": "A3ElyTjB3jg", "relevant_windows": [[0.0, 20.0]]}
+{"qid": 69, "query": "Someone jumps rope rapidly.", "duration": 55, "vid": "A_AoD2V5QB0", "relevant_windows": [[0.0, 9.0]]}
+{"qid": 70, "query": "People cheer and clap.", "duration": 45, "vid": "3bQzFGT0zj0", "relevant_windows": [[40.0, 45.0]]}
+{"qid": 71, "query": "People cheer and clap.", "duration": 45, "vid": "BDVnkNawZz4", "relevant_windows": [[12.0, 17.0]]}
+{"qid": 72, "query": "A strong wind blows.", "duration": 45, "vid": "BDVnkNawZz4", "relevant_windows": [[16.0, 25.0]]}
+{"qid": 73, "query": "Someone hit a nail with a hammer.", "duration": 51, "vid": "8J7_lNvLMwI", "relevant_windows": [[0.0, 8.0]]}
+{"qid": 74, "query": "Thunder rumbles in rain.", "duration": 46, "vid": "QP_ZCssCySw", "relevant_windows": [[15.0, 22.0]]}
+{"qid": 75, "query": "Soldiers chants in unison with their instructor.", "duration": 47, "vid": "AGTyP86x_Sc", "relevant_windows": [[24.0, 39.0]]}
+{"qid": 76, "query": "People claps.", "duration": 47, "vid": "AGTyP86x_Sc", "relevant_windows": [[39.0, 47.0]]}
+{"qid": 77, "query": "A woman talks.", "duration": 54, "vid": "-9Err78YIjQ", "relevant_windows": [[0.0, 4.0]]}
+{"qid": 78, "query": "A boy shouting loudly in displeasure.", "duration": 56, "vid": "sWXpzTZWNAI", "relevant_windows": [[26.0, 35.0]]}
+{"qid": 79, "query": "People coughs.", "duration": 49, "vid": "-m9rZZBMl2I", "relevant_windows": [[0.0, 5.0]]}
+{"qid": 80, "query": "People chat with lively music in the background.", "duration": 49, "vid": "-m9rZZBMl2I", "relevant_windows": [[36.0, 49.0]]}
+{"qid": 81, "query": "Someone performs tap dance.", "duration": 49, "vid": "3G24fJCOH3Q", "relevant_windows": [[12.0, 31.0]]}
+{"qid": 82, "query": "A large group of people plays trumpet.", "duration": 46, "vid": "5gLE_sFprMM", "relevant_windows": [[13.0, 29.0]]}
+{"qid": 83, "query": "Various types of phone ringtones ring.", "duration": 46, "vid": "bGlg8keKV_k", "relevant_windows": [[26.0, 48.0]]}
+{"qid": 84, "query": "People cheer and clap.", "duration": 60, "vid": "-EWyYYBHsbQ", "relevant_windows": [[10.0, 18.0]]}
+{"qid": 85, "query": "Someone plays trumpet.", "duration": 60, "vid": "05ri4y9hZJ4", "relevant_windows": [[48.0, 60]]}
+{"qid": 86, "query": "A baby cries loudly.", "duration": 60, "vid": "tgRjq29TIJo", "relevant_windows": [[0.0, 12.0]]}
+{"qid": 87, "query": "A man sings along to the music.", "duration": 45, "vid": "3fOdNMvBW8U", "relevant_windows": [[0.0, 4.0]]}
+{"qid": 88, "query": "A man in a commentary yells.", "duration": 47, "vid": "9r65ytaWJfA", "relevant_windows": [[36.0, 46.0]]}
+{"qid": 89, "query": "A man sing to music", "duration": 47, "vid": "9r65ytaWJfA", "relevant_windows": [[0.0, 4.0]]}
+{"qid": 90, "query": "Someone dries their hair with a hair dryer.", "duration": 51, "vid": "pbVP6Z1c4_k", "relevant_windows": [[14.0, 27.0]]}
+{"qid": 91, "query": "A man speaks.", "duration": 47, "vid": "72b5UupN-Nw", "relevant_windows": [[15.0, 21.0]]}
+{"qid": 92, "query": "Children sings in a chorus.", "duration": 55, "vid": "4WbbnjsFLBM", "relevant_windows": [[10.0, 28.0]]}
+{"qid": 93, "query": "A man talks.", "duration": 55, "vid": "4WbbnjsFLBM", "relevant_windows": [[29.0, 51.0]]}
+{"qid": 94, "query": "People claps for the performance loudly.", "duration": 57, "vid": "-JyWgRhvP6g", "relevant_windows": [[21.0, 57.0]]}
+{"qid": 95, "query": "A brass band performs.", "duration": 57, "vid": "-JyWgRhvP6g", "relevant_windows": [[0.0, 20.0]]}
+{"qid": 96, "query": "A man practices beatboxing.", "duration": 45, "vid": "-j9hQp9GcvA", "relevant_windows": [[19.0, 24.0]]}
+{"qid": 97, "query": "People clap for performance.", "duration": 47, "vid": "21QZPO9JFH4", "relevant_windows": [[26.0, 47.0]]}
+{"qid": 98, "query": "A marching band performs.", "duration": 47, "vid": "21QZPO9JFH4", "relevant_windows": [[0.0, 25.0]]}
+{"qid": 99, "query": "Someone vacuums the floor.", "duration": 49, "vid": "-L_RH-nw11I", "relevant_windows": [[0.0, 27.0]]}

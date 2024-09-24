@@ -1,0 +1,104 @@
+{"qid": 0, "query": "People are walking on the street.", "duration": 60, "vid": "a002_60_120", "relevant_windows": [[7.0, 12.7], [17.0, 18.7]]}
+{"qid": 1, "query": "People are walking on the street.", "duration": 60, "vid": "a002_120_180", "relevant_windows": [[18.7, 22.3]]}
+{"qid": 2, "query": "A car passes in the street.", "duration": 60, "vid": "a005_0_60", "relevant_windows": [[5.0, 10.6], [31.9, 39.1], [48.7, 51.5], [52.3, 57.7], [58.3, 60.0]]}
+{"qid": 3, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a005_0_60", "relevant_windows": [[31.7, 34.4]]}
+{"qid": 4, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a005_0_60", "relevant_windows": [[42.7, 47.5]]}
+{"qid": 5, "query": "People are talking about something in the street.", "duration": 60, "vid": "a005_0_60", "relevant_windows": [[58.0, 59.5]]}
+{"qid": 6, "query": "A car passes in the street.", "duration": 60, "vid": "a005_60_120", "relevant_windows": [[0.0, 0.4], [9.1, 13.2], [13.5, 25.1], [32.5, 35.4], [35.7, 41.7], [42.1, 45.6], [56.4, 60.0]]}
+{"qid": 7, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a005_60_120", "relevant_windows": [[25.6, 32.1]]}
+{"qid": 8, "query": "People are talking about something in the street.", "duration": 60, "vid": "a005_60_120", "relevant_windows": [[46.4, 50.1]]}
+{"qid": 9, "query": "Children are cheering in the street.", "duration": 60, "vid": "a005_60_120", "relevant_windows": [[43.0, 46.6], [51.2, 60.0]]}
+{"qid": 10, "query": "A car passes in the street.", "duration": 60, "vid": "a005_120_180", "relevant_windows": [[0.0, 3.2], [4.3, 9.1], [37.9, 43.9], [45.8, 54.5], [55.4, 57.7]]}
+{"qid": 11, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a005_120_180", "relevant_windows": [[8.1, 11.4], [14.5, 17.4], [27.2, 27.6], [33.1, 48.5]]}
+{"qid": 12, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a005_120_180", "relevant_windows": [[13.5, 19.0], [57.7, 60.0]]}
+{"qid": 13, "query": "Children are cheering in the street.", "duration": 60, "vid": "a005_120_180", "relevant_windows": [[0.0, 2.5]]}
+{"qid": 14, "query": "A car passes in the street.", "duration": 60, "vid": "a005_180_240", "relevant_windows": [[4.4, 9.9], [10.7, 14.9], [42.3, 46.2], [48.9, 52.8], [55.7, 59.9]]}
+{"qid": 15, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a005_180_240", "relevant_windows": [[11.3, 16.1], [35.9, 41.0]]}
+{"qid": 16, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a005_180_240", "relevant_windows": [[0.0, 2.7], [58.6, 60.0]]}
+{"qid": 17, "query": "People are talking about something in the street.", "duration": 60, "vid": "a005_180_240", "relevant_windows": [[47.5, 52.4]]}
+{"qid": 18, "query": "A car passes in the street.", "duration": 14, "vid": "a005_240_254", "relevant_windows": [[6.1, 10.0]]}
+{"qid": 19, "query": "Brakes of a machine squeak in the street.", "duration": 14, "vid": "a005_240_254", "relevant_windows": [[1.7, 5.8]]}
+{"qid": 20, "query": "A large vehicle passes in the street.", "duration": 14, "vid": "a005_240_254", "relevant_windows": [[0.0, 3.7]]}
+{"qid": 21, "query": "People are talking about something in the street.", "duration": 14, "vid": "a005_240_254", "relevant_windows": [[2.9, 5.4]]}
+{"qid": 22, "query": "Children are cheering in the street.", "duration": 14, "vid": "a005_240_254", "relevant_windows": [[8.0, 9.3]]}
+{"qid": 23, "query": "A car passes in the street.", "duration": 60, "vid": "a009_0_60", "relevant_windows": [[0.4, 4.4], [5.3, 6.7], [18.8, 22.0], [23.5, 26.4]]}
+{"qid": 24, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a009_0_60", "relevant_windows": [[7.6, 18.2]]}
+{"qid": 25, "query": "A car passes in the street.", "duration": 60, "vid": "a009_60_120", "relevant_windows": [[30.9, 41.5], [46.8, 53.4]]}
+{"qid": 26, "query": "People are walking on the street.", "duration": 60, "vid": "a009_60_120", "relevant_windows": [[19.9, 35.8]]}
+{"qid": 27, "query": "A car passes in the street.", "duration": 60, "vid": "a009_120_180", "relevant_windows": [[17.1, 23.3], [44.8, 49.1], [50.0, 60.0]]}
+{"qid": 28, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a009_120_180", "relevant_windows": [[45.0, 46.7], [47.8, 49.2]]}
+{"qid": 29, "query": "A car passes in the street.", "duration": 50, "vid": "a009_180_230", "relevant_windows": [[0.0, 3.7]]}
+{"qid": 30, "query": "People are talking about something in the street.", "duration": 50, "vid": "a009_180_230", "relevant_windows": [[18.8, 23.0], [23.3, 28.5], [45.4, 46.1], [46.2, 48.0]]}
+{"qid": 31, "query": "People are talking about something in the street.", "duration": 60, "vid": "a011_0_60", "relevant_windows": [[0.0, 0.8], [2.3, 3.2], [6.8, 21.0], [25.3, 30.0], [32.9, 53.0], [55.2, 60.0]]}
+{"qid": 32, "query": "A car passes in the street.", "duration": 60, "vid": "a011_0_60", "relevant_windows": [[6.1, 8.6], [21.4, 24.9], [28.3, 28.7], [32.1, 39.3]]}
+{"qid": 33, "query": "Children are cheering in the street.", "duration": 60, "vid": "a011_0_60", "relevant_windows": [[11.2, 11.6]]}
+{"qid": 34, "query": "People are walking on the street.", "duration": 60, "vid": "a011_0_60", "relevant_windows": [[12.4, 13.3], [46.1, 47.4], [49.6, 50.2], [51.5, 58.1]]}
+{"qid": 35, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a011_0_60", "relevant_windows": [[45.1, 45.7]]}
+{"qid": 36, "query": "People are talking about something in the street.", "duration": 60, "vid": "a011_60_120", "relevant_windows": [[0.0, 4.5]]}
+{"qid": 37, "query": "A car passes in the street.", "duration": 60, "vid": "a011_60_120", "relevant_windows": [[6.8, 11.7], [14.3, 16.0], [19.3, 24.7], [32.0, 37.8], [48.2, 53.3]]}
+{"qid": 38, "query": "Children are cheering in the street.", "duration": 60, "vid": "a011_60_120", "relevant_windows": [[12.5, 13.4]]}
+{"qid": 39, "query": "People are walking on the street.", "duration": 60, "vid": "a011_60_120", "relevant_windows": [[47.1, 60.0]]}
+{"qid": 40, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a011_60_120", "relevant_windows": [[6.4, 7.3], [16.0, 16.8]]}
+{"qid": 41, "query": "People are talking about something in the street.", "duration": 60, "vid": "a011_120_180", "relevant_windows": [[16.0, 19.4], [20.8, 26.4], [28.2, 40.0], [42.5, 49.4], [58.7, 60.0]]}
+{"qid": 42, "query": "A car passes in the street.", "duration": 60, "vid": "a011_120_180", "relevant_windows": [[0.0, 5.8], [7.5, 11.2]]}
+{"qid": 43, "query": "People are walking on the street.", "duration": 60, "vid": "a011_120_180", "relevant_windows": [[0.0, 5.5], [5.8, 7.8], [40.3, 44.0]]}
+{"qid": 44, "query": "People are talking about something in the street.", "duration": 36, "vid": "a011_180_216", "relevant_windows": [[0.0, 4.5]]}
+{"qid": 45, "query": "A car passes in the street.", "duration": 36, "vid": "a011_180_216", "relevant_windows": [[9.8, 18.6], [22.3, 26.3]]}
+{"qid": 46, "query": "Brakes of a machine squeak in the street.", "duration": 36, "vid": "a011_180_216", "relevant_windows": [[16.7, 18.6], [26.1, 26.8]]}
+{"qid": 47, "query": "A large vehicle passes in the street.", "duration": 36, "vid": "a011_180_216", "relevant_windows": [[26.7, 35.9]]}
+{"qid": 48, "query": "A car passes in the street.", "duration": 60, "vid": "a123_0_60", "relevant_windows": [[0.0, 12.7], [18.8, 25.9], [36.9, 44.5], [59.9, 60.0]]}
+{"qid": 49, "query": "People are walking on the street.", "duration": 60, "vid": "a123_0_60", "relevant_windows": [[8.5, 38.8], [43.7, 60.0]]}
+{"qid": 50, "query": "People are talking about something in the street.", "duration": 60, "vid": "a123_0_60", "relevant_windows": [[31.7, 33.7], [45.2, 50.3], [58.2, 60.0]]}
+{"qid": 51, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a123_0_60", "relevant_windows": [[33.9, 34.7], [54.5, 57.4]]}
+{"qid": 52, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a123_0_60", "relevant_windows": [[49.2, 57.9]]}
+{"qid": 53, "query": "A car passes in the street.", "duration": 60, "vid": "a123_60_120", "relevant_windows": [[0.0, 4.0], [38.3, 43.8], [44.4, 56.0]]}
+{"qid": 54, "query": "People are walking on the street.", "duration": 60, "vid": "a123_60_120", "relevant_windows": [[0.0, 47.7], [52.6, 60.0]]}
+{"qid": 55, "query": "People are talking about something in the street.", "duration": 60, "vid": "a123_60_120", "relevant_windows": [[0.0, 11.2]]}
+{"qid": 56, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a123_60_120", "relevant_windows": [[3.1, 4.1], [5.4, 14.7], [23.8, 34.0], [34.6, 40.1]]}
+{"qid": 57, "query": "A car passes in the street.", "duration": 60, "vid": "a123_120_180", "relevant_windows": [[20.2, 25.2], [25.7, 34.0], [34.9, 53.5], [55.7, 60.0]]}
+{"qid": 58, "query": "People are walking on the street.", "duration": 60, "vid": "a123_120_180", "relevant_windows": [[0.0, 21.5], [24.8, 26.3], [27.3, 33.3], [49.3, 57.6]]}
+{"qid": 59, "query": "People are talking about something in the street.", "duration": 60, "vid": "a123_120_180", "relevant_windows": [[4.4, 11.0]]}
+{"qid": 60, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a123_120_180", "relevant_windows": [[12.8, 13.8]]}
+{"qid": 61, "query": "Children are cheering in the street.", "duration": 60, "vid": "a123_120_180", "relevant_windows": [[47.7, 49.1], [49.3, 50.7]]}
+{"qid": 62, "query": "A car passes in the street.", "duration": 60, "vid": "a123_180_240", "relevant_windows": [[0.0, 3.5], [4.0, 16.8], [24.4, 30.4], [53.5, 59.9]]}
+{"qid": 63, "query": "People are walking on the street.", "duration": 60, "vid": "a123_180_240", "relevant_windows": [[2.7, 4.2], [29.7, 32.1], [52.4, 60.0]]}
+{"qid": 64, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "a123_180_240", "relevant_windows": [[16.4, 18.1], [27.1, 27.6]]}
+{"qid": 65, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a123_180_240", "relevant_windows": [[15.2, 60.0]]}
+{"qid": 66, "query": "A car passes in the street.", "duration": 60, "vid": "a123_240_300", "relevant_windows": [[36.2, 60.0]]}
+{"qid": 67, "query": "People are walking on the street.", "duration": 60, "vid": "a123_240_300", "relevant_windows": [[0.0, 29.5], [49.4, 60.0]]}
+{"qid": 68, "query": "People are talking about something in the street.", "duration": 60, "vid": "a123_240_300", "relevant_windows": [[53.0, 55.2], [56.7, 60.0]]}
+{"qid": 69, "query": "A large vehicle passes in the street.", "duration": 60, "vid": "a123_240_300", "relevant_windows": [[0.0, 36.0]]}
+{"qid": 70, "query": "A car passes in the street.", "duration": 2, "vid": "a123_300_302", "relevant_windows": [[0.0, 1.4]]}
+{"qid": 71, "query": "People are walking on the street.", "duration": 2, "vid": "a123_300_302", "relevant_windows": [[0.0, 1.4]]}
+{"qid": 72, "query": "People are walking on the street.", "duration": 60, "vid": "b002_0_60", "relevant_windows": [[0.2, 0.5], [33.3, 46.5], [52.4, 55.3]]}
+{"qid": 73, "query": "A car passes in the street.", "duration": 60, "vid": "b002_0_60", "relevant_windows": [[5.3, 38.0], [40.9, 60.0]]}
+{"qid": 74, "query": "People are walking on the street.", "duration": 60, "vid": "b002_60_120", "relevant_windows": [[6.3, 6.8], [8.6, 9.1], [28.5, 31.0]]}
+{"qid": 75, "query": "A car passes in the street.", "duration": 60, "vid": "b002_60_120", "relevant_windows": [[0.0, 3.0], [11.8, 27.9], [54.5, 60.0]]}
+{"qid": 76, "query": "People are walking on the street.", "duration": 60, "vid": "b002_120_180", "relevant_windows": [[38.4, 40.1], [45.5, 48.9]]}
+{"qid": 77, "query": "A car passes in the street.", "duration": 60, "vid": "b002_120_180", "relevant_windows": [[0.0, 18.0], [36.8, 60.0]]}
+{"qid": 78, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "b002_120_180", "relevant_windows": [[40.9, 44.8]]}
+{"qid": 79, "query": "People are walking on the street.", "duration": 18, "vid": "b002_180_198", "relevant_windows": [[14.2, 14.7]]}
+{"qid": 80, "query": "A car passes in the street.", "duration": 18, "vid": "b002_180_198", "relevant_windows": [[0.0, 15.0]]}
+{"qid": 81, "query": "A car passes in the street.", "duration": 60, "vid": "b004_0_60", "relevant_windows": [[9.9, 16.0]]}
+{"qid": 82, "query": "People are talking about something in the street.", "duration": 60, "vid": "b004_0_60", "relevant_windows": [[15.1, 31.5], [33.8, 43.6], [55.2, 56.0]]}
+{"qid": 83, "query": "People are walking on the street.", "duration": 60, "vid": "b004_0_60", "relevant_windows": [[48.6, 60.0]]}
+{"qid": 84, "query": "A car passes in the street.", "duration": 60, "vid": "b004_60_120", "relevant_windows": [[39.5, 55.0], [55.9, 60.0]]}
+{"qid": 85, "query": "People are talking about something in the street.", "duration": 60, "vid": "b004_60_120", "relevant_windows": [[4.9, 8.5], [18.2, 19.7], [49.4, 50.7], [52.7, 53.6]]}
+{"qid": 86, "query": "People are walking on the street.", "duration": 60, "vid": "b004_60_120", "relevant_windows": [[0.0, 6.9], [35.9, 40.3]]}
+{"qid": 87, "query": "Children are cheering in the street.", "duration": 60, "vid": "b004_60_120", "relevant_windows": [[4.5, 5.7], [6.7, 7.8], [10.7, 11.5], [12.7, 15.2], [16.9, 18.2]]}
+{"qid": 88, "query": "A car passes in the street.", "duration": 37, "vid": "b004_120_157", "relevant_windows": [[0.0, 1.5], [14.3, 36.2]]}
+{"qid": 89, "query": "People are talking about something in the street.", "duration": 37, "vid": "b004_120_157", "relevant_windows": [[0.3, 16.0], [22.7, 32.5], [34.5, 36.2]]}
+{"qid": 90, "query": "People are walking on the street.", "duration": 37, "vid": "b004_120_157", "relevant_windows": [[35.4, 36.0]]}
+{"qid": 91, "query": "Children are cheering in the street.", "duration": 37, "vid": "b004_120_157", "relevant_windows": [[18.6, 19.3], [29.1, 30.8], [32.5, 34.4]]}
+{"qid": 92, "query": "Brakes of a machine squeak in the street.", "duration": 37, "vid": "b004_120_157", "relevant_windows": [[0.4, 1.5]]}
+{"qid": 93, "query": "A car passes in the street.", "duration": 60, "vid": "b092_0_60", "relevant_windows": [[4.8, 9.2], [9.6, 11.2], [11.3, 12.4], [14.8, 18.3], [18.5, 20.0], [22.1, 23.5], [28.2, 35.0], [39.1, 42.5], [46.3, 51.5]]}
+{"qid": 94, "query": "People are walking on the street.", "duration": 60, "vid": "b092_0_60", "relevant_windows": [[22.7, 28.0]]}
+{"qid": 95, "query": "A car passes in the street.", "duration": 60, "vid": "b092_60_120", "relevant_windows": [[0.1, 9.5], [26.2, 31.4], [31.6, 33.5], [34.7, 37.2], [39.7, 45.0], [45.3, 48.4]]}
+{"qid": 96, "query": "People are walking on the street.", "duration": 60, "vid": "b092_60_120", "relevant_windows": [[6.1, 8.6], [16.3, 21.0], [25.0, 27.0], [33.4, 34.2]]}
+{"qid": 97, "query": "A car passes in the street.", "duration": 60, "vid": "b092_120_180", "relevant_windows": [[9.7, 14.0], [23.4, 38.9], [45.9, 57.5], [57.9, 59.5]]}
+{"qid": 98, "query": "People are walking on the street.", "duration": 60, "vid": "b092_120_180", "relevant_windows": [[11.5, 13.8], [15.5, 16.3]]}
+{"qid": 99, "query": "People are talking about something in the street.", "duration": 60, "vid": "b092_120_180", "relevant_windows": [[0.0, 1.8], [13.6, 16.5]]}
+{"qid": 100, "query": "Brakes of a machine squeak in the street.", "duration": 60, "vid": "b092_120_180", "relevant_windows": [[51.5, 53.8]]}
+{"qid": 101, "query": "A car passes in the street.", "duration": 32, "vid": "b092_180_212", "relevant_windows": [[1.4, 4.5], [18.6, 25.0]]}
+{"qid": 102, "query": "People are walking on the street.", "duration": 32, "vid": "b092_180_212", "relevant_windows": [[2.8, 3.1]]}
+{"qid": 103, "query": "A large vehicle passes in the street.", "duration": 32, "vid": "b092_180_212", "relevant_windows": [[8.0, 14.8]]}
