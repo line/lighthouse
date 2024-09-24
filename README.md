@@ -8,8 +8,9 @@
 
 Lighthouse is a user-friendly library for reproducible video moment retrieval and highlight detection (MR-HD).
 It supports seven models, four features (video and audio features), and six datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
+Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), a task a task that identifies relevant moments from an audio input based on a given text query.
 
-**News**: Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901)
+**News**: Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901).
 
 ## Milestones
 We will release v1.0 until the end of September. Our plan includes:
@@ -17,6 +18,7 @@ We will release v1.0 until the end of September. Our plan includes:
 - [ ] : Update the trained weights and feature files on Google Drive and Zenodo
 - [x] : Introduce PyTest for inference API (issue #21)
 - [x] : Introduce Linter for inference API (issue #20)
+- [x] : Introduce [audio moment retrieval (AMR)](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/)
 
 ## Installation
 Install ffmpeg first. If you are an Ubuntu user, run:
@@ -107,6 +109,9 @@ Highlight detection
 - [x] : [TVSum (Song et al. CVPR15)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Song_TVSum_Summarizing_Web_2015_CVPR_paper.pdf)
 - [x] : [YouTube Highlights (Sun et al. ECCV14)](https://grail.cs.washington.edu/wp-content/uploads/2015/08/sun2014rdh.pdf)
 
+Audio moment retrieval
+- [x] : [Clotho moment (Munakata et al. arXiv24)](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/)
+
 ### Features
 - [x] : ResNet+GloVe
 - [x] : CLIP
@@ -124,6 +129,7 @@ Download and unzip on the home directory. If you want individual weights, downlo
 Due to the copyright issue, we here distribute only feature files.
 Download and place them under `./features` directory.
 To extract features from videos, we use [HERO_Video_Feature_Extractor](https://github.com/linjieli222/HERO_Video_Feature_Extractor).
+Note that Clotho-moment/tut2017/unav100 are for [AMR](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/).
 
 - [QVHighlights](https://drive.google.com/file/d/1-ALnsXkA4csKh71sRndMwybxEDqa-dM4/view?usp=sharing)
 - [Charades-STA](https://drive.google.com/file/d/1EOeP2A4IMYdotbTlTqDbv5VdvEAgQJl8/view?usp=sharing)
@@ -131,6 +137,7 @@ To extract features from videos, we use [HERO_Video_Feature_Extractor](https://g
 - [TACoS](https://drive.google.com/file/d/1rYzme9JNAk3niH1K81wgT13pOMn005jb/view?usp=sharing)
 - [TVSum](https://drive.google.com/file/d/1gSex1hpXLxHQu6zHyyQISKZjP7Ndt6U9/view?usp=sharing)
 - [YouTube Highlight](https://drive.google.com/file/d/12swoymGwuN5TlDlWBTo6UUWVm2DqVBpn/view?usp=sharing)
+- [Clotho Moment](https://zenodo.org/records/13806234)
 
 The whole directory should be look like this:
 ```
@@ -149,7 +156,6 @@ lighthouse/
 │   │   ├── clip_text
 │   │   ├── resnet
 │   │   ├── slowfast
-│   │   └── vgg
 │   ├── QVHighlight
 │   │   ├── clip
 │   │   ├── clip_text
@@ -159,7 +165,6 @@ lighthouse/
 │   ├── tacos
 │   │   ├── clip
 │   │   ├── clip_text
-│   │   ├── meta
 │   │   ├── resnet
 │   │   └── slowfast
 │   ├── tvsum
@@ -169,11 +174,13 @@ lighthouse/
 │   │   ├── i3d
 │   │   ├── resnet
 │   │   ├── slowfast
-│   │   └── tvsum_anno.json
-│   └── youtube_highlight
-│       ├── clip
-│       ├── clip_text
-│       └── slowfast
+│   ├── youtube_highlight
+│   │   ├── clip
+│   │   ├── clip_text
+│   │   └── slowfast
+│   └── clotho-moments
+│       ├── clap
+│       └── clap_text
 ├── gradio_demo
 ├── images
 ├── lighthouse
@@ -188,11 +195,11 @@ The training command is:
 ```
 python training/train.py --model MODEL --dataset DATASET --feature FEATURE [--resume RESUME]
 ```
-|         | Options                                                                                  |
-|---------|------------------------------------------------------------------------------------------|
-| Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_mr2hd, taskweave_hd2mr    |
-| Feature | resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip                          |
-| Dataset | qvhighlight, qvhighlight_pretrain, activitynet, charades, tacos, tvsum, youtube_highlight|
+|         | Options                                                                                                  |
+|---------|----------------------------------------------------------------------------------------------------------|
+| Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_mr2hd, taskweave_hd2mr                    |
+| Feature | resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap (AMR)                              |
+| Dataset | qvhighlight, qvhighlight_pretrain, activitynet, charades, tacos, tvsum, youtube_highlight, clotho-moment |
 
 (**Example 1**) Moment DETR w/ CLIP+Slowfast on QVHighlights:
 ```

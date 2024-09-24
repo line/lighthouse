@@ -264,8 +264,11 @@ def check_valid_combination(dataset, feature):
     
     if dataset == 'youtube_highlight':
         # Due to unavailable access to the original videos, we publish only CLIP and CLIP+Slowfast for YouTube Highlight.
-        return dataset != 'resnet_glove'
+        return feature == 'clip' or feature == 'clip_slowfast'
     
+    if dataset == 'clotho-moment':
+        return feature == 'clap'
+
     return True
 
 
