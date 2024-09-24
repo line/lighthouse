@@ -129,7 +129,7 @@ Download and unzip on the home directory. If you want individual weights, downlo
 Due to the copyright issue, we here distribute only feature files.
 Download and place them under `./features` directory.
 To extract features from videos, we use [HERO_Video_Feature_Extractor](https://github.com/linjieli222/HERO_Video_Feature_Extractor).
-Note that Clotho-moment/tut2017/unav100 are for [AMR](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/).
+Note that Clotho-moment is used for [AMR](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/).
 
 - [QVHighlights](https://drive.google.com/file/d/1-ALnsXkA4csKh71sRndMwybxEDqa-dM4/view?usp=sharing)
 - [Charades-STA](https://drive.google.com/file/d/1EOeP2A4IMYdotbTlTqDbv5VdvEAgQJl8/view?usp=sharing)
