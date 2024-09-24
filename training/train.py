@@ -293,13 +293,14 @@ if __name__ == '__main__':
         option_manager = BaseOptions(args.model, args.dataset, args.feature)
         option_manager.parse()
         option_manager.clean_and_makedirs()
-        opt = option_manager.option
         
-        if 'domains' in opt:
-            for domain in opt.domains:
-                opt.results_dir = os.path.join(opt.results_dir, domain)
+        if 'domains' in option_manager.option:
+            for domain in option_manager.option.domains:
+                option_manager.change_save_path_with_domain(domain)
+                opt = option_manager.option
                 main(opt, resume=args.resume, domain=domain)
         else:
+            opt = option_manager.option
             main(opt, resume=args.resume)
     
     else:

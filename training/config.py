@@ -124,6 +124,12 @@ class BaseOptions(object):
         self.opt.a_feat_types = a_feat_types
         self.opt.t_feat_dir_pretrain_eval = t_feat_dir_pretrain_eval
 
+    def change_save_path_with_domain(self, domain):
+        self.opt.results_dir = os.path.join(self.opt.results_dir, domain)
+        self.opt.ckpt_filepath = os.path.join(self.opt.results_dir, self.opt.ckpt_filename)
+        self.opt.train_log_filepath = os.path.join(self.opt.results_dir, self.opt.train_log_filename)
+        self.opt.eval_log_filepath = os.path.join(self.opt.results_dir, self.opt.eval_log_filename)
+
     def clean_and_makedirs(self):
         if 'results_dir' not in self.opt:
             raise RuntimeError('results_dir is not set in self.opt. Did you run parse()?')
