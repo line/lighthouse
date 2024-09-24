@@ -8,7 +8,7 @@
 
 Lighthouse is a user-friendly library for reproducible video moment retrieval and highlight detection (MR-HD).
 It supports seven models, four features (video and audio features), and six datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
-Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), a task a task that identifies relevant moments from an audio input based on a given text query.
+Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), a task to identify relevant moments from an audio input based on a given text query.
 
 **News**: Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901).
 
@@ -168,7 +168,6 @@ lighthouse/
 │   │   ├── resnet
 │   │   └── slowfast
 │   ├── tvsum
-│   │   ├── audio
 │   │   ├── clip
 │   │   ├── clip_text
 │   │   ├── i3d
@@ -198,7 +197,7 @@ python training/train.py --model MODEL --dataset DATASET --feature FEATURE [--re
 |         | Options                                                                                                  |
 |---------|----------------------------------------------------------------------------------------------------------|
 | Model   | moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_mr2hd, taskweave_hd2mr                    |
-| Feature | resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap (AMR)                              |
+| Feature | resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap                                    |
 | Dataset | qvhighlight, qvhighlight_pretrain, activitynet, charades, tacos, tvsum, youtube_highlight, clotho-moment |
 
 (**Example 1**) Moment DETR w/ CLIP+Slowfast on QVHighlights:
