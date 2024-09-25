@@ -10,7 +10,9 @@ Lighthouse is a user-friendly library for reproducible video moment retrieval an
 It supports seven models, four features (video and audio features), and six datasets for reproducible MR-HD, MR, and HD. In addition, we prepare an inference API and Gradio demo for developers to use state-of-the-art MR-HD approaches easily.
 Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), a task to identify relevant moments from an audio input based on a given text query.
 
-**News**: Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901).
+## News
+- [2024/09/25] Our work ["Language-based audio moment retrieval"](https://arxiv.org/abs/2409.15672) has been released. Lighthouse supports AMR.
+- [2024/08/22] Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901).
 
 ## Milestones
 We will release v1.0 until the end of September. Our plan includes:
