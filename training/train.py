@@ -298,9 +298,8 @@ if __name__ == '__main__':
         
         if 'domains' in option_manager.option:
             for domain in option_manager.option.domains:
-                option_manager.change_save_path_with_domain(domain)
-                opt = option_manager.option
-                main(opt, resume=args.resume, domain=domain)
+                opt_with_domain = option_manager.change_save_path_with_domain(domain)
+                main(opt_with_domain, resume=args.resume, domain=domain)
         else:
             opt = option_manager.option
             main(opt, resume=args.resume)

@@ -20,6 +20,7 @@ import torch
 import argparse
 import shutil
 import yaml
+import copy
 
 from lighthouse.common.utils.basic_utils import mkdirp, load_json, save_json, make_zipfile, dict_to_markdown
 from easydict import EasyDict
@@ -125,10 +126,12 @@ class BaseOptions(object):
         self.opt.t_feat_dir_pretrain_eval = t_feat_dir_pretrain_eval
 
     def change_save_path_with_domain(self, domain):
-        self.opt.results_dir = os.path.join(self.opt.results_dir, domain)
-        self.opt.ckpt_filepath = os.path.join(self.opt.results_dir, self.opt.ckpt_filename)
-        self.opt.train_log_filepath = os.path.join(self.opt.results_dir, self.opt.train_log_filename)
-        self.opt.eval_log_filepath = os.path.join(self.opt.results_dir, self.opt.eval_log_filename)
+        opt_with_domain = copy.deepcopy(self.opt)
+        opt_with_domain.results_dir = os.path.join(opt_with_domain.results_dir, domain)
+        opt_with_domain.ckpt_filepath = os.path.join(opt_with_domain.results_dir, opt_with_domain.ckpt_filename)
+        opt_with_domain.train_log_filepath = os.path.join(opt_with_domain.results_dir, opt_with_domain.train_log_filename)
+        opt_with_domain.eval_log_filepath = os.path.join(opt_with_domain.results_dir, opt_with_domain.eval_log_filename)
+        return opt_with_domain
 
     def clean_and_makedirs(self):
         if 'results_dir' not in self.opt:
