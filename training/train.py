@@ -258,20 +258,17 @@ def main(opt, resume=None, domain=None):
 
 
 def check_valid_combination(dataset, feature):
-    if feature == 'i3d_clip':
-        return dataset == 'tvsum'
-    
-    if feature == 'clip_slowfast_pann':
-        return dataset == 'qvhighlight' or dataset == 'qvhighlight_pretrain'
-    
-    if dataset == 'youtube_highlight':
-        # Due to unavailable access to the original videos, we publish only CLIP and CLIP+Slowfast for YouTube Highlight.
-        return feature == 'clip' or feature == 'clip_slowfast'
-    
-    if dataset == 'clotho-moment':
-        return feature == 'clap'
-
-    return True
+    dataset_feature_map = {
+        'qvhighlight': ['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann'],
+        'qvhighlight_pretrain': ['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann'],
+        'activitynet': ['resnet_glove', 'clip', 'clip_slowfast'],
+        'charades': ['resnet_glove', 'clip', 'clip_slowfast'],
+        'tacos': ['resnet_glove', 'clip', 'clip_slowfast'],
+        'tvsum': ['resnet_glove', 'clip', 'clip_slowfast', 'i3d_clip'],
+        'youtube_highlight': ['clip', 'clip_slowfast'],
+        'clotho-moment': ['clap'],
+    }
+    return feature in dataset_feature_map[dataset]
 
 
 if __name__ == '__main__':
