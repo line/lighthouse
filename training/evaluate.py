@@ -44,6 +44,9 @@ import os
 from collections import OrderedDict, defaultdict
 from easydict import EasyDict
 
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from lighthouse.common.utils.basic_utils import AverageMeter
 from lighthouse.common.utils.span_utils import span_cxw_to_xx
 
@@ -416,7 +419,7 @@ if __name__ == '__main__':
                         help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap].'
                              'NOTE: i3d_clip and clip_slowfast_pann are only for TVSum and QVHighlight, respectively')
     parser.add_argument('--model_path', type=str, required=True, help='saved model path')
-    parser.add_argument('--eval_split_name', type=str, required=True, choices=['val', 'test'], help='val or test')
+    parser.add_argument('--split', type=str, required=True, choices=['val', 'test'], help='val or test')
     parser.add_argument('--eval_path', type=str, required=True, help='evaluation data')
     args = parser.parse_args()
 
@@ -429,7 +432,7 @@ if __name__ == '__main__':
         os.makedirs(opt.results_dir, exist_ok=True)
 
         opt.model_path = args.model_path
-        opt.eval_split_name = args.eval_split_name
+        opt.eval_split_name = args.split
         opt.eval_path = args.eval_path
         
         if 'domains' in opt:

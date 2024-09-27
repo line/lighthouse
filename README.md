@@ -222,15 +222,15 @@ python training/train.py --model moment_detr --dataset qvhighlight --feature cli
 #### Evaluation
 The evaluation command is:
 ```
-python training/evaluate.py --model MODEL --dataset DATASET --feature FEATURE --split {val,test} --model_path MODEL_PATH
+python training/evaluate.py --model MODEL --dataset DATASET --feature FEATURE --split {val,test} --model_path MODEL_PATH --eval_path EVAL_PATH
 ```
 (**Example 1**) Evaluating Moment DETR w/ CLIP+Slowfast on the QVHighlights val set:
 ```
-python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast --split val --model_path results/moment_detr/qvhighlight/clip_slowfast/best.ckpt
+python training/evaluate.py --model moment_detr --dataset qvhighlight --feature clip_slowfast --split val --model_path results/moment_detr/qvhighlight/clip_slowfast/best.ckpt --eval_path data/qvhighlight/highlight_val_release.jsonl
 ```
 To generate submission files for QVHighlight test sets, change split into test (**QVHighlights only**):
 ```
-python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast --split test --model_path results/moment_detr/qvhighlight/clip_slowfast/best.ckpt
+python training/evaluate.py --model moment_detr --dataset qvhighlight --feature clip_slowfast --split test --model_path results/moment_detr/qvhighlight/clip_slowfast/best.ckpt --eval_path data/qvhighlight/highlight_test_release.jsonl
 ```
 Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it to the [Codalab](https://codalab.lisn.upsaclay.fr/competitions/6937) (**QVHighlights only**):
 ```
