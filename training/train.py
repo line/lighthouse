@@ -289,7 +289,7 @@ if __name__ == '__main__':
     is_valid = check_valid_combination(args.dataset, args.feature)
 
     if is_valid:
-        option_manager = BaseOptions(args.model, args.dataset, args.feature)
+        option_manager = BaseOptions(args.model, args.dataset, args.feature, args.resume)
         option_manager.parse()
         option_manager.clean_and_makedirs()
         

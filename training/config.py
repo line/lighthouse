@@ -26,10 +26,11 @@ from lighthouse.common.utils.basic_utils import mkdirp, load_json, save_json, ma
 from easydict import EasyDict
 
 class BaseOptions(object):
-    def __init__(self, model, dataset, feature):
+    def __init__(self, model, dataset, feature, resume):
         self.model = model
         self.dataset = dataset
         self.feature = feature
+        self.resume = resume
         self.opt = {}
 
     @property
@@ -55,7 +56,11 @@ class BaseOptions(object):
         self.opt = EasyDict(self.opt)
 
         # result directory
-        self.opt.results_dir = os.path.join(self.opt.results_dir, self.model, self.dataset, self.feature)
+        if self.resume:
+            self.opt.results_dir = os.path.join(self.opt.results_dir, self.model, f"{self.dataset}_finetune", self.feature)
+        else:
+            self.opt.results_dir = os.path.join(self.opt.results_dir, self.model, self.dataset, self.feature)
+        
         self.opt.ckpt_filepath = os.path.join(self.opt.results_dir, self.opt.ckpt_filename)
         self.opt.train_log_filepath = os.path.join(self.opt.results_dir, self.opt.train_log_filename)
         self.opt.eval_log_filepath = os.path.join(self.opt.results_dir, self.opt.eval_log_filename)
