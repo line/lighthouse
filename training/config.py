@@ -26,11 +26,12 @@ from lighthouse.common.utils.basic_utils import mkdirp, load_json, save_json, ma
 from easydict import EasyDict
 
 class BaseOptions(object):
-    def __init__(self, model, dataset, feature, resume):
+    def __init__(self, model, dataset, feature, resume, domain):
         self.model = model
         self.dataset = dataset
         self.feature = feature
         self.resume = resume
+        self.domain = domain
         self.opt = {}
 
     @property
@@ -55,12 +56,13 @@ class BaseOptions(object):
 
         self.opt = EasyDict(self.opt)
 
-        # result directory
         if self.resume:
             self.opt.results_dir = os.path.join(self.opt.results_dir, self.model, f"{self.dataset}_finetune", self.feature)
         else:
             self.opt.results_dir = os.path.join(self.opt.results_dir, self.model, self.dataset, self.feature)
-        
+            if self.domain:
+                self.opt.results_dir = os.path.join(self.opt.results_dir, self.domain)
+
         self.opt.ckpt_filepath = os.path.join(self.opt.results_dir, self.opt.ckpt_filename)
         self.opt.train_log_filepath = os.path.join(self.opt.results_dir, self.opt.train_log_filename)
         self.opt.eval_log_filepath = os.path.join(self.opt.results_dir, self.opt.eval_log_filename)
@@ -130,14 +132,6 @@ class BaseOptions(object):
         self.opt.a_feat_types = a_feat_types
         self.opt.t_feat_dir_pretrain_eval = t_feat_dir_pretrain_eval
 
-    def change_save_path_with_domain(self, domain):
-        opt_with_domain = copy.deepcopy(self.opt)
-        opt_with_domain.results_dir = os.path.join(opt_with_domain.results_dir, domain)
-        opt_with_domain.ckpt_filepath = os.path.join(opt_with_domain.results_dir, opt_with_domain.ckpt_filename)
-        opt_with_domain.train_log_filepath = os.path.join(opt_with_domain.results_dir, opt_with_domain.train_log_filename)
-        opt_with_domain.eval_log_filepath = os.path.join(opt_with_domain.results_dir, opt_with_domain.eval_log_filename)
-        return opt_with_domain
-
     def clean_and_makedirs(self):
         if 'results_dir' not in self.opt:
             raise RuntimeError('results_dir is not set in self.opt. Did you run parse()?')
@@ -146,6 +140,3 @@ class BaseOptions(object):
             shutil.rmtree(self.opt.results_dir)
 
         os.makedirs(self.opt.results_dir, exist_ok=True)
-        if 'domains' in self.opt:
-            for domain in self.opt.domains:
-                os.makedirs(os.path.join(self.opt.results_dir, domain), exist_ok=True)

@@ -7,16 +7,5 @@ max_v_l: 1000
 seed: 2018
 lr: 0.001
 lr_drop: 2000
-n_epoch: 1000
+n_epoch: 2000
 bsz: 4
-domains:
-  - BK
-  - BT
-  - DS
-  - FM
-  - GA
-  - MS
-  - PK
-  - PR
-  - VT
-  - VU

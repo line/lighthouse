@@ -257,7 +257,7 @@ def main(opt, resume=None, domain=None):
     train(model, criterion, optimizer, lr_scheduler, train_dataset, eval_dataset, opt)
 
 
-def check_valid_combination(dataset, feature):
+def check_valid_combination(dataset, feature, domain):
     dataset_feature_map = {
         'qvhighlight': ['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann'],
         'qvhighlight_pretrain': ['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann'],
@@ -268,7 +268,16 @@ def check_valid_combination(dataset, feature):
         'youtube_highlight': ['clip', 'clip_slowfast'],
         'clotho-moment': ['clap'],
     }
-    return feature in dataset_feature_map[dataset]
+
+    domain_map = {
+        'tvsum': ['BK', 'BT', 'DS', 'FM', 'GA', 'MS', 'PK', 'PR', 'VT', 'VU'],
+        'youtube_highlight': ['dog', 'gymnastics', 'parkour', 'skating', 'skiing', 'surfing'],
+    }
+
+    if dataset in domain_map:
+        return feature in dataset_feature_map[dataset] and domain in domain_map[dataset]
+    else:
+        return feature in dataset_feature_map[dataset]
 
 
 if __name__ == '__main__':
@@ -282,24 +291,18 @@ if __name__ == '__main__':
     parser.add_argument('--feature', '-f', type=str, required=True,
                         choices=['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip', 'clap'],
                         help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap].'
-                             'NOTE: i3d_clip and clip_slowfast_pann are only for TVSum and QVHighlight, respectively')
+                             'NOTE: i3d_clip and clip_slowfast_pann are only for TVSum and QVHighlight, respectively.')
     parser.add_argument('--resume', '-r', type=str, help='specify model path for fine-tuning. If None, train the model from scratch.')
+    parser.add_argument('--domain', '-dm', type=str, help='domain for highlight detection dataset (e.g., BK for TVSum, dog for YouTube Highlight).')
     args = parser.parse_args()
 
-    is_valid = check_valid_combination(args.dataset, args.feature)
+    is_valid = check_valid_combination(args.dataset, args.feature, args.domain)
 
     if is_valid:
-        option_manager = BaseOptions(args.model, args.dataset, args.feature, args.resume)
+        option_manager = BaseOptions(args.model, args.dataset, args.feature, args.resume, args.domain)
         option_manager.parse()
         option_manager.clean_and_makedirs()
-        
-        if 'domains' in option_manager.option:
-            for domain in option_manager.option.domains:
-                opt_with_domain = option_manager.change_save_path_with_domain(domain)
-                main(opt_with_domain, resume=args.resume, domain=domain)
-        else:
-            opt = option_manager.option
-            main(opt, resume=args.resume)
-    
+        opt = option_manager.option
+        main(opt, resume=args.resume, domain=args.domain)
     else:
-        raise ValueError('The combination of dataset and feature is invalid: dataset={}, feature={}'.format(args.dataset, args.feature))
+        raise ValueError('The combination of dataset, feature, and domain is invalid: dataset={}, feature={}, domain={}'.format(args.dataset, args.feature, args.domain))

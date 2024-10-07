@@ -194,7 +194,7 @@ lighthouse/
 #### Training
 The training command is:
 ```
-python training/train.py --model MODEL --dataset DATASET --feature FEATURE [--resume RESUME]
+python training/train.py --model MODEL --dataset DATASET --feature FEATURE [--resume RESUME] [--domain DOMAIN]
 ```
 |         | Options                                                                                                  |
 |---------|----------------------------------------------------------------------------------------------------------|
@@ -218,6 +218,11 @@ Then fine-tune the model with `--resume` option:
 ```
 python training/train.py --model moment_detr --dataset qvhighlight --feature clip_slowfast --resume results/moment_detr/qvhighlight_pretrain/clip_slowfast/best.ckpt
 ```
+(**TVSum and YouTube Highlight**) To train models on these two datasets, you need to specify domain:
+```
+python training/train.py --model moment_detr --dataset tvsum --feature clip_slowfast --domain BK
+```
+
 
 #### Evaluation
 The evaluation command is:
