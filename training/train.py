@@ -293,7 +293,10 @@ if __name__ == '__main__':
                         help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap].'
                              'NOTE: i3d_clip and clip_slowfast_pann are only for TVSum and QVHighlight, respectively.')
     parser.add_argument('--resume', '-r', type=str, help='specify model path for fine-tuning. If None, train the model from scratch.')
-    parser.add_argument('--domain', '-dm', type=str, help='domain for highlight detection dataset (e.g., BK for TVSum, dog for YouTube Highlight).')
+    parser.add_argument('--domain', '-dm', type=str,
+                        choices=['BK', 'BT', 'DS', 'FM', 'GA', 'MS', 'PK', 'PR', 'VT', 'VU',
+                                 'dog', 'gymnastics', 'parkour', 'skating', 'skiing', 'surfing'],
+                        help='domain for highlight detection dataset (e.g., BK for TVSum, dog for YouTube Highlight).')
     args = parser.parse_args()
 
     is_valid = check_valid_combination(args.dataset, args.feature, args.domain)
