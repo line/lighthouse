@@ -228,7 +228,7 @@ python training/train.py --model moment_detr --dataset tvsum --feature clip_slow
 #### Evaluation
 The evaluation command is:
 ```
-python training/evaluate.py --model MODEL --dataset DATASET --feature FEATURE --split {val,test} --model_path MODEL_PATH --eval_path EVAL_PATH
+python training/evaluate.py --model MODEL --dataset DATASET --feature FEATURE --split {val,test} --model_path MODEL_PATH --eval_path EVAL_PATH [--domain DOMAIN]
 ```
 (**Example 1**) Evaluating Moment DETR w/ CLIP+Slowfast on the QVHighlights val set:
 ```
