@@ -55,11 +55,10 @@ class AudioEncoder(BaseEncoder):
     def encode(
         self,
         video_path: str,
-        feature_time: int = 2,
         ) -> Tuple[torch.Tensor, torch.Tensor]:
         audio, sr = librosa.core.load(video_path, sr=None, mono=True)
 
-        outputs = [encoder(audio, sr, feature_time) for encoder in self._audio_encoders]
+        outputs = [encoder(audio, sr) for encoder in self._audio_encoders]
         audio_features = torch.cat([o[0] for o in outputs])
         audio_masks = torch.cat([o[1] for o in outputs])
         return audio_features, audio_masks

@@ -39,6 +39,7 @@ class PANNConfig:
         self.fmax: int = 14000
         self.classes_num: int = 527
         self.model_path: str = None
+        self.feature_time: float = 2.0
 
         if cfg is not None:
             self.update(cfg)
@@ -52,6 +53,7 @@ class PANN(torch.nn.Module):
         super(PANN, self).__init__()
         self._device = device
         self.sample_rate = cfg.sample_rate
+        self.feature_time = cfg.feature_time
         self._model = Cnn14(
             sample_rate=cfg.sample_rate,
             window_size=cfg.window_size,
@@ -70,17 +72,17 @@ class PANN(torch.nn.Module):
         else:
             raise TypeError('pann_path should not be None when using AudioEncoder.')
 
-    def _preprocess(self, audio: np.ndarray, sr: int, feature_time: float):
+    def _preprocess(self, audio: np.ndarray, sr: int):
         audio = librosa.resample(audio, orig_sr=sr, target_sr=self.sample_rate)
-        audio = self._move_data_to_device(audio)
 
         time = audio.shape[-1] / self.sample_rate
-        batches = int(time // feature_time)
-        clip_sr = round(self.sample_rate * feature_time)
+        batches = int(time // self.feature_time)
+        clip_sr = round(self.sample_rate * self.feature_time)
         assert clip_sr >= 9920, 'clip_sr = round(sampling_rate * feature_time) should be larger than 9920.'
         audio = audio[:batches * clip_sr] # Truncate audio to fit the clip_sr
         audio_clip = audio.reshape([batches, clip_sr])
 
+        audio_clip = self._move_data_to_device(audio_clip)
         return audio_clip
 
     def _move_data_to_device(
@@ -93,8 +95,8 @@ class PANN(torch.nn.Module):
         else:
             raise ValueError('The input x cannot be cast into float or int.')
 
-    def forward(self, audio: np.ndarray, sr: int, feature_time: float):
-        audio_clip = self._preprocess(audio, sr, feature_time)
+    def forward(self, audio: np.ndarray, sr: int):
+        audio_clip = self._preprocess(audio, sr)
         output_dict = self._model(audio_clip, None) # audio_clip: (batch_size, clip_samples)
         audio_mask = torch.ones(1, len(output_dict['embedding'])).to(self._device)
         x = output_dict['embedding'].unsqueeze(0)

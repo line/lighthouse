@@ -14,6 +14,7 @@ class CLAPAudioConfig:
         self.sample_rate: int = 32000
         self.window_sec: float = 1.0
         self.version: str = '2023'
+        self.feature_time: float = 1.0
 
         if cfg is not None:
             self.update(cfg)
@@ -29,18 +30,19 @@ class CLAPAudio(torch.nn.Module):
         self.clap = CLAP(use_cuda=use_cuda, version=cfg.version)
         self.sample_rate = cfg.sample_rate
         self.window_sec = cfg.window_sec
+        self.feature_time = cfg.feature_time
         self._device = device
 
-    def _preprocess(self, audio: np.ndarray, sr: int, feature_time: float):
+    def _preprocess(self, audio: np.ndarray, sr: int):
         audio = librosa.resample(audio, orig_sr=sr, target_sr=self.sample_rate)
         audio = self._move_data_to_device(audio)
 
         win_length = int(round(self.window_sec * self.sample_rate))
-        hop_length = int(round(feature_time * self.sample_rate))
+        hop_length = int(round(self.feature_time * self.sample_rate))
 
         time = audio.shape[-1] / self.sample_rate
-        batches = int(time // feature_time)
-        clip_sr = round(self.sample_rate * feature_time)
+        batches = int(time // self.feature_time)
+        clip_sr = round(self.sample_rate * self.feature_time)
         audio = audio[:batches * clip_sr] 
         audio_clip = audio.unfold(0, win_length, hop_length)
 
@@ -56,8 +58,8 @@ class CLAPAudio(torch.nn.Module):
         else:
             raise ValueError('The input x cannot be cast into float or int.')
 
-    def forward(self, audio: np.ndarray, sr: int, feature_time: float):
-        audio_clip = self._preprocess(audio, sr, feature_time)
+    def forward(self, audio: np.ndarray, sr: int):
+        audio_clip = self._preprocess(audio, sr)
         output_dict = self.clap.clap.audio_encoder.base(audio_clip)
         audio_mask = torch.ones(1, len(output_dict['embedding'])).to(self._device)
         x = output_dict['embedding'].unsqueeze(0)
