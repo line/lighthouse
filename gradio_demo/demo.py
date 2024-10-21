@@ -37,7 +37,7 @@ def load_pretrained_weights():
     for model_name in MODEL_NAMES:
         for feature in FEATURES:
             file_urls.append(
-                "https://zenodo.org/records/13639198/files/{}_{}_qvhighlight.ckpt".format(feature, model_name)
+                "https://zenodo.org/records/13960580/files/{}_{}_qvhighlight.ckpt".format(feature, model_name)
             )
     for file_url in tqdm(file_urls):
         if not os.path.exists('gradio_demo/weights/' + os.path.basename(file_url)):

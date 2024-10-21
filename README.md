@@ -15,14 +15,6 @@ Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.git
 - [2024/09/25] Our work ["Language-based audio moment retrieval"](https://arxiv.org/abs/2409.15672) has been released. Lighthouse supports AMR.
 - [2024/08/22] Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901).
 
-## Milestones
-We will release v1.0 until the end of September. Our plan includes:
-- [x] : Reduce the configuration files (issue #19)
-- [ ] : Update the trained weights and feature files on Google Drive and Zenodo
-- [x] : Introduce PyTest for inference API (issue #21)
-- [x] : Introduce Linter for inference API (issue #20)
-- [x] : Introduce [audio moment retrieval (AMR)](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/)
-
 ## Installation
 Install ffmpeg first. If you are an Ubuntu user, run:
 ```
@@ -49,7 +41,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # slowfast_path is necesary if you use clip_slowfast features
 query = 'A man is speaking in front of the camera'
-model = CGDETRPredictor('results/clip_slowfast_cg_detr/qvhighlight/best.ckpt', device=device,
+model = CGDETRPredictor('results/cg_detr/qvhighlight/clip_slowfast/best.ckpt', device=device,
                         feature_name='clip_slowfast', slowfast_path='SLOWFAST_8x8_R50.pkl')
 
 # encode video features
@@ -74,7 +66,7 @@ pred_saliency_scores: [score, ...]
 """
 ```
 Run `python api_example/demo.py` to reproduce the results. It automatically downloads pre-trained weights for CG-DETR (CLIP backbone).
-If you want to use other models, download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link). 
+If you want to use other models, download [pre-trained weights](https://drive.google.com/file/d/1jxs_bvwttXTF9Lk3aKLohkqfYOonLyrO/view?usp=sharing). 
 When using `clip_slowfast` features, it is necessary to download [slowfast pre-trained weights](https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl).
 When using `clip_slowfast_pann` features, in addition to the slowfast weight, download [panns weights](https://zenodo.org/record/3987831/files/Cnn14_mAP%3D0.431.pth).
 
@@ -113,7 +105,7 @@ Highlight detection
 - [x] : [YouTube Highlights (Sun et al. ECCV14)](https://grail.cs.washington.edu/wp-content/uploads/2015/08/sun2014rdh.pdf)
 
 Audio moment retrieval
-- [x] : [Clotho moment (Munakata et al. arXiv24)](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/)
+- [x] : [Clotho Moment/TUT2017/UnAV100-subset (Munakata et al. arXiv24)](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/)
 
 ### Features
 - [x] : ResNet+GloVe
@@ -125,14 +117,13 @@ Audio moment retrieval
 ## Reproduce the experiments
 
 ### Pre-trained weights
-Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link).
-Download and unzip on the home directory. If you want individual weights, download from [reproduced results tables](#reproduced-results).
+Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1jxs_bvwttXTF9Lk3aKLohkqfYOonLyrO/view?usp=sharing).
+Download and unzip on the home directory.
 
 ### Datasets
 Due to the copyright issue, we here distribute only feature files.
 Download and place them under `./features` directory.
 To extract features from videos, we use [HERO_Video_Feature_Extractor](https://github.com/linjieli222/HERO_Video_Feature_Extractor).
-Note that Clotho-moment is used for [AMR](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/).
 
 - [QVHighlights](https://drive.google.com/file/d/1-ALnsXkA4csKh71sRndMwybxEDqa-dM4/view?usp=sharing)
 - [Charades-STA](https://drive.google.com/file/d/1EOeP2A4IMYdotbTlTqDbv5VdvEAgQJl8/view?usp=sharing)
@@ -140,7 +131,10 @@ Note that Clotho-moment is used for [AMR](https://h-munakata.github.io/Language-
 - [TACoS](https://drive.google.com/file/d/1rYzme9JNAk3niH1K81wgT13pOMn005jb/view?usp=sharing)
 - [TVSum](https://drive.google.com/file/d/1gSex1hpXLxHQu6zHyyQISKZjP7Ndt6U9/view?usp=sharing)
 - [YouTube Highlight](https://drive.google.com/file/d/12swoymGwuN5TlDlWBTo6UUWVm2DqVBpn/view?usp=sharing)
-- [Clotho Moment](https://zenodo.org/records/13806234)
+
+For [AMR](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), download features from here.
+
+- [Clotho Moment/TUT2017/UnAV100-subset](https://zenodo.org/records/13806234)
 
 The whole directory should be look like this:
 ```
@@ -242,9 +236,6 @@ Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it
 ```
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
-
-## Reproduced results
-See [here](markdown/reproduced_results.md). You can download individual checkpoints.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
