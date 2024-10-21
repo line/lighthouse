@@ -115,28 +115,6 @@ def test_video_model_prediction():
                     assert len(prediction['pred_saliency_scores']) == math.ceil(second / model._clip_len), \
                         f'The number of saliency scores from {feature}_{model_name}_{dataset} is expected {math.ceil(second / model._clip_len)}, but got {len(prediction["pred_saliency_scores"])}.'
 
-    # test audio features
-    for feature in AUDIO_FEATURES:
-        for model_name in ['qd_detr']:
-            for dataset in ['clotho-moment']:
-                model_weight = os.path.join('tests/weights/', f'{feature}_{model_name}_{dataset}.ckpt')
-                model = QDDETRPredictor(model_weight, device='cpu', feature_name=feature, 
-                                        slowfast_path=None, 
-                                        pann_path=None)
-                
-                # test 10 duration samples
-                durations = random.sample([i for i in range(MIN_DURATION_AUDIO, MAX_DURATION_AUDIO)], SAMPLE_NUM)
-                for second in durations:
-                    audio_path = f'tests/test_audios/audio_duration_{second}.wav'
-                    model.encode_audio(audio_path)
-                    query = 'Water cascades down from a waterfall.'
-                    prediction = model.predict(query)
-                    assert len(prediction['pred_relevant_windows']) == MOMENT_NUM, \
-                        f'The number of moments from {feature}_{model_name}_{dataset} is expected {MOMENT_NUM}, but got {len(prediction["pred_relevant_windows"])}.'
-                    assert len(prediction['pred_saliency_scores']) == math.ceil(second / model._clip_len), \
-                        f'The number of saliency scores from {feature}_{model_name}_{dataset} is expected {math.ceil(second / model._clip_len)}, but got {len(prediction["pred_saliency_scores"])}.'
-
-
 @pytest.mark.dependency(depends=['test_generate_multiple_duration_audios', 
                                  'test_save_model_weights'])
 def test_audio_model_prediction():
