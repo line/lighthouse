@@ -4,7 +4,6 @@ import numpy as np
 import torch
 import torchaudio.transforms as T
 from msclap import CLAP
-from torch.nn import functional as F
 
 
 class CLAPAudioConfig:
