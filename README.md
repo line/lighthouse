@@ -105,7 +105,7 @@ Highlight detection
 - [x] : [YouTube Highlights (Sun et al. ECCV14)](https://grail.cs.washington.edu/wp-content/uploads/2015/08/sun2014rdh.pdf)
 
 Audio moment retrieval
-- [x] : [Clotho moment (Munakata et al. arXiv24)](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/)
+- [x] : [Clotho Moment/TUT2017/UnAV100-subset (Munakata et al. arXiv24)](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/)
 
 ### Features
 - [x] : ResNet+GloVe
