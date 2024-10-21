@@ -439,7 +439,8 @@ if __name__ == '__main__':
     is_valid = check_valid_combination(args.dataset, args.feature, args.domain)
 
     if is_valid:
-        option_manager = BaseOptions(args.model, args.dataset, args.feature, False, args.domain)
+        resume = False
+        option_manager = BaseOptions(args.model, args.dataset, args.feature, resume, args.domain)
         option_manager.parse()
         opt = option_manager.option
         os.makedirs(opt.results_dir, exist_ok=True)
