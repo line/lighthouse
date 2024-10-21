@@ -15,14 +15,6 @@ Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.git
 - [2024/09/25] Our work ["Language-based audio moment retrieval"](https://arxiv.org/abs/2409.15672) has been released. Lighthouse supports AMR.
 - [2024/08/22] Our demo paper is available on arXiv. Any comments are welcome: [Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection](https://www.arxiv.org/abs/2408.02901).
 
-## Milestones
-We will release v1.0 until the end of September. Our plan includes:
-- [x] : Reduce the configuration files (issue #19)
-- [ ] : Update the trained weights and feature files on Google Drive and Zenodo
-- [x] : Introduce PyTest for inference API (issue #21)
-- [x] : Introduce Linter for inference API (issue #20)
-- [x] : Introduce [audio moment retrieval (AMR)](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/)
-
 ## Installation
 Install ffmpeg first. If you are an Ubuntu user, run:
 ```
@@ -74,7 +66,7 @@ pred_saliency_scores: [score, ...]
 """
 ```
 Run `python api_example/demo.py` to reproduce the results. It automatically downloads pre-trained weights for CG-DETR (CLIP backbone).
-If you want to use other models, download [pre-trained weights](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link). 
+If you want to use other models, download [pre-trained weights](https://drive.google.com/file/d/1jxs_bvwttXTF9Lk3aKLohkqfYOonLyrO/view?usp=sharing). 
 When using `clip_slowfast` features, it is necessary to download [slowfast pre-trained weights](https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl).
 When using `clip_slowfast_pann` features, in addition to the slowfast weight, download [panns weights](https://zenodo.org/record/3987831/files/Cnn14_mAP%3D0.431.pth).
 
@@ -125,7 +117,7 @@ Audio moment retrieval
 ## Reproduce the experiments
 
 ### Pre-trained weights
-Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1ebQbhH1tjgTmRBmyOoW8J9DH7s80fqR9/view?usp=drive_link).
+Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1jxs_bvwttXTF9Lk3aKLohkqfYOonLyrO/view?usp=sharing).
 Download and unzip on the home directory. If you want individual weights, download from [reproduced results tables](#reproduced-results).
 
 ### Datasets
