@@ -3,15 +3,16 @@ from pathlib import Path
 
 import numpy as np
 import librosa
-from msclap import CLAP
 import torch
+import torchaudio.transforms as T
+from msclap import CLAP
 from torch.nn import functional as F
 from tqdm import tqdm
 
 
 class CLAPAudioConfig:
     def __init__(self, cfg: dict = None):
-        self.sample_rate: int = 32000
+        self.sample_rate: int = 44100
         self.window_sec: float = 1.0
         self.version: str = '2023'
         self.feature_time: float = 1.0
@@ -34,16 +35,17 @@ class CLAPAudio(torch.nn.Module):
         self._device = device
 
     def _preprocess(self, audio: np.ndarray, sr: int):
-        audio = librosa.resample(audio, orig_sr=sr, target_sr=self.sample_rate)
         audio = self._move_data_to_device(audio)
+        audio = T.Resample(sr, self.sample_rate)(audio)  # original implementation in msclap
 
         win_length = int(round(self.window_sec * self.sample_rate))
         hop_length = int(round(self.feature_time * self.sample_rate))
 
-        time = audio.shape[-1] / self.sample_rate
-        batches = int(time // self.feature_time)
-        clip_sr = round(self.sample_rate * self.feature_time)
-        audio = audio[:batches * clip_sr] 
+        # Truncate audio to fit the feature_time
+        # Note that this implementation is different from PANNs
+        half_win = win_length // 2
+        audio = F.pad(audio, (half_win, half_win), mode="constant", value=0)
+
         audio_clip = audio.unfold(0, win_length, hop_length)
 
         return audio_clip
