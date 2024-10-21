@@ -156,7 +156,7 @@ class BasePredictor:
         ) -> bool:
         if (self._video_feats is None or self._video_mask is None or self._video_path is None) and self._feature_name != 'clap':
             return False
-        if (self._feature_name == 'clip_slowfast_pann' or self._feature_name != 'clap') and self._audio_feats is None:
+        if (self._feature_name == 'clip_slowfast_pann' or self._feature_name == 'clap') and self._audio_feats is None:
             return False
         return True
 
