@@ -118,13 +118,12 @@ Audio moment retrieval
 
 ### Pre-trained weights
 Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1jxs_bvwttXTF9Lk3aKLohkqfYOonLyrO/view?usp=sharing).
-Download and unzip on the home directory. If you want individual weights, download from [reproduced results tables](#reproduced-results).
+Download and unzip on the home directory.
 
 ### Datasets
 Due to the copyright issue, we here distribute only feature files.
 Download and place them under `./features` directory.
 To extract features from videos, we use [HERO_Video_Feature_Extractor](https://github.com/linjieli222/HERO_Video_Feature_Extractor).
-Note that Clotho-moment is used for [AMR](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/).
 
 - [QVHighlights](https://drive.google.com/file/d/1-ALnsXkA4csKh71sRndMwybxEDqa-dM4/view?usp=sharing)
 - [Charades-STA](https://drive.google.com/file/d/1EOeP2A4IMYdotbTlTqDbv5VdvEAgQJl8/view?usp=sharing)
@@ -132,7 +131,10 @@ Note that Clotho-moment is used for [AMR](https://h-munakata.github.io/Language-
 - [TACoS](https://drive.google.com/file/d/1rYzme9JNAk3niH1K81wgT13pOMn005jb/view?usp=sharing)
 - [TVSum](https://drive.google.com/file/d/1gSex1hpXLxHQu6zHyyQISKZjP7Ndt6U9/view?usp=sharing)
 - [YouTube Highlight](https://drive.google.com/file/d/12swoymGwuN5TlDlWBTo6UUWVm2DqVBpn/view?usp=sharing)
-- [Clotho Moment](https://zenodo.org/records/13806234)
+
+For [AMR](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), download features from here.
+
+- [Clotho Moment/TUT2017/UnAV100-subset](https://zenodo.org/records/13806234)
 
 The whole directory should be look like this:
 ```
@@ -234,9 +236,6 @@ Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it
 ```
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
-
-## Reproduced results
-See [here](markdown/reproduced_results.md). You can download individual checkpoints.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
