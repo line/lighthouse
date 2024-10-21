@@ -72,15 +72,15 @@ class BasePredictor:
         self._size = 224
         self._moment_num = 10
 
+        self._vision_encoder: Optional[VisionEncoder] = None
         if feature_name in ['clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip', 'resnet_glove']:
-            self._vision_encoder: VisionEncoder = self._initialize_vision_encoder(feature_name, slowfast_path)
-        else:
-            self._vision_encoder = None
-        self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
+            self._vision_encoder = self._initialize_vision_encoder(feature_name, slowfast_path)
+
+        self._audio_encoder: Optional[AudioEncoder] = None
         if feature_name in ['clip_slowfast_pann', 'clap']:
-            self._audio_encoder: AudioEncoder = self._initialize_audio_encoder(feature_name, pann_path)
-        else:
-            self._audio_encoder = None
+            self._audio_encoder = self._initialize_audio_encoder(feature_name, pann_path)
+
+        self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
 
         self._model: torch.nn.Module = self._initialize_model(args, model_name)
         self._load_weights(ckpt['model'])
@@ -236,7 +236,10 @@ class BasePredictor:
         video_path: str) -> None:
         video_feats: torch.Tensor
         video_mask: torch.Tensor
-        video_feats, video_mask = self._vision_encoder.encode(video_path)
+        if self._vision_encoder is not None:
+            video_feats, video_mask = self._vision_encoder.encode(video_path)
+        else:
+            raise ValueError('The vision encoder is not initialized.')
         timestamed_video_feats: torch.Tensor = self._normalize_and_concat_with_timestamps(video_feats)
         n_frames: int = len(timestamed_video_feats)
         if n_frames > 75:
@@ -258,7 +261,7 @@ class BasePredictor:
         audio_feats, audio_mask = self._audio_encoder.encode(audio_path)
         self._audio_feats = audio_feats
 
-        n_frames = torch.sum(audio_mask, dtype=torch.int)
+        n_frames = int(torch.sum(audio_mask, dtype=torch.int))
         tef_st = torch.arange(0, n_frames, 1.0) / n_frames
         tef_ed = tef_st + 1.0 / n_frames
         tef = torch.stack([tef_st, tef_ed], dim=1).to(self._device)

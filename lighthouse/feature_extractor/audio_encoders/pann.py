@@ -19,6 +19,8 @@ This models.py contains selected models from:
 https://github.com/qiuqiangkong/audioset_tagging_cnn/blob/master/pytorch/models.py
 """
 
+from typing import Optional
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -30,7 +32,7 @@ from torchlibrosa.augmentation import SpecAugmentation
 
 
 class PANNConfig:
-    def __init__(self, cfg: dict = None):
+    def __init__(self, cfg: Optional[dict] = None):
         self.sample_rate: int = 32000
         self.window_size: int = 1024
         self.hop_size: int = 320
@@ -38,7 +40,7 @@ class PANNConfig:
         self.fmin: int = 50
         self.fmax: int = 14000
         self.classes_num: int = 527
-        self.model_path: str = None
+        self.model_path: Optional[str] = None
         self.feature_time: float = 2.0
 
         if cfg is not None:
@@ -51,9 +53,9 @@ class PANNConfig:
 class PANN(torch.nn.Module):
     def __init__(self, device: str, cfg: PANNConfig):
         super(PANN, self).__init__()
-        self._device = device
-        self.sample_rate = cfg.sample_rate
-        self.feature_time = cfg.feature_time
+        self._device: str = device
+        self.sample_rate: int = cfg.sample_rate
+        self.feature_time: float = cfg.feature_time
         self._model = Cnn14(
             sample_rate=cfg.sample_rate,
             window_size=cfg.window_size,
@@ -72,7 +74,7 @@ class PANN(torch.nn.Module):
         else:
             raise TypeError('pann_path should not be None when using AudioEncoder.')
 
-    def _preprocess(self, audio: np.ndarray, sr: int):
+    def _preprocess(self, audio: np.ndarray, sr: int) -> torch.Tensor:
         audio = librosa.resample(audio, orig_sr=sr, target_sr=self.sample_rate)
 
         time = audio.shape[-1] / self.sample_rate
@@ -82,8 +84,8 @@ class PANN(torch.nn.Module):
         audio = audio[:batches * clip_sr] # Truncate audio to fit the clip_sr
         audio_clip = audio.reshape([batches, clip_sr])
 
-        audio_clip = self._move_data_to_device(audio_clip)
-        return audio_clip
+        audio_clip_tensor = self._move_data_to_device(audio_clip)
+        return audio_clip_tensor
 
     def _move_data_to_device(
         self,
