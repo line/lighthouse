@@ -38,10 +38,10 @@ class CLAPAudio(torch.nn.Module):
         win_length = int(round(self.window_sec * self.sample_rate))
         hop_length = int(round(self.feature_time * self.sample_rate))
 
-        # Truncate audio to fit the feature_time
-        # Note that this implementation is different from PANNs
-        half_win = win_length // 2
-        audio_tensor = F.pad(audio_tensor, (half_win, half_win), mode="constant", value=0)
+        time = audio_tensor.shape[-1] / self.sample_rate
+        batches = int(time // self.feature_time)
+        clip_sr = round(self.sample_rate * self.feature_time)
+        audio_tensor = audio_tensor[:batches * clip_sr] # Truncate audio to fit the clip_sr
 
         audio_clip = audio_tensor.unfold(0, win_length, hop_length)
 
