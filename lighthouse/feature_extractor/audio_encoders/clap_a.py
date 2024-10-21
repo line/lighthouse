@@ -1,14 +1,10 @@
-import argparse
-from pathlib import Path
 from typing import Optional
 
 import numpy as np
-import librosa
 import torch
 import torchaudio.transforms as T
 from msclap import CLAP
 from torch.nn import functional as F
-from tqdm import tqdm
 
 
 class CLAPAudioConfig:

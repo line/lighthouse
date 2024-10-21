@@ -1,6 +1,5 @@
 import torch
 import librosa
-import numpy as np
 
 from lighthouse.feature_extractor.base_encoder import BaseEncoder
 from lighthouse.feature_extractor.audio_encoders.pann import PANN, PANNConfig
