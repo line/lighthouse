@@ -35,6 +35,7 @@ def load_weights(weight_dir: str) -> None:
 device: str = 'cpu'
 weight_dir: str = 'gradio_demo/weights'
 weight_path: str = os.path.join(weight_dir, 'clip_slowfast_cg_detr_qvhighlight.ckpt')
+load_weights(weight_dir)
 model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_name='clip_slowfast', 
                                          slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path=None)
 
