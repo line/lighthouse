@@ -3,6 +3,7 @@ import torch
 from lighthouse.feature_extractor.base_encoder import BaseEncoder
 from lighthouse.feature_extractor.text_encoders.clip_t import CLIPText
 from lighthouse.feature_extractor.text_encoders.glove import GloVe
+from lighthouse.feature_extractor.text_encoders.clap_t import CLAPText
 
 from typing import Tuple
 
@@ -37,6 +38,7 @@ class TextEncoder(BaseEncoder):
             'clip': [CLIPText],
             'clip_slowfast': [CLIPText],
             'clip_slowfast_pann': [CLIPText],
+            'clap': [CLAPText],
         }
 
         model_path_dict = {
@@ -44,6 +46,7 @@ class TextEncoder(BaseEncoder):
             'clip': ['ViT-B/32'],
             'clip_slowfast': ['ViT-B/32'],
             'clip_slowfast_pann': ['ViT-B/32'],
+            'clap': ['2023'],
         }
 
         text_encoders = [encoder(self._device, model_path)

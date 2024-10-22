@@ -9,6 +9,7 @@ highlight_*.png
 SLOWFAST_8x8_R50.pkl
 Cnn14_mAP=0.431.pth
 tests/test_videos/video_duration_*
+tests/test_audios/audio_duration_*
 tests/weights/*.ckpt
 
 # Mac

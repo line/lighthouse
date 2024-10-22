@@ -72,9 +72,15 @@ class BasePredictor:
         self._size = 224
         self._moment_num = 10
 
-        self._vision_encoder: VisionEncoder = self._initialize_vision_encoder(feature_name, slowfast_path)
+        self._vision_encoder: Optional[VisionEncoder] = None
+        if feature_name in ['clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip', 'resnet_glove']:
+            self._vision_encoder = self._initialize_vision_encoder(feature_name, slowfast_path)
+
+        self._audio_encoder: Optional[AudioEncoder] = None
+        if feature_name in ['clip_slowfast_pann', 'clap']:
+            self._audio_encoder = self._initialize_audio_encoder(feature_name, pann_path)
+
         self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
-        self._audio_encoder: Optional[AudioEncoder] = self._initialize_audio_encoder(feature_name, pann_path)
 
         self._model: torch.nn.Module = self._initialize_model(args, model_name)
         self._load_weights(ckpt['model'])
@@ -125,7 +131,7 @@ class BasePredictor:
         self,
         feature_name: str,
         pann_path: Optional[str]) -> Optional[AudioEncoder]:
-        return AudioEncoder(feature_name, self._device, pann_path) if feature_name == 'clip_slowfast_pann' else None
+        return AudioEncoder(feature_name, self._device, pann_path)
 
     def _load_weights(
         self, 
@@ -148,9 +154,9 @@ class BasePredictor:
     def _is_predictable(
         self,
         ) -> bool:
-        if self._video_feats is None or self._video_mask is None or self._video_path is None:
+        if (self._video_feats is None or self._video_mask is None or self._video_path is None) and self._feature_name != 'clap':
             return False
-        if self._feature_name == 'clip_slowfast_pann' and self._audio_feats is None:
+        if (self._feature_name == 'clip_slowfast_pann' or self._feature_name == 'clap') and self._audio_feats is None:
             return False
         return True
 
@@ -230,7 +236,10 @@ class BasePredictor:
         video_path: str) -> None:
         video_feats: torch.Tensor
         video_mask: torch.Tensor
-        video_feats, video_mask = self._vision_encoder.encode(video_path)
+        if self._vision_encoder is not None:
+            video_feats, video_mask = self._vision_encoder.encode(video_path)
+        else:
+            raise ValueError('The vision encoder is not initialized.')
         timestamed_video_feats: torch.Tensor = self._normalize_and_concat_with_timestamps(video_feats)
         n_frames: int = len(timestamed_video_feats)
         if n_frames > 75:
@@ -240,6 +249,24 @@ class BasePredictor:
         self._video_mask = video_mask
         self._video_path = video_path
         self._audio_feats = self._encode_audio(video_path)
+
+    @torch.no_grad()
+    def encode_audio(
+        self,
+        audio_path: str) -> None:
+        if self._audio_encoder is None:
+            raise ValueError('The audio encoder is not initialized.')
+        audio_feats: torch.Tensor
+        audio_mask: torch.Tensor
+        audio_feats, audio_mask = self._audio_encoder.encode(audio_path)
+        self._audio_feats = audio_feats
+
+        n_frames = int(torch.sum(audio_mask, dtype=torch.int))
+        tef_st = torch.arange(0, n_frames, 1.0) / n_frames
+        tef_ed = tef_st + 1.0 / n_frames
+        tef = torch.stack([tef_st, tef_ed], dim=1).to(self._device)
+        self._video_feats = tef.unsqueeze(0)
+        self._video_mask = audio_mask
 
     @torch.no_grad()
     def predict(

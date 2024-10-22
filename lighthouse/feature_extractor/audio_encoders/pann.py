@@ -19,13 +19,92 @@ This models.py contains selected models from:
 https://github.com/qiuqiangkong/audioset_tagging_cnn/blob/master/pytorch/models.py
 """
 
+from typing import Optional
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import librosa
+import numpy as np
 
 from torchlibrosa.stft import Spectrogram, LogmelFilterBank
 from torchlibrosa.augmentation import SpecAugmentation
- 
+
+
+class PANNConfig:
+    def __init__(self, cfg: Optional[dict] = None):
+        self.sample_rate: int = 32000
+        self.window_size: int = 1024
+        self.hop_size: int = 320
+        self.mel_bins: int = 64
+        self.fmin: int = 50
+        self.fmax: int = 14000
+        self.classes_num: int = 527
+        self.model_path: Optional[str] = None
+        self.feature_time: float = 2.0
+
+        if cfg is not None:
+            self.update(cfg)
+
+    def update(self, cfg: dict):
+        self.__dict__.update(cfg)
+
+
+class PANN(torch.nn.Module):
+    def __init__(self, device: str, cfg: PANNConfig):
+        super(PANN, self).__init__()
+        self._device: str = device
+        self.sample_rate: int = cfg.sample_rate
+        self.feature_time: float = cfg.feature_time
+        self._model = Cnn14(
+            sample_rate=cfg.sample_rate,
+            window_size=cfg.window_size,
+            hop_size=cfg.hop_size,
+            mel_bins=cfg.mel_bins,
+            fmin=cfg.fmin,
+            fmax=cfg.fmax,
+            classes_num=cfg.classes_num,
+        )
+
+        if cfg.model_path is not None:
+            checkpoint = torch.load(cfg.model_path, map_location=device)
+            self._model.load_state_dict(checkpoint['model'])
+            self._model.eval()
+            self._model.to(device)
+        else:
+            raise TypeError('pann_path should not be None when using AudioEncoder.')
+
+    def _preprocess(self, audio: np.ndarray, sr: int) -> torch.Tensor:
+        audio = librosa.resample(audio, orig_sr=sr, target_sr=self.sample_rate)
+
+        time = audio.shape[-1] / self.sample_rate
+        batches = int(time // self.feature_time)
+        clip_sr = round(self.sample_rate * self.feature_time)
+        assert clip_sr >= 9920, 'clip_sr = round(sampling_rate * feature_time) should be larger than 9920.'
+        audio = audio[:batches * clip_sr] # Truncate audio to fit the clip_sr
+        audio_clip = audio.reshape([batches, clip_sr])
+
+        audio_clip_tensor = self._move_data_to_device(audio_clip)
+        return audio_clip_tensor
+
+    def _move_data_to_device(
+        self,
+        x: np.ndarray) -> torch.Tensor:
+        if 'float' in str(x.dtype):
+            return torch.Tensor(x).to(self._device)
+        elif 'int' in str(x.dtype):
+            return torch.LongTensor(x).to(self._device)
+        else:
+            raise ValueError('The input x cannot be cast into float or int.')
+
+    def forward(self, audio: np.ndarray, sr: int):
+        audio_clip = self._preprocess(audio, sr)
+        output_dict = self._model(audio_clip, None) # audio_clip: (batch_size, clip_samples)
+        audio_mask = torch.ones(1, len(output_dict['embedding'])).to(self._device)
+        x = output_dict['embedding'].unsqueeze(0)
+        return x, audio_mask
+
+
 
 def do_mixup(x, mixup_lambda):
     out = x[0::2].transpose(0, -1) * mixup_lambda[0::2] + \
@@ -36,7 +115,6 @@ def do_mixup(x, mixup_lambda):
 def init_layer(layer):
     """Initialize a Linear or Convolutional layer. """
     nn.init.xavier_uniform_(layer.weight)
- 
     if hasattr(layer, 'bias'):
         if layer.bias is not None:
             layer.bias.data.fill_(0.)
