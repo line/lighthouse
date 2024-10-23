@@ -76,7 +76,7 @@ Run `python api_example/amr_demo.py` to reproduce the AMR results.
 For CPU users, set `feature_name='clip'` because CLIP+Slowfast or CLIP+Slowfast+PANNs features are very slow without GPUs.
 
 ## Gradio demo
-Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button.
+Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button. For AMR demo, run `python gradio_demo/amr_demo.py`.
 
 ![Gradio demo image](images/demo_improved.png)
 
