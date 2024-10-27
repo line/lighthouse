@@ -220,7 +220,6 @@ python training/train.py --model moment_detr --dataset qvhighlight --feature cli
 python training/train.py --model moment_detr --dataset tvsum --feature clip_slowfast --domain BK
 ```
 
-
 #### Evaluation
 The evaluation command is:
 ```
@@ -237,6 +236,16 @@ python training/evaluate.py --model moment_detr --dataset qvhighlight --feature 
 Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it to the [Codalab](https://codalab.lisn.upsaclay.fr/competitions/6937) (**QVHighlights only**):
 ```
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
+```
+
+## Citation
+```bibtex
+@InProceedings{taichi2024emnlp,
+  author    = {Taichi Nishimura and Shota Nakada and Hokuto Munakata and Tatsuya Komatsu},
+  title     = {Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection},
+  booktitle = {Proceedings of The 2024 Conference on Empirical Methods in Natural Language Processing: System Demonstrations},
+  year      = {2024},
+}
 ```
 
 ## Contributing
