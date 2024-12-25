@@ -11,6 +11,7 @@ It supports seven models, four features (video and audio features), and six data
 Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), a task to identify relevant moments from an audio input based on a given text query.
 
 ## News
+- [2024/12/24] Our work ["Language-based audio moment retrieval"](https://arxiv.org/abs/2409.15672) has been accepted at ICASSP 2025.
 - [2024/10/22] [Version 1.0](https://github.com/line/lighthouse/releases/tag/v1.0) has been released.
 - [2024/10/6] Our paper has been accepted at EMNLP2024, system demonstration track.
 - [2024/09/25] Our work ["Language-based audio moment retrieval"](https://arxiv.org/abs/2409.15672) has been released. Lighthouse supports AMR.
@@ -76,9 +77,13 @@ Run `python api_example/amr_demo.py` to reproduce the AMR results.
 For CPU users, set `feature_name='clip'` because CLIP+Slowfast or CLIP+Slowfast+PANNs features are very slow without GPUs.
 
 ## Gradio demo
-Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button. For AMR demo, run `python gradio_demo/amr_demo.py`.
+Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button. For AMR demo, run `python gradio_demo/amr_demo.py`. 
 
-![Gradio demo image](images/demo_improved.png)
+MR-HD demo
+![Gradio demo image](images/vmr_demo.png)
+
+AMR demo
+![Amr demo image](images/amr_demo.png)
 
 ## Supported models, datasets, and features
 ### Models
@@ -239,12 +244,22 @@ zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
 
 ## Citation
+Lighthouse
 ```bibtex
 @InProceedings{taichi2024emnlp,
   author    = {Taichi Nishimura and Shota Nakada and Hokuto Munakata and Tatsuya Komatsu},
   title     = {Lighthouse: A User-Friendly Library for Reproducible Video Moment Retrieval and Highlight Detection},
   booktitle = {Proceedings of The 2024 Conference on Empirical Methods in Natural Language Processing: System Demonstrations},
   year      = {2024},
+}
+```
+Audio moment retrieval
+```bibtex
+@InProceedings{hokuto2025icassp,
+  author    = {Hokuto Munakata and Taichi Nishimura and Shota Nakada and Tatsuya Komatsu},
+  title     = {Language-based Audio Moment Retrieval},
+  booktitle = {IEEE International Conference on Acoustic, Speech, and Signal Processing},
+  year      = {2025},
 }
 ```
 

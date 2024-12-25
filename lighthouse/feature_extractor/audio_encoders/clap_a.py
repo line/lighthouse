@@ -32,7 +32,8 @@ class CLAPAudio(torch.nn.Module):
 
     def _preprocess(self, audio: np.ndarray, sr: int) -> torch.Tensor:
         audio_tensor = self._move_data_to_device(audio)
-        audio_tensor = T.Resample(sr, self.sample_rate)(audio_tensor)  # original implementation in msclap
+        resampler = T.Resample(sr, self.sample_rate).to(self._device)
+        audio_tensor = resampler(audio_tensor)  # original implementation in msclap
 
         win_length = int(round(self.window_sec * self.sample_rate))
         hop_length = int(round(self.feature_time * self.sample_rate))
