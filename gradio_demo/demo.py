@@ -89,9 +89,10 @@ def video_upload(video):
         model.encode_video(video)
         yield gr.update(value="Finished video processing!", visible=True)
 
-def model_load(radio):
+def model_load(radio, video):
     if radio is not None:
-        yield gr.update(value="Loading new model. Wait for a minute...", visible=True)
+        loading_msg = "Loading new model. Wait for a minute..."
+        yield gr.update(value=loading_msg, visible=True), gr.update(value=loading_msg, visible=True)
         global model
         feature, model_name = radio.split('+')
         feature, model_name = feature.strip(), model_name.strip()
@@ -114,7 +115,15 @@ def model_load(radio):
         model = model_class('gradio_demo/weights/{}_{}_qvhighlight.ckpt'.format(feature, model_name),
                             device=device, feature_name='{}'.format(feature),
                             slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path='Cnn14_mAP=0.431.pth')
-        yield gr.update(value="Model loaded: {}".format(radio), visible=True)
+
+        load_finished_msg = "Model loaded: {}".format(radio)
+        encode_process_msg = "Processing the video. Wait for a minute..." if video is not None else ""
+        yield gr.update(value=load_finished_msg, visible=True), gr.update(value=encode_process_msg, visible=True)
+
+        if video is not None:
+            model.encode_video(video)
+            encode_finished_msg = "Finished video processing!"
+            yield gr.update(value=load_finished_msg, visible=True), gr.update(value=encode_finished_msg, visible=True)
 
 def predict(textbox, line, gallery):
     prediction = model.predict(textbox)
@@ -200,7 +209,7 @@ def main():
                     gallery = gr.Gallery(value=[], label="highlight", columns=5, visible=False)
                 
                 video_input.change(video_upload, inputs=[video_input], outputs=output)
-                radio.select(model_load, inputs=[radio], outputs=load_status_text)
+                radio.select(model_load, inputs=[radio, video_input], outputs=[load_status_text, output])
                 
                 button.click(predict, 
                             inputs=[query_input, line, gallery], 
