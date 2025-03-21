@@ -77,7 +77,7 @@ class BasePredictor:
             self._vision_encoder = self._initialize_vision_encoder(feature_name, slowfast_path)
 
         self._audio_encoder: Optional[AudioEncoder] = None
-        if feature_name in ['clip_slowfast_pann', 'clap']:
+        if feature_name in ['clap']:
             self._audio_encoder = self._initialize_audio_encoder(feature_name, pann_path)
 
         self._text_encoder: TextEncoder = self._initialize_text_encoder(feature_name)
