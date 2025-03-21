@@ -37,12 +37,12 @@ class AudioEncoder(BaseEncoder):
 
     def _select_audio_encoders(self):
         audio_encoders = {
-            'pann': [PANN],
+            'clip_slowfast_pann': [PANN],
             'clap': [CLAPAudio]
         }
 
         config_dict = {
-            'pann': [PANNConfig(dict(model_path=self._pann_path))],
+            'clip_slowfast_pann': [PANNConfig(dict(model_path=self._pann_path))],
             'clap': [CLAPAudioConfig()],
         }
 
