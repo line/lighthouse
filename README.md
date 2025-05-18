@@ -11,6 +11,7 @@ It supports seven models, four features (video and audio features), and six data
 Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), a task to identify relevant moments from an audio input based on a given text query.
 
 ## News
+- [2025/05/**] [Version 1.1]() has been released.
 - [2024/12/24] Our work ["Language-based audio moment retrieval"](https://arxiv.org/abs/2409.15672) has been accepted at ICASSP 2025.
 - [2024/10/22] [Version 1.0](https://github.com/line/lighthouse/releases/tag/v1.0) has been released.
 - [2024/10/6] Our paper has been accepted at EMNLP2024, system demonstration track.
@@ -47,10 +48,10 @@ model = CGDETRPredictor('results/cg_detr/qvhighlight/clip_slowfast/best.ckpt', d
                         feature_name='clip_slowfast', slowfast_path='SLOWFAST_8x8_R50.pkl')
 
 # encode video features
-model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
+video = model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
 
 # moment retrieval & highlight detection
-prediction = model.predict(query)
+prediction = model.predict(query, video)
 print(prediction)
 """
 pred_relevant_windows: [[start, end, score], ...,]

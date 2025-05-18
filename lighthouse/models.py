@@ -87,10 +87,6 @@ class BasePredictor:
         
         self._feature_name: str = feature_name
         self._model_name: str = model_name
-        self._video_feats: Optional[torch.Tensor] = None
-        self._video_mask: Optional[torch.Tensor] = None
-        self._video_path: Optional[str] = None
-        self._audio_feats: Optional[torch.Tensor] = None
 
     def _initialize_model(
         self,
@@ -153,34 +149,42 @@ class BasePredictor:
     
     def _is_predictable(
         self,
-        ) -> bool:
-        if (self._video_feats is None or self._video_mask is None or self._video_path is None) and self._feature_name != 'clap':
+        video: Dict[str, torch.Tensor]) -> bool:
+        
+        is_vfeat = 'video_feats' in video
+        is_afeat = 'audio_feats' in video
+
+        if not is_vfeat and self._feature_name != 'clap':
             return False
-        if (self._feature_name == 'clip_slowfast_pann' or self._feature_name == 'clap') and self._audio_feats is None:
+
+        if (self._feature_name == 'clip_slowfast_pann' or self._feature_name == 'clap') and not is_afeat:
             return False
+
         return True
 
     def _prepare_batch(
         self,
         query_feats: torch.Tensor,
-        query_mask: torch.Tensor) -> Dict[str, Optional[torch.Tensor]]:
+        query_mask: torch.Tensor,
+        video: Dict[str, torch.Tensor]
+    ) -> Dict[str, Optional[torch.Tensor]]:
         
         if self._model_name == 'cg_detr':
             model_inputs = dict(
-                src_vid=self._video_feats,
-                src_vid_mask=self._video_mask,
+                src_vid=video['video_feats'],
+                src_vid_mask=video['video_mask'],
                 src_txt=query_feats,
                 src_txt_mask=query_mask,
-                src_aud=self._audio_feats,
+                src_aud=video['audio_feats'],
                 vid=None, qid=None
             )
         else:
             model_inputs = dict(
-                src_vid=self._video_feats,
-                src_vid_mask=self._video_mask,
+                src_vid=video['video_feats'],
+                src_vid_mask=video['video_mask'],
                 src_txt=query_feats,
                 src_txt_mask=query_mask,
-                src_aud=self._audio_feats
+                src_aud=video['audio_feats']
             )
         
         if self._model_name == 'taskweave':
@@ -233,7 +237,7 @@ class BasePredictor:
     @torch.no_grad()
     def encode_video(
         self,
-        video_path: str) -> None:
+        video_path: str) -> Dict[str, torch.Tensor]:
         video_feats: torch.Tensor
         video_mask: torch.Tensor
         if self._vision_encoder is not None:
@@ -245,10 +249,17 @@ class BasePredictor:
         if n_frames > 75:
             raise ValueError('The positional embedding only support video up to 150 secs (i.e., 75 2-sec clips) in length')
         timestamed_video_feats = timestamed_video_feats.unsqueeze(0)
-        self._video_feats = timestamed_video_feats
-        self._video_mask = video_mask
-        self._video_path = video_path
-        self._audio_feats = self._encode_audio(video_path)
+
+        video = {
+            "video_feats": timestamed_video_feats,
+            "video_mask": video_mask,
+        }
+
+        audio_feats = self._encode_audio(video_path)
+        if audio_feats is not None:
+            video["audio_feats"] = audio_feats
+
+        return video
 
     @torch.no_grad()
     def encode_audio(
@@ -271,13 +282,15 @@ class BasePredictor:
     @torch.no_grad()
     def predict(
         self,
-        query: str) -> Optional[Dict[str, List[float]]]:
+        query: str,
+        video: Dict[str, torch.Tensor]) -> Optional[Dict[str, List[float]]]:
         is_predictable = self._is_predictable()
         if not is_predictable:
+            print("Error: No encoded features found in video variable. Did you forget to call encode_video() (MR-HD) or encode_audio() (AMR)?")
             return None
 
         query_feats, query_mask = self._encode_text(query)
-        inputs = self._prepare_batch(query_feats, query_mask)
+        inputs = self._prepare_batch(query_feats, query_mask, video)
 
         if self._model_name == 'taskweave':
             outputs, _ = self._model(**inputs)
