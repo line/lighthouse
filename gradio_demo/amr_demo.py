@@ -61,11 +61,12 @@ Gradio functions
 """
 def audio_upload(audio):
     if audio is None:
-        model.audio_feats = None
+        model.audio = None
         yield gr.update(value="Removed the audio", visible=True)
     else:
         yield gr.update(value="Processing the audio. Wait for a minute...", visible=True)
-        model.encode_audio(audio)
+        audio_feats = model.encode_audio(audio)
+        model.audio = audio_feats
         yield gr.update(value="Finished audio processing!", visible=True)
 
 def model_load(radio):
@@ -85,7 +86,7 @@ def model_load(radio):
         yield gr.update(value="Model loaded: {}".format(radio), visible=True)
 
 def predict(textbox, line, gallery):
-    prediction = model.predict(textbox)
+    prediction = model.predict(textbox, model.audio)
     if prediction is None:
         raise gr.Error('Upload the audio before pushing the `Retrieve moment` button.')
     else:

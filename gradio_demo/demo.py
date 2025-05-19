@@ -80,13 +80,14 @@ Gradio functions
 """
 def video_upload(video):
     if video is None:
-        model.video_feats = None
-        model.video_mask = None
-        model.video_path = None
+        model.inputs = None
+        model.video_path = video
         yield gr.update(value="Removed the video", visible=True)
     else:
         yield gr.update(value="Processing the video. Wait for a minute...", visible=True)
-        model.encode_video(video)
+        video_inputs = model.encode_video(video)
+        model.inputs = video_inputs
+        model.video_path = video
         yield gr.update(value="Finished video processing!", visible=True)
 
 def model_load(radio, video):
@@ -121,12 +122,14 @@ def model_load(radio, video):
         yield gr.update(value=load_finished_msg, visible=True), gr.update(value=encode_process_msg, visible=True)
 
         if video is not None:
-            model.encode_video(video)
+            video_inputs = model.encode_video(video)
+            model.inputs = video_inputs
+            model.video_path = video
             encode_finished_msg = "Finished video processing!"
             yield gr.update(value=load_finished_msg, visible=True), gr.update(value=encode_finished_msg, visible=True)
 
 def predict(textbox, line, gallery):
-    prediction = model.predict(textbox)
+    prediction = model.predict(textbox, model.inputs)
     if prediction is None:
         raise gr.Error('Upload the video before pushing the `Retrieve moment & highlight detection` button.')
     else:
@@ -154,7 +157,7 @@ def predict(textbox, line, gallery):
             output_path = "gradio_demo/highlight_frames/highlight_{}.png".format(i)
             (
                 ffmpeg
-                .input(model._video_path, ss=second)
+                .input(model.video_path, ss=second)
                 .output(output_path, vframes=1, qscale=2)
                 .global_args('-loglevel', 'quiet', '-y')
                 .run()
