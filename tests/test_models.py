@@ -107,9 +107,9 @@ def test_video_model_prediction():
                 durations = random.sample([i for i in range(MIN_DURATION, MAX_DURATION)], SAMPLE_NUM)
                 for second in durations:
                     video_path = f'tests/test_videos/video_duration_{second}.mp4'
-                    model.encode_video(video_path)
+                    video = model.encode_video(video_path)
                     query = 'A woman wearing a glass is speaking in front of the camera'
-                    prediction = model.predict(query)
+                    prediction = model.predict(query, video)
                     assert len(prediction['pred_relevant_windows']) == MOMENT_NUM, \
                         f'The number of moments from {feature}_{model_name}_{dataset} is expected {MOMENT_NUM}, but got {len(prediction["pred_relevant_windows"])}.'
                     assert len(prediction['pred_saliency_scores']) == math.ceil(second / model._clip_len), \
@@ -134,9 +134,9 @@ def test_audio_model_prediction():
                 durations = random.sample([i for i in range(MIN_DURATION_AUDIO, MAX_DURATION_AUDIO)], SAMPLE_NUM)
                 for second in durations:
                     audio_path = f'tests/test_audios/audio_duration_{second}.wav'
-                    model.encode_audio(audio_path)
+                    audio = model.encode_audio(audio_path)
                     query = 'Water cascades down from a waterfall.'
-                    prediction = model.predict(query)
+                    prediction = model.predict(query, audio)
                     assert len(prediction['pred_relevant_windows']) == MOMENT_NUM, \
                         f'The number of moments from {feature}_{model_name}_{dataset} is expected {MOMENT_NUM}, but got {len(prediction["pred_relevant_windows"])}.'
                     assert len(prediction['pred_saliency_scores']) == math.ceil(second / model._clip_len), \

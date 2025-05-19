@@ -21,8 +21,8 @@ from lighthouse.models import CGDETRPredictor
 from typing import Dict, List, Optional
 
 def load_weights(weight_dir: str) -> None:
-    if not os.path.exists(os.path.join(weight_dir, 'clip_slowfast_pann_cg_detr_qvhighlight.ckpt')):  
-        command = 'wget -P gradio_demo/weights/ https://zenodo.org/records/13960580/files/clip_slowfast_pann_cg_detr_qvhighlight.ckpt'
+    if not os.path.exists(os.path.join(weight_dir, 'clip_slowfast_cg_detr_qvhighlight.ckpt')):  
+        command = 'wget -P gradio_demo/weights/ https://zenodo.org/records/13960580/files/clip_slowfast_cg_detr_qvhighlight.ckpt'
         subprocess.run(command, shell=True)
 
     if not os.path.exists('SLOWFAST_8x8_R50.pkl'):

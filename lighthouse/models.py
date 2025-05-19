@@ -222,7 +222,7 @@ class BasePredictor:
         _: torch.Tensor # mask, but not used.
         audio_feats, _ = self._audio_encoder.encode(video_path)
         return audio_feats
-    
+
     def _encode_text(
         self,
         query: str) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -251,13 +251,10 @@ class BasePredictor:
         timestamed_video_feats = timestamed_video_feats.unsqueeze(0)
 
         video = {
-            "video_feats": timestamed_video_feats,
-            "video_mask": video_mask,
+            "video_feats" : timestamed_video_feats,
+            "video_mask" : video_mask,
+            "audio_feats" : self._encode_audio(video_path)
         }
-
-        audio_feats = self._encode_audio(video_path)
-        if audio_feats is not None:
-            video["audio_feats"] = audio_feats
 
         return video
 
@@ -276,21 +273,27 @@ class BasePredictor:
         tef_st = torch.arange(0, n_frames, 1.0) / n_frames
         tef_ed = tef_st + 1.0 / n_frames
         tef = torch.stack([tef_st, tef_ed], dim=1).to(self._device)
-        self._video_feats = tef.unsqueeze(0)
-        self._video_mask = audio_mask
+
+        audio = {
+            "video_feats" : tef.unsqueeze(0),
+            "video_mask" : audio_mask,
+            "audio_feats" : audio_feats
+        }
+
+        return audio
 
     @torch.no_grad()
     def predict(
         self,
         query: str,
-        video: Dict[str, torch.Tensor]) -> Optional[Dict[str, List[float]]]:
-        is_predictable = self._is_predictable()
+        inputs: Dict[str, torch.Tensor]) -> Optional[Dict[str, List[float]]]:
+        is_predictable = self._is_predictable(inputs)
         if not is_predictable:
             print("Error: No encoded features found in video variable. Did you forget to call encode_video() (MR-HD) or encode_audio() (AMR)?")
             return None
 
         query_feats, query_mask = self._encode_text(query)
-        inputs = self._prepare_batch(query_feats, query_mask, video)
+        inputs = self._prepare_batch(query_feats, query_mask, inputs)
 
         if self._model_name == 'taskweave':
             outputs, _ = self._model(**inputs)
@@ -301,11 +304,12 @@ class BasePredictor:
 
         if len(ranked_moments) == 0 and len(ranked_moments) == 0:
             return None
-        
+
         prediction = {
             "pred_relevant_windows": ranked_moments,
             "pred_saliency_scores": saliency_scores,
         }
+
         return prediction
 
 
