@@ -149,7 +149,7 @@ class BasePredictor:
     
     def _is_predictable(
         self,
-        video: Dict[str, torch.Tensor]) -> bool:
+        video: Dict[str, Optional[torch.Tensor]]) -> bool:
         
         is_vfeat = 'video_feats' in video
         is_afeat = 'audio_feats' in video
@@ -166,7 +166,7 @@ class BasePredictor:
         self,
         query_feats: torch.Tensor,
         query_mask: torch.Tensor,
-        video: Dict[str, torch.Tensor]
+        video: Dict[str, Optional[torch.Tensor]]
     ) -> Dict[str, Optional[torch.Tensor]]:
         
         if self._model_name == 'cg_detr':
@@ -200,11 +200,10 @@ class BasePredictor:
         prob = F.softmax(outputs["pred_logits"], -1).squeeze(0).cpu()
         scores = prob[:,0]
         pred_spans = outputs["pred_spans"].squeeze(0).cpu()
-        
-        if self._video_feats is None:
+        video_feats = inputs["src_vid"]
+        if video_feats is None:
             return [], []
-
-        video_duration = self._video_feats.shape[1] * self._clip_len
+        video_duration = video_feats.shape[1] * self._clip_len
         pred_spans = torch.clamp(span_cxw_to_xx(pred_spans) * video_duration, min=0, max=video_duration)
         cur_ranked_preds = torch.cat([pred_spans, scores[:, None]], dim=1).tolist()
         cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
@@ -237,7 +236,7 @@ class BasePredictor:
     @torch.no_grad()
     def encode_video(
         self,
-        video_path: str) -> Dict[str, torch.Tensor]:
+        video_path: str) -> Dict[str, Optional[torch.Tensor]]:
         video_feats: torch.Tensor
         video_mask: torch.Tensor
         if self._vision_encoder is not None:
@@ -261,7 +260,7 @@ class BasePredictor:
     @torch.no_grad()
     def encode_audio(
         self,
-        audio_path: str) -> None:
+        audio_path: str) -> Dict[str, torch.Tensor]:
         if self._audio_encoder is None:
             raise ValueError('The audio encoder is not initialized.')
         audio_feats: torch.Tensor
@@ -286,7 +285,7 @@ class BasePredictor:
     def predict(
         self,
         query: str,
-        inputs: Dict[str, torch.Tensor]) -> Optional[Dict[str, List[float]]]:
+        inputs: Dict[str, Optional[torch.Tensor]]) -> Optional[Dict[str, List[float]]]:
         is_predictable = self._is_predictable(inputs)
         if not is_predictable:
             print("Error: No encoded features found in video variable. Did you forget to call encode_video() (MR-HD) or encode_audio() (AMR)?")
