@@ -21,8 +21,8 @@ from lighthouse.models import CGDETRPredictor
 from typing import Dict, List, Optional
 
 def load_weights(weight_dir: str) -> None:
-    if not os.path.exists(os.path.join(weight_dir, 'clip_slowfast_pann_cg_detr_qvhighlight.ckpt')):  
-        command = 'wget -P gradio_demo/weights/ https://zenodo.org/records/13960580/files/clip_slowfast_pann_cg_detr_qvhighlight.ckpt'
+    if not os.path.exists(os.path.join(weight_dir, 'clip_slowfast_cg_detr_qvhighlight.ckpt')):  
+        command = 'wget -P gradio_demo/weights/ https://zenodo.org/records/13960580/files/clip_slowfast_cg_detr_qvhighlight.ckpt'
         subprocess.run(command, shell=True)
 
     if not os.path.exists('SLOWFAST_8x8_R50.pkl'):
@@ -40,9 +40,9 @@ model: CGDETRPredictor = CGDETRPredictor(weight_path, device=device, feature_nam
                                          slowfast_path='SLOWFAST_8x8_R50.pkl', pann_path=None)
 
 # encode video features
-model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
+video = model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
 
 # moment retrieval & highlight detection
 query: str = 'A woman wearing a glass is speaking in front of the camera'
-prediction: Optional[Dict[str, List[float]]] = model.predict(query)
+prediction: Optional[Dict[str, List[float]]] = model.predict(query, video)
 print(prediction)

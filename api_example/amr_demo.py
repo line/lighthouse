@@ -33,9 +33,9 @@ load_weights(weight_dir)
 model: QDDETRPredictor = QDDETRPredictor(weight_path, device=device, feature_name='clap')
 
 # encode audio features
-model.encode_audio('api_example/1a-ODBWMUAE.wav')
+audio = model.encode_audio('api_example/1a-ODBWMUAE.wav')
 
 # moment retrieval
 query: str = 'Water cascades down from a waterfall.'
-prediction: Optional[Dict[str, List[float]]] = model.predict(query)
+prediction: Optional[Dict[str, List[float]]] = model.predict(query, audio)
 print(prediction)

@@ -55,17 +55,20 @@ Model initialization
 """
 load_pretrained_weights()
 model = QDDETRPredictor('gradio_demo/weights/clap_qd_detr_clotho-moment.ckpt', device=device, feature_name='clap')
+loaded_audio = None
 
 """
 Gradio functions
 """
 def audio_upload(audio):
+    global loaded_audio
     if audio is None:
-        model.audio_feats = None
+        loaded_audio = None
         yield gr.update(value="Removed the audio", visible=True)
     else:
         yield gr.update(value="Processing the audio. Wait for a minute...", visible=True)
-        model.encode_audio(audio)
+        audio_feats = model.encode_audio(audio)
+        loaded_audio = audio_feats
         yield gr.update(value="Finished audio processing!", visible=True)
 
 def model_load(radio):
@@ -85,10 +88,11 @@ def model_load(radio):
         yield gr.update(value="Model loaded: {}".format(radio), visible=True)
 
 def predict(textbox, line, gallery):
-    prediction = model.predict(textbox)
-    if prediction is None:
+    global loaded_audio
+    if loaded_audio is None:
         raise gr.Error('Upload the audio before pushing the `Retrieve moment` button.')
     else:
+        prediction = model.predict(textbox, loaded_audio)
         mr_results = prediction['pred_relevant_windows']
 
         buttons = []

@@ -11,6 +11,7 @@ It supports seven models, four features (video and audio features), and six data
 Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), a task to identify relevant moments from an audio input based on a given text query.
 
 ## News
+- [2025/05/20] [Version 1.1]() has been released. It includes API changes and AMR gradio demo.
 - [2024/12/24] Our work ["Language-based audio moment retrieval"](https://arxiv.org/abs/2409.15672) has been accepted at ICASSP 2025.
 - [2024/10/22] [Version 1.0](https://github.com/line/lighthouse/releases/tag/v1.0) has been released.
 - [2024/10/6] Our paper has been accepted at EMNLP2024, system demonstration track.
@@ -43,14 +44,14 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # slowfast_path is necesary if you use clip_slowfast features
 query = 'A man is speaking in front of the camera'
-model = CGDETRPredictor('results/cg_detr/qvhighlight/clip_slowfast/best.ckpt', device=device,
+model = CGDETRPredictor('/path/to/weight.ckpt', device=device,
                         feature_name='clip_slowfast', slowfast_path='SLOWFAST_8x8_R50.pkl')
 
 # encode video features
-model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
+video = model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
 
 # moment retrieval & highlight detection
-prediction = model.predict(query)
+prediction = model.predict(query, video)
 print(prediction)
 """
 pred_relevant_windows: [[start, end, score], ...,]
@@ -67,7 +68,20 @@ pred_saliency_scores: [score, ...]
                           ...]}
 """
 ```
-Run `python api_example/demo.py` to reproduce the results. It automatically downloads pre-trained weights for CG-DETR (CLIP backbone).
+Lighthouse also supports the AMR inference API:
+```python
+import torch
+from lighthouse.models import QDDETRPredictor
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model = QDDETRPredictor('/path/to/weight.ckpt', device=device, feature_name='clap')
+
+audio = model.encode_audio('api_example/1a-ODBWMUAE.wav')
+query = 'Water cascades down from a waterfall.'
+prediction = model.predict(query, audio)
+print(prediction)
+```
+Run `python api_example/demo.py` (MR-HD) or `python api_example/amr_demo.py` (AMR) to reproduce the results. It automatically downloads pre-trained weights.
 If you want to use other models, download [pre-trained weights](https://drive.google.com/file/d/1jxs_bvwttXTF9Lk3aKLohkqfYOonLyrO/view?usp=sharing). 
 When using `clip_slowfast` features, it is necessary to download [slowfast pre-trained weights](https://dl.fbaipublicfiles.com/pyslowfast/model_zoo/kinetics400/SLOWFAST_8x8_R50.pkl).
 When using `clip_slowfast_pann` features, in addition to the slowfast weight, download [panns weights](https://zenodo.org/record/3987831/files/Cnn14_mAP%3D0.431.pth).
@@ -95,6 +109,7 @@ Moment retrieval & highlight detection
 - [x] : [UVCOM (Xiao et al. CVPR24)](https://arxiv.org/abs/2311.16464)
 - [x] : [TR-DETR (Sun et al. AAAI24)](https://arxiv.org/abs/2401.02309)
 - [x] : [TaskWeave (Jin et al. CVPR24)](https://arxiv.org/abs/2404.09263)
+- [ ] : [R2-Tuning (Liu et al. ECCV24)](https://arxiv.org/abs/2404.00801)
 
 ### Datasets
 Moment retrieval & highlight detection

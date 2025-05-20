@@ -87,10 +87,6 @@ class BasePredictor:
         
         self._feature_name: str = feature_name
         self._model_name: str = model_name
-        self._video_feats: Optional[torch.Tensor] = None
-        self._video_mask: Optional[torch.Tensor] = None
-        self._video_path: Optional[str] = None
-        self._audio_feats: Optional[torch.Tensor] = None
 
     def _initialize_model(
         self,
@@ -153,34 +149,42 @@ class BasePredictor:
     
     def _is_predictable(
         self,
-        ) -> bool:
-        if (self._video_feats is None or self._video_mask is None or self._video_path is None) and self._feature_name != 'clap':
+        video: Dict[str, Optional[torch.Tensor]]) -> bool:
+        
+        is_vfeat = 'video_feats' in video
+        is_afeat = 'audio_feats' in video
+
+        if not is_vfeat and self._feature_name != 'clap':
             return False
-        if (self._feature_name == 'clip_slowfast_pann' or self._feature_name == 'clap') and self._audio_feats is None:
+
+        if (self._feature_name == 'clip_slowfast_pann' or self._feature_name == 'clap') and not is_afeat:
             return False
+
         return True
 
     def _prepare_batch(
         self,
         query_feats: torch.Tensor,
-        query_mask: torch.Tensor) -> Dict[str, Optional[torch.Tensor]]:
+        query_mask: torch.Tensor,
+        video: Dict[str, Optional[torch.Tensor]]
+    ) -> Dict[str, Optional[torch.Tensor]]:
         
         if self._model_name == 'cg_detr':
             model_inputs = dict(
-                src_vid=self._video_feats,
-                src_vid_mask=self._video_mask,
+                src_vid=video['video_feats'],
+                src_vid_mask=video['video_mask'],
                 src_txt=query_feats,
                 src_txt_mask=query_mask,
-                src_aud=self._audio_feats,
+                src_aud=video['audio_feats'],
                 vid=None, qid=None
             )
         else:
             model_inputs = dict(
-                src_vid=self._video_feats,
-                src_vid_mask=self._video_mask,
+                src_vid=video['video_feats'],
+                src_vid_mask=video['video_mask'],
                 src_txt=query_feats,
                 src_txt_mask=query_mask,
-                src_aud=self._audio_feats
+                src_aud=video['audio_feats']
             )
         
         if self._model_name == 'taskweave':
@@ -196,11 +200,10 @@ class BasePredictor:
         prob = F.softmax(outputs["pred_logits"], -1).squeeze(0).cpu()
         scores = prob[:,0]
         pred_spans = outputs["pred_spans"].squeeze(0).cpu()
-        
-        if self._video_feats is None:
+        video_feats = inputs["src_vid"]
+        if video_feats is None:
             return [], []
-
-        video_duration = self._video_feats.shape[1] * self._clip_len
+        video_duration = video_feats.shape[1] * self._clip_len
         pred_spans = torch.clamp(span_cxw_to_xx(pred_spans) * video_duration, min=0, max=video_duration)
         cur_ranked_preds = torch.cat([pred_spans, scores[:, None]], dim=1).tolist()
         cur_ranked_preds = sorted(cur_ranked_preds, key=lambda x: x[2], reverse=True)
@@ -218,7 +221,7 @@ class BasePredictor:
         _: torch.Tensor # mask, but not used.
         audio_feats, _ = self._audio_encoder.encode(video_path)
         return audio_feats
-    
+
     def _encode_text(
         self,
         query: str) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -233,7 +236,7 @@ class BasePredictor:
     @torch.no_grad()
     def encode_video(
         self,
-        video_path: str) -> None:
+        video_path: str) -> Dict[str, Optional[torch.Tensor]]:
         video_feats: torch.Tensor
         video_mask: torch.Tensor
         if self._vision_encoder is not None:
@@ -245,15 +248,19 @@ class BasePredictor:
         if n_frames > 75:
             raise ValueError('The positional embedding only support video up to 150 secs (i.e., 75 2-sec clips) in length')
         timestamed_video_feats = timestamed_video_feats.unsqueeze(0)
-        self._video_feats = timestamed_video_feats
-        self._video_mask = video_mask
-        self._video_path = video_path
-        self._audio_feats = self._encode_audio(video_path)
+
+        video = {
+            "video_feats" : timestamed_video_feats,
+            "video_mask" : video_mask,
+            "audio_feats" : self._encode_audio(video_path)
+        }
+
+        return video
 
     @torch.no_grad()
     def encode_audio(
         self,
-        audio_path: str) -> None:
+        audio_path: str) -> Dict[str, torch.Tensor]:
         if self._audio_encoder is None:
             raise ValueError('The audio encoder is not initialized.')
         audio_feats: torch.Tensor
@@ -265,19 +272,27 @@ class BasePredictor:
         tef_st = torch.arange(0, n_frames, 1.0) / n_frames
         tef_ed = tef_st + 1.0 / n_frames
         tef = torch.stack([tef_st, tef_ed], dim=1).to(self._device)
-        self._video_feats = tef.unsqueeze(0)
-        self._video_mask = audio_mask
+
+        audio = {
+            "video_feats" : tef.unsqueeze(0),
+            "video_mask" : audio_mask,
+            "audio_feats" : audio_feats
+        }
+
+        return audio
 
     @torch.no_grad()
     def predict(
         self,
-        query: str) -> Optional[Dict[str, List[float]]]:
-        is_predictable = self._is_predictable()
+        query: str,
+        inputs: Dict[str, Optional[torch.Tensor]]) -> Optional[Dict[str, List[float]]]:
+        is_predictable = self._is_predictable(inputs)
         if not is_predictable:
+            print("Error: No encoded features found in video variable. Did you forget to call encode_video() (MR-HD) or encode_audio() (AMR)?")
             return None
 
         query_feats, query_mask = self._encode_text(query)
-        inputs = self._prepare_batch(query_feats, query_mask)
+        inputs = self._prepare_batch(query_feats, query_mask, inputs)
 
         if self._model_name == 'taskweave':
             outputs, _ = self._model(**inputs)
@@ -288,11 +303,12 @@ class BasePredictor:
 
         if len(ranked_moments) == 0 and len(ranked_moments) == 0:
             return None
-        
+
         prediction = {
             "pred_relevant_windows": ranked_moments,
             "pred_saliency_scores": saliency_scores,
         }
+
         return prediction
 
 

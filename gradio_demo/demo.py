@@ -66,6 +66,8 @@ Model initialization
 load_pretrained_weights()
 model = CGDETRPredictor('gradio_demo/weights/clip_cg_detr_qvhighlight.ckpt', device=device, 
                         feature_name='clip', slowfast_path=None, pann_path=None)
+loaded_video = None
+loaded_video_path = None
 
 js_codes = ["""() => {{
             let moment_text = document.getElementById('result_{}').textContent;
@@ -79,17 +81,19 @@ js_codes = ["""() => {{
 Gradio functions
 """
 def video_upload(video):
+    global loaded_video, loaded_video_path
     if video is None:
-        model.video_feats = None
-        model.video_mask = None
-        model.video_path = None
+        loaded_video = None
+        loaded_video_path = video
         yield gr.update(value="Removed the video", visible=True)
     else:
         yield gr.update(value="Processing the video. Wait for a minute...", visible=True)
-        model.encode_video(video)
+        loaded_video = model.encode_video(video)
+        loaded_video_path = video
         yield gr.update(value="Finished video processing!", visible=True)
 
 def model_load(radio, video):
+    global loaded_video, loaded_video_path
     if radio is not None:
         loading_msg = "Loading new model. Wait for a minute..."
         yield gr.update(value=loading_msg, visible=True), gr.update(value=loading_msg, visible=True)
@@ -121,15 +125,21 @@ def model_load(radio, video):
         yield gr.update(value=load_finished_msg, visible=True), gr.update(value=encode_process_msg, visible=True)
 
         if video is not None:
-            model.encode_video(video)
+            loaded_video = model.encode_video(video)
+            loaded_video_path = video
             encode_finished_msg = "Finished video processing!"
             yield gr.update(value=load_finished_msg, visible=True), gr.update(value=encode_finished_msg, visible=True)
+        else:
+            loaded_video = None
+            loaded_video_path = None
 
 def predict(textbox, line, gallery):
-    prediction = model.predict(textbox)
-    if prediction is None:
-        raise gr.Error('Upload the video before pushing the `Retrieve moment & highlight detection` button.')
+    global loaded_video, loaded_video_path
+    if loaded_video is None:
+        raise gr.Error("Upload the video before pushing the `Retrieve moment & highlight detection` button.")
     else:
+        prediction = model.predict(textbox, loaded_video)
+
         mr_results = prediction['pred_relevant_windows']
         hl_results = prediction['pred_saliency_scores']
 
@@ -154,7 +164,7 @@ def predict(textbox, line, gallery):
             output_path = "gradio_demo/highlight_frames/highlight_{}.png".format(i)
             (
                 ffmpeg
-                .input(model._video_path, ss=second)
+                .input(loaded_video_path, ss=second)
                 .output(output_path, vframes=1, qscale=2)
                 .global_args('-loglevel', 'quiet', '-y')
                 .run()
