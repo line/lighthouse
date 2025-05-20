@@ -66,6 +66,8 @@ Model initialization
 load_pretrained_weights()
 model = CGDETRPredictor('gradio_demo/weights/clip_cg_detr_qvhighlight.ckpt', device=device, 
                         feature_name='clip', slowfast_path=None, pann_path=None)
+model.video = None
+model.video_path = None
 
 js_codes = ["""() => {{
             let moment_text = document.getElementById('result_{}').textContent;
@@ -80,13 +82,12 @@ Gradio functions
 """
 def video_upload(video):
     if video is None:
-        model.inputs = None
+        model.video = None
         model.video_path = video
         yield gr.update(value="Removed the video", visible=True)
     else:
         yield gr.update(value="Processing the video. Wait for a minute...", visible=True)
-        video_inputs = model.encode_video(video)
-        model.inputs = video_inputs
+        model.video = model.encode_video(video)
         model.video_path = video
         yield gr.update(value="Finished video processing!", visible=True)
 
@@ -122,17 +123,20 @@ def model_load(radio, video):
         yield gr.update(value=load_finished_msg, visible=True), gr.update(value=encode_process_msg, visible=True)
 
         if video is not None:
-            video_inputs = model.encode_video(video)
-            model.inputs = video_inputs
+            model.video = model.encode_video(video)
             model.video_path = video
             encode_finished_msg = "Finished video processing!"
             yield gr.update(value=load_finished_msg, visible=True), gr.update(value=encode_finished_msg, visible=True)
+        else:
+            model.video = None
+            model.video_path = None
 
 def predict(textbox, line, gallery):
-    prediction = model.predict(textbox, model.inputs)
-    if prediction is None:
-        raise gr.Error('Upload the video before pushing the `Retrieve moment & highlight detection` button.')
+    if model.video is None:
+        raise gr.Error("Upload the video before pushing the `Retrieve moment & highlight detection` button.")
     else:
+        prediction = model.predict(textbox, model.video)
+
         mr_results = prediction['pred_relevant_windows']
         hl_results = prediction['pred_saliency_scores']
 

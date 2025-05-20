@@ -138,7 +138,7 @@ class Transformer(nn.Module):
         # *Use highlight scores to suppress feature expressions in non-highlight clips
         memory_local, saliency_scores = self.HD2MR(memory_local, saliency_proj1, src, video_length, mask_local, pos_embed_local)
 
-        tgt = torch.zeros(refpoint_embed.shape[0], bs, d).cuda()
+        tgt = torch.zeros(refpoint_embed.shape[0], bs, d).to(src.device)
         hs, references = self.decoder(tgt, memory_local, memory_key_padding_mask=mask_local,
                           pos=pos_embed_local, refpoints_unsigmoid=refpoint_embed)  # (#layers, #queries, batch_size, d)
         
