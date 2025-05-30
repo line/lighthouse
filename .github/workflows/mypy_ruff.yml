@@ -21,9 +21,8 @@ jobs:
 
       - name: Run dependency libraries
         run: |
-          pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 torchtext==0.15.1
-          pip install easydict pandas tqdm pyyaml scikit-learn ffmpeg-python ftfy regex einops fvcore gradio torchlibrosa librosa
-          pip install 'clip@git+https://github.com/openai/CLIP.git'
+          pip install -e .
+          pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 torchtext==0.16.0
           pip install mypy ruff
 
       - name: Run mypy
