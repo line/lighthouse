@@ -258,6 +258,16 @@ Then zip `hl_val_submission.jsonl` and `hl_test_submission.jsonl`, and submit it
 zip -r submission.zip val_submission.jsonl test_submission.jsonl
 ```
 
+## Wrapper for HuggingFace
+We start to support [wrappers for HuggingFace](https://huggingface.co/lighthouse-emnlp2024).
+You can easily use models and dataset via `AutoModel` and `huggingface_hub`.
+
+The following models and datasets are provided by the wrapper for HuggingFace.
+### Models
+  - [Audio Moment DETR (Munakata et al. ICASSP2024)](https://huggingface.co/lighthouse-emnlp2024/AM-DETR)
+### Datasets
+  - [Clotho Moment (Munakata et al. ICASSP2024)](https://huggingface.co/datasets/lighthouse-emnlp2024/Clotho-Moment)
+
 ## Citation
 Lighthouse
 ```bibtex
