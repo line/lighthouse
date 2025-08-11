@@ -24,10 +24,10 @@ Install ffmpeg first. If you are an Ubuntu user, run:
 ```
 apt install ffmpeg
 ```
-Then, install pytorch, torchvision, torchaudio, and torchtext based on your GPU environments.
+Then, install pytorch, torchvision, and torchaudio based on your GPU environments.
 Note that the inference API is available for CPU environments. We tested the codes on Python 3.9 and CUDA 11.8:
 ```
-pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 torchtext==0.16.0 --index-url https://download.pytorch.org/whl/cu118
+pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
 ```
 Finally, run to install dependency libraries:
 ```
