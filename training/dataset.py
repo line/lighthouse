@@ -62,10 +62,10 @@ from tqdm import tqdm
 import random
 import logging
 from os.path import join, exists
+from lighthouse.common import vocab
 from lighthouse.common.utils.basic_utils import load_jsonl, l2_normalize_np_array
 from lighthouse.common.utils.tensor_utils import pad_sequences_1d
 from lighthouse.common.utils.span_utils import span_xx_to_cxw
-from torchtext import vocab
 import torch.nn as nn
 
 logger = logging.getLogger(__name__)

@@ -1,6 +1,6 @@
 import torch
 from typing import Tuple
-from torchtext import vocab
+from lighthouse.common import vocab
 
 class GloVe:
     def __init__(
