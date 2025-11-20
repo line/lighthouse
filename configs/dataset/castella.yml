@@ -1,0 +1,7 @@
+dset_name: castella
+clip_length: 1
+train_path: data/castella/castella_train_release.jsonl
+eval_path: data/castella/castella_val_release.jsonl
+
+max_a_l: 300
+max_v_l: 300

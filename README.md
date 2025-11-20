@@ -12,6 +12,7 @@ It supports seven models, four features (video and audio features), and six data
 Furthermore, Lighthouse supports [audio moment retrieval](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), a task to identify relevant moments from an audio input based on a given text query.
 
 ## News
+- [2025/11/20] [Version 1.2](https://github.com/line/lighthouse/releases/tag/v1.2) Our work ["CASTELLA: Long Audio Dataset with Captions and Temporal Boundaries"](https://arxiv.org/abs/2511.15131) has been released. This update adds support for a new AMR dataset called CASTELLA.
 - [2025/06/04] [Version 1.1](https://github.com/line/lighthouse/releases/tag/v1.1) has been released. It includes API changes, AMR gradio demo, and huggingface wrappers for the audio moment retrieval and clotho dataset.
 - [2024/12/24] Our work ["Language-based audio moment retrieval"](https://arxiv.org/abs/2409.15672) has been accepted at ICASSP 2025.
 - [2024/10/22] [Version 1.0](https://github.com/line/lighthouse/releases/tag/v1.0) has been released.
@@ -142,6 +143,7 @@ Audio moment retrieval
 ### Pre-trained weights
 Pre-trained weights can be downloaded from [here](https://drive.google.com/file/d/1jxs_bvwttXTF9Lk3aKLohkqfYOonLyrO/view?usp=sharing).
 Download and unzip on the home directory.
+AMR models trained on CASTELLA and Clotho-Moment is available in [here](https://zenodo.org/uploads/17422909)
 
 ### Datasets
 Due to the copyright issue, we here distribute only feature files.
@@ -158,6 +160,7 @@ To extract features from videos, we use [HERO_Video_Feature_Extractor](https://g
 For [AMR](https://h-munakata.github.io/Language-based-Audio-Moment-Retrieval/), download features from here.
 
 - [Clotho Moment/TUT2017/UnAV100-subset](https://zenodo.org/records/13806234)
+- [CASTELLA](https://zenodo.org/records/17412176) [[Mirror on HF]](https://huggingface.co/datasets/lighthouse-emnlp2024/CASTELLA_CLAP_features)
 
 The whole directory should be look like this:
 ```

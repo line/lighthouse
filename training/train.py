@@ -137,7 +137,6 @@ def train_epoch(model, criterion, train_loader, optimizer, opt, epoch_i):
             losses.backward()
         else:
             outputs = model(**model_inputs, targets=targets) if opt.model_name == 'cg_detr' else model(**model_inputs)
-            
             loss_dict = criterion(outputs, targets)
             losses = sum(loss_dict[k] * criterion.weight_dict[k] for k in loss_dict.keys() if k in criterion.weight_dict)
             
@@ -228,6 +227,7 @@ def main(opt, resume=None, domain=None):
         a_feat_types=opt.a_feat_types,
         max_q_l=opt.max_q_l,
         max_v_l=opt.max_v_l,
+        max_a_l=opt.max_a_l,
         clip_len=opt.clip_length,
         max_windows=opt.max_windows,
         span_loss_type=opt.span_loss_type,
@@ -246,7 +246,7 @@ def main(opt, resume=None, domain=None):
     
     # load checkpoint for QVHighlight pretrain -> finetune
     if resume is not None:
-        checkpoint = torch.load(resume)
+        checkpoint = torch.load(resume, weights_only=False)
         model.load_state_dict(checkpoint["model"])
         logger.info("Loaded model checkpoint: {}".format(resume))
     
@@ -267,6 +267,7 @@ def check_valid_combination(dataset, feature, domain):
         'tvsum': ['resnet_glove', 'clip', 'clip_slowfast', 'i3d_clip'],
         'youtube_highlight': ['clip', 'clip_slowfast'],
         'clotho-moment': ['clap'],
+        'castella': ['clap'],
     }
 
     domain_map = {
@@ -286,8 +287,8 @@ if __name__ == '__main__':
                         choices=['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr', 'taskweave_hd2mr', 'taskweave_mr2hd'],
                         help='model name. select from [moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_hd2mr, taskweave_mr2hd]')
     parser.add_argument('--dataset', '-d', type=str, required=True,
-                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment'],
-                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment]')
+                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment', 'castella'],
+                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment, castella]')
     parser.add_argument('--feature', '-f', type=str, required=True,
                         choices=['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip', 'clap'],
                         help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap].'
