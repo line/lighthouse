@@ -12,6 +12,7 @@ eval_bsz: 100
 grad_clip: 0.1
 max_q_l: 32
 max_v_l: 75
+max_a_l: 75
 max_windows: 5
 clip_length: 1
 eval_epoch_interval: 1

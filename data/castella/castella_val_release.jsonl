@@ -1,0 +1,352 @@
+{"qid": "rqfQRErjfk8_1", "query": "Music is playing and a man is singing", "duration": 189, "vid": "rqfQRErjfk8", "relevant_windows": [[4, 109], [122, 154]]}
+{"qid": "rqfQRErjfk8_2", "query": "Loud cheering and applause from a crowd", "duration": 189, "vid": "rqfQRErjfk8", "relevant_windows": [[169, 190]]}
+{"qid": "rwT__ERCUno_1", "query": "Metal tools clanging together", "duration": 153, "vid": "rwT__ERCUno", "relevant_windows": [[52, 56], [64, 80], [86, 90]]}
+{"qid": "rwT__ERCUno_2", "query": "Engine noise", "duration": 153, "vid": "rwT__ERCUno", "relevant_windows": [[89, 154]]}
+{"qid": "rwT__ERCUno_3", "query": "A man's voice blends with engine noise", "duration": 153, "vid": "rwT__ERCUno", "relevant_windows": [[105, 112]]}
+{"qid": "rwb6PSAee5Y_1", "query": "Someone opens and closes a door", "duration": 73, "vid": "rwb6PSAee5Y", "relevant_windows": [[21, 26]]}
+{"qid": "rwb6PSAee5Y_2", "query": "A toilet is flushing", "duration": 73, "vid": "rwb6PSAee5Y", "relevant_windows": [[34, 46], [59, 71]]}
+{"qid": "rwtmaKiCcQU_1", "query": "Engines are running and something is being sprayed", "duration": 76, "vid": "rwtmaKiCcQU", "relevant_windows": [[25, 28], [29, 32], [36, 41], [42, 48], [50, 58], [59, 69]]}
+{"qid": "s3cT_DAj31g_1", "query": "A man is talking and lighting a stove", "duration": 115, "vid": "s3cT_DAj31g", "relevant_windows": [[21, 23]]}
+{"qid": "s3cT_DAj31g_2", "query": "Something is boiling", "duration": 115, "vid": "s3cT_DAj31g", "relevant_windows": [[32, 36]]}
+{"qid": "s3cT_DAj31g_3", "query": "A man, a woman, and a child are talking and eating candy", "duration": 115, "vid": "s3cT_DAj31g", "relevant_windows": [[64, 75]]}
+{"qid": "s4Uz1Ffgo04_1", "query": "A siren goes off and the sound of a car driving", "duration": 239, "vid": "s4Uz1Ffgo04", "relevant_windows": [[0, 9], [156, 160], [233, 240]]}
+{"qid": "s4Uz1Ffgo04_2", "query": "A horn honks and a car is driving", "duration": 239, "vid": "s4Uz1Ffgo04", "relevant_windows": [[189, 191]]}
+{"qid": "s4tUs779vBA_1", "query": "Sound effects play, gunshots ring out, and a man speaks", "duration": 257, "vid": "s4tUs779vBA", "relevant_windows": [[157, 254], [51, 142]]}
+{"qid": "s7knHCFW82w_1", "query": "A man is speaking while a train bell rings", "duration": 234, "vid": "s7knHCFW82w", "relevant_windows": [[0, 13]]}
+{"qid": "s7knHCFW82w_2", "query": "A train is moving along, sounding its horn", "duration": 234, "vid": "s7knHCFW82w", "relevant_windows": [[15, 44], [70, 89]]}
+{"qid": "sC_i_y7QS1U_1", "query": "A man is talking while a motorcycle engine is running", "duration": 298, "vid": "sC_i_y7QS1U", "relevant_windows": [[118, 300]]}
+{"qid": "sEprKHm8Sj8_1", "query": "With engine noise rumbling, a horn blares out", "duration": 287, "vid": "sEprKHm8Sj8", "relevant_windows": [[40, 45]]}
+{"qid": "sEprKHm8Sj8_2", "query": "With engine noise rumbling, the wind blows, people are talking, and someone is laughing", "duration": 287, "vid": "sEprKHm8Sj8", "relevant_windows": [[221, 225]]}
+{"qid": "sIXTftIuUgw_1", "query": "A balloon deflates", "duration": 103, "vid": "sIXTftIuUgw", "relevant_windows": [[33, 35]]}
+{"qid": "sIXTftIuUgw_2", "query": "A pop and screaming", "duration": 103, "vid": "sIXTftIuUgw", "relevant_windows": [[81, 85]]}
+{"qid": "sIXTftIuUgw_3", "query": "Someone is whistling", "duration": 103, "vid": "sIXTftIuUgw", "relevant_windows": [[85, 102]]}
+{"qid": "sLkeqCDJIyw_1", "query": "Someone is snoring and something is falling", "duration": 192, "vid": "sLkeqCDJIyw", "relevant_windows": [[0, 1]]}
+{"qid": "sNB8zxXneIM_1", "query": "Roosters and other birds are calling", "duration": 97, "vid": "sNB8zxXneIM", "relevant_windows": [[6, 93]]}
+{"qid": "sOa7g-44Dag_1", "query": "A man talks as machines whir and something gets sprayed", "duration": 106, "vid": "sOa7g-44Dag", "relevant_windows": [[8, 16], [27, 57], [62, 87]]}
+{"qid": "sSMl2vc3e_k_1", "query": "A man is talking", "duration": 104, "vid": "sSMl2vc3e_k", "relevant_windows": [[0, 5], [66, 68], [93, 105]]}
+{"qid": "sSMl2vc3e_k_2", "query": "Someone is snoring", "duration": 104, "vid": "sSMl2vc3e_k", "relevant_windows": [[6, 104]]}
+{"qid": "sYITalLZjj4_1", "query": "Sound effects are playing", "duration": 106, "vid": "sYITalLZjj4", "relevant_windows": [[0, 11]]}
+{"qid": "sZuuj08Gr_I_1", "query": "A woman is talking while mixing something in a dish", "duration": 223, "vid": "sZuuj08Gr_I", "relevant_windows": [[27, 34], [85, 95], [113, 116]]}
+{"qid": "sZuuj08Gr_I_2", "query": "Mixing something in a dish", "duration": 223, "vid": "sZuuj08Gr_I", "relevant_windows": [[147, 155], [113, 118], [84, 95], [27, 34]]}
+{"qid": "sZuuj08Gr_I_3", "query": "Scooping something and putting it into a blender", "duration": 223, "vid": "sZuuj08Gr_I", "relevant_windows": [[161, 168]]}
+{"qid": "sZuuj08Gr_I_4", "query": "A mixer is running", "duration": 223, "vid": "sZuuj08Gr_I", "relevant_windows": [[169, 178]]}
+{"qid": "sZuuj08Gr_I_5", "query": "Sifting something with a strainer", "duration": 223, "vid": "sZuuj08Gr_I", "relevant_windows": [[194, 206]]}
+{"qid": "s_apQIQUhFc_1", "query": "Music plays", "duration": 298, "vid": "s_apQIQUhFc", "relevant_windows": [[4, 34]]}
+{"qid": "s_apQIQUhFc_2", "query": "Music plays as gunshots ring out", "duration": 298, "vid": "s_apQIQUhFc", "relevant_windows": [[28, 30]]}
+{"qid": "s_apQIQUhFc_3", "query": "A man laughs", "duration": 298, "vid": "s_apQIQUhFc", "relevant_windows": [[176, 178], [181, 183], [255, 257]]}
+{"qid": "sd7x_Vssqlw_1", "query": "A man is talking and a car is driving", "duration": 126, "vid": "sd7x_Vssqlw", "relevant_windows": [[63, 69], [73, 81], [83, 88], [90, 97], [100, 105], [107, 109], [110, 112], [114, 120]]}
+{"qid": "sd_XV-ylviw_1", "query": "A urinal flushes", "duration": 298, "vid": "sd_XV-ylviw", "relevant_windows": [[11, 21], [42, 49], [110, 120], [145, 160], [24, 31], [53, 68], [73, 84], [89, 95], [178, 190], [215, 226], [255, 269]]}
+{"qid": "sd_XV-ylviw_2", "query": "A door creaks as it opens", "duration": 298, "vid": "sd_XV-ylviw", "relevant_windows": [[229, 236], [269, 271], [273, 275]]}
+{"qid": "se87d6yxEOA_1", "query": "A train is moving along, blowing its whistle", "duration": 254, "vid": "se87d6yxEOA", "relevant_windows": [[12, 22], [74, 80], [41, 47], [130, 134], [136, 140], [143, 150], [159, 163], [164, 169], [171, 174]]}
+{"qid": "se87d6yxEOA_2", "query": "A train is moving along, ringing its bell", "duration": 254, "vid": "se87d6yxEOA", "relevant_windows": [[82, 150], [205, 240]]}
+{"qid": "se87d6yxEOA_3", "query": "Someone is speaking while music is playing", "duration": 254, "vid": "se87d6yxEOA", "relevant_windows": [[190, 200]]}
+{"qid": "se87d6yxEOA_4", "query": "A sound like steam is rising", "duration": 254, "vid": "se87d6yxEOA", "relevant_windows": [[241, 255]]}
+{"qid": "sfAvvZwdLCY_1", "query": "A toilet flushes", "duration": 59, "vid": "sfAvvZwdLCY", "relevant_windows": [[5, 11], [20, 30]]}
+{"qid": "sfAvvZwdLCY_2", "query": "Water is flowing", "duration": 59, "vid": "sfAvvZwdLCY", "relevant_windows": [[45, 59], [20, 30], [5, 11]]}
+{"qid": "sgAjFcKriHk_1", "query": "The roar of the airplane engines", "duration": 239, "vid": "sgAjFcKriHk", "relevant_windows": [[0, 132], [141, 190], [223, 241]]}
+{"qid": "sgAjFcKriHk_2", "query": "Voices over the sound of airplane engines", "duration": 239, "vid": "sgAjFcKriHk", "relevant_windows": [[134, 140]]}
+{"qid": "slZLHwNbbt4_1", "query": "A train is running and blowing its horn", "duration": 298, "vid": "slZLHwNbbt4", "relevant_windows": [[5, 9], [217, 219], [272, 276], [25, 28], [31, 35], [51, 54], [59, 61], [64, 66], [119, 123], [148, 150], [154, 158], [178, 184]]}
+{"qid": "slZLHwNbbt4_2", "query": "Birds are chirping while the wind is blowing, and a train is running and blowing its horn", "duration": 298, "vid": "slZLHwNbbt4", "relevant_windows": [[178, 184]]}
+{"qid": "smGI3C1N_Zc_1", "query": "Water is running", "duration": 127, "vid": "smGI3C1N_Zc", "relevant_windows": [[5, 21], [30, 41], [63, 73], [96, 113]]}
+{"qid": "smGI3C1N_Zc_2", "query": "A door opens and closes", "duration": 127, "vid": "smGI3C1N_Zc", "relevant_windows": [[53, 55], [82, 83], [18, 20], [25, 29], [75, 76], [90, 91], [118, 120]]}
+{"qid": "sofxkNWaP0s_1", "query": "A plane flies in the wind as a man and child are talking", "duration": 59, "vid": "sofxkNWaP0s", "relevant_windows": [[7, 11], [19, 26], [31, 35]]}
+{"qid": "spJCm8tD9Zo_1", "query": "Chickens cluck amid the noise", "duration": 235, "vid": "spJCm8tD9Zo", "relevant_windows": [[152, 155], [157, 160], [176, 179], [87, 90], [140, 142]]}
+{"qid": "spJCm8tD9Zo_2", "query": "Laughter rings out amid the noise", "duration": 235, "vid": "spJCm8tD9Zo", "relevant_windows": [[234, 237]]}
+{"qid": "sr1_Gfm0syI_1", "query": "Several people are applauding", "duration": 172, "vid": "sr1_Gfm0syI", "relevant_windows": [[68, 73], [112, 117], [138, 143]]}
+{"qid": "sr1_Gfm0syI_2", "query": "People are cheering", "duration": 172, "vid": "sr1_Gfm0syI", "relevant_windows": [[112, 117], [134, 142], [70, 75], [127, 130]]}
+{"qid": "sr1_Gfm0syI_3", "query": "A cow is mooing", "duration": 172, "vid": "sr1_Gfm0syI", "relevant_windows": [[131, 134], [75, 77], [120, 123], [161, 167], [169, 171]]}
+{"qid": "sr1_Gfm0syI_4", "query": "A buzzer sounds, people are cheering and applauding, and a man is speaking into a microphone", "duration": 172, "vid": "sr1_Gfm0syI", "relevant_windows": [[150, 159]]}
+{"qid": "sxIvBMSavMQ_1", "query": "Music is playing", "duration": 299, "vid": "sxIvBMSavMQ", "relevant_windows": [[0, 16]]}
+{"qid": "sxIvBMSavMQ_2", "query": "A man is spraying something while birds are chirping", "duration": 299, "vid": "sxIvBMSavMQ", "relevant_windows": [[38, 40], [66, 70], [75, 78]]}
+{"qid": "syyyCQcHSfQ_1", "query": "Someone snores as music plays in the background and a car passes by", "duration": 106, "vid": "syyyCQcHSfQ", "relevant_windows": [[37, 42], [77, 82]]}
+{"qid": "t25U-v4k4ts_1", "query": "Air blows amid the noise", "duration": 179, "vid": "t25U-v4k4ts", "relevant_windows": [[0, 2], [11, 17]]}
+{"qid": "t25U-v4k4ts_2", "query": "Amid the noise, something is hitting wood and bees are buzzing", "duration": 179, "vid": "t25U-v4k4ts", "relevant_windows": [[33, 41], [92, 94]]}
+{"qid": "t4WCFbE0A50_1", "query": "A cow and an animal are making sounds as the wind blows", "duration": 64, "vid": "t4WCFbE0A50", "relevant_windows": [[24, 35]]}
+{"qid": "t69a8aRKhmc_1", "query": "A man is talking while pigeons coo", "duration": 135, "vid": "t69a8aRKhmc", "relevant_windows": [[98, 104]]}
+{"qid": "t69a8aRKhmc_2", "query": "Several pigeons are flying simultaneously", "duration": 135, "vid": "t69a8aRKhmc", "relevant_windows": [[132, 135]]}
+{"qid": "t8CV69hcvF0_1", "query": "A woman is sneezing", "duration": 299, "vid": "t8CV69hcvF0", "relevant_windows": [[7, 9], [64, 67], [117, 119], [207, 208], [266, 268], [299, 300], [16, 18], [19, 22], [10, 13], [32, 35], [37, 39], [41, 44], [80, 82], [88, 90], [125, 134], [159, 162], [164, 167], [209, 211], [212, 216], [228, 230], [231, 233], [236, 238], [248, 250], [279, 281], [285, 292]]}
+{"qid": "t8CV69hcvF0_2", "query": "Someone blowing their nose", "duration": 299, "vid": "t8CV69hcvF0", "relevant_windows": [[171, 174], [180, 185]]}
+{"qid": "tDVADusiIoc_1", "query": "A woman is screaming", "duration": 81, "vid": "tDVADusiIoc", "relevant_windows": [[19, 21]]}
+{"qid": "tDVADusiIoc_2", "query": "Machinery is making noise", "duration": 81, "vid": "tDVADusiIoc", "relevant_windows": [[44, 45]]}
+{"qid": "tDVADusiIoc_3", "query": "A man's voice comes from a radio as the wind blows", "duration": 81, "vid": "tDVADusiIoc", "relevant_windows": [[61, 66]]}
+{"qid": "tDlfY3nmx1A_1", "query": "A man's voice and several people laughing", "duration": 207, "vid": "tDlfY3nmx1A", "relevant_windows": [[38, 63], [78, 84], [101, 104], [115, 118], [121, 123], [156, 167]]}
+{"qid": "tDlfY3nmx1A_2", "query": "A man's voice and applause", "duration": 207, "vid": "tDlfY3nmx1A", "relevant_windows": [[187, 188], [152, 167]]}
+{"qid": "tDlysoZiA1I_1", "query": "An animal calls out as birds are chirping", "duration": 58, "vid": "tDlysoZiA1I", "relevant_windows": [[0, 21], [25, 38], [41, 49]]}
+{"qid": "tDlysoZiA1I_2", "query": "A man is talking", "duration": 58, "vid": "tDlysoZiA1I", "relevant_windows": [[49, 51]]}
+{"qid": "tEE3MpBt1sg_1", "query": "A man is laughing", "duration": 127, "vid": "tEE3MpBt1sg", "relevant_windows": [[105, 128], [0, 14], [16, 24], [31, 32], [37, 84], [87, 94]]}
+{"qid": "tEE3MpBt1sg_2", "query": "A man is laughing and a machine is running", "duration": 127, "vid": "tEE3MpBt1sg", "relevant_windows": [[48, 55], [42, 46]]}
+{"qid": "tH-q8LXgHEc_1", "query": "Lots of birds are chirping and the sound of wings flapping", "duration": 166, "vid": "tH-q8LXgHEc", "relevant_windows": [[16, 18], [44, 46], [50, 51], [61, 62], [88, 89], [105, 112], [163, 167]]}
+{"qid": "tH-q8LXgHEc_2", "query": "Birds chirp while car horns honk nearby", "duration": 166, "vid": "tH-q8LXgHEc", "relevant_windows": [[46, 48]]}
+{"qid": "tH17JPjDPnc_1", "query": "Many people are talking as metal scrapes together", "duration": 269, "vid": "tH17JPjDPnc", "relevant_windows": [[60, 73]]}
+{"qid": "tH17JPjDPnc_2", "query": "With music playing and machines running, people are talking", "duration": 269, "vid": "tH17JPjDPnc", "relevant_windows": [[74, 232]]}
+{"qid": "tH17JPjDPnc_3", "query": "With metal clanking in the background, several goats are bleating", "duration": 269, "vid": "tH17JPjDPnc", "relevant_windows": [[259, 268], [242, 245]]}
+{"qid": "tK4VlLsNxak_1", "query": "A bell rings while a man is speaking", "duration": 209, "vid": "tK4VlLsNxak", "relevant_windows": [[161, 188]]}
+{"qid": "tPJvjq9QePY_1", "query": "Electronic sounds play", "duration": 78, "vid": "tPJvjq9QePY", "relevant_windows": [[0, 1]]}
+{"qid": "tPJvjq9QePY_2", "query": "A woman's voice", "duration": 78, "vid": "tPJvjq9QePY", "relevant_windows": [[6, 9], [11, 14], [15, 18], [47, 48]]}
+{"qid": "tPJvjq9QePY_3", "query": "Sheep are bleating", "duration": 78, "vid": "tPJvjq9QePY", "relevant_windows": [[20, 22], [53, 56], [71, 73], [27, 30], [44, 47], [48, 50], [58, 60], [75, 76]]}
+{"qid": "tQWGZLItBXk_1", "query": "A man is speaking, music plays, and water drains", "duration": 181, "vid": "tQWGZLItBXk", "relevant_windows": [[63, 70]]}
+{"qid": "tQWGZLItBXk_2", "query": "A man is talking, game sounds, metal being struck in the game", "duration": 181, "vid": "tQWGZLItBXk", "relevant_windows": [[96, 103]]}
+{"qid": "tQWGZLItBXk_3", "query": "Eplosions are coming from the game", "duration": 181, "vid": "tQWGZLItBXk", "relevant_windows": [[161, 163], [166, 168], [107, 112], [121, 123], [16, 20], [26, 27], [82, 89]]}
+{"qid": "tRJVUSdMjQI_1", "query": "Music is playing", "duration": 232, "vid": "tRJVUSdMjQI", "relevant_windows": [[156, 191], [202, 219]]}
+{"qid": "tRJVUSdMjQI_2", "query": "Music is playing, a man is speaking, a camera shutter clicks, and people are cheering and applauding", "duration": 232, "vid": "tRJVUSdMjQI", "relevant_windows": [[217, 220]]}
+{"qid": "tZGN5a7ybxo_1", "query": "A train runs with its horn and bell sounding", "duration": 93, "vid": "tZGN5a7ybxo", "relevant_windows": [[5, 8], [53, 57], [11, 13], [65, 70], [76, 79]]}
+{"qid": "tZGN5a7ybxo_2", "query": "A crossing alarm is ringing and cars are driving by", "duration": 93, "vid": "tZGN5a7ybxo", "relevant_windows": [[20, 27]]}
+{"qid": "tZGN5a7ybxo_3", "query": "A train is running with horn sounding", "duration": 93, "vid": "tZGN5a7ybxo", "relevant_windows": [[85, 93], [5, 8], [11, 13], [53, 57], [65, 70], [76, 79]]}
+{"qid": "tcd9QCdjTI0_1", "query": "Rain falls as thunder rumbles", "duration": 64, "vid": "tcd9QCdjTI0", "relevant_windows": [[2, 24], [40, 62]]}
+{"qid": "tezvROoo4bs_1", "query": "Music is playing and engines are running", "duration": 95, "vid": "tezvROoo4bs", "relevant_windows": [[1, 15]]}
+{"qid": "tezvROoo4bs_2", "query": "An engine is running", "duration": 95, "vid": "tezvROoo4bs", "relevant_windows": [[22, 45], [48, 63], [63, 89], [1, 15]]}
+{"qid": "ti_DFTC-5vU_1", "query": "Cicadas are singing, a duck quacks, an instrument plays, and several people are talking", "duration": 63, "vid": "ti_DFTC-5vU", "relevant_windows": [[0, 1], [3, 5], [10, 12]]}
+{"qid": "ti_DFTC-5vU_2", "query": "Cicadas are singing, a duck quacks, and several people laugh and talk", "duration": 63, "vid": "ti_DFTC-5vU", "relevant_windows": [[34, 40], [44, 48]]}
+{"qid": "tvP4E1r7yk8_1", "query": "A train is passing, a whistle is blowing, and a crossing bell is ringing", "duration": 191, "vid": "tvP4E1r7yk8", "relevant_windows": [[1, 10]]}
+{"qid": "tvP4E1r7yk8_2", "query": "Something is operating, wind is blowing, and two men are talking", "duration": 191, "vid": "tvP4E1r7yk8", "relevant_windows": [[79, 90]]}
+{"qid": "tvP4E1r7yk8_3", "query": "Train rumbling and a whistle", "duration": 191, "vid": "tvP4E1r7yk8", "relevant_windows": [[186, 190], [121, 124], [128, 132], [138, 161]]}
+{"qid": "u--KhUW8l1Y_1", "query": "Sirens wail while engines run", "duration": 77, "vid": "u--KhUW8l1Y", "relevant_windows": [[2, 31], [32, 78]]}
+{"qid": "u--KhUW8l1Y_2", "query": "Someone is talking while engines run", "duration": 77, "vid": "u--KhUW8l1Y", "relevant_windows": [[30, 31]]}
+{"qid": "u-6osTkkOfY_1", "query": "A train moves along, releasing steam as it goes over the sound of the wind", "duration": 252, "vid": "u-6osTkkOfY", "relevant_windows": [[25, 57], [178, 245]]}
+{"qid": "u-6osTkkOfY_2", "query": "The sound of steam being released", "duration": 252, "vid": "u-6osTkkOfY", "relevant_windows": [[86, 177], [61, 82]]}
+{"qid": "u-6osTkkOfY_3", "query": "A steam whistle is blowing while the wind is blowing", "duration": 252, "vid": "u-6osTkkOfY", "relevant_windows": [[113, 115]]}
+{"qid": "u5RmF3c3_Aw_1", "query": "A car moves along as someone whistles", "duration": 151, "vid": "u5RmF3c3_Aw", "relevant_windows": [[29, 31]]}
+{"qid": "u6jIvCtKarQ_1", "query": "Liquid is flowing", "duration": 197, "vid": "u6jIvCtKarQ", "relevant_windows": [[93, 118], [149, 171]]}
+{"qid": "u6jIvCtKarQ_2", "query": "Liquid is flowing and something is being tapped", "duration": 197, "vid": "u6jIvCtKarQ", "relevant_windows": [[149, 171]]}
+{"qid": "u9A6VZQCZpU_1", "query": "An alarm is going off while engines are running", "duration": 192, "vid": "u9A6VZQCZpU", "relevant_windows": [[79, 81]]}
+{"qid": "u9A6VZQCZpU_2", "query": "A man is announcing while the crowd is laughing and shouting over the sound of engines", "duration": 192, "vid": "u9A6VZQCZpU", "relevant_windows": [[172, 176]]}
+{"qid": "uC9dtII1KDI_1", "query": "Wind is blowing, birds are chirping, and an animal is walking", "duration": 227, "vid": "uC9dtII1KDI", "relevant_windows": [[7, 15], [27, 35], [121, 162]]}
+{"qid": "uCuo8zAkTvE_1", "query": "Thunder rumbling amid rain falling and wind blowing", "duration": 98, "vid": "uCuo8zAkTvE", "relevant_windows": [[45, 50]]}
+{"qid": "uFoga8sHpiw_1", "query": "Someone whistles softly", "duration": 239, "vid": "uFoga8sHpiw", "relevant_windows": [[36, 45], [87, 94], [136, 141], [148, 152], [230, 231], [97, 98], [224, 228]]}
+{"qid": "uGS7O46tlSo_1", "query": "A man talks as the wind blows", "duration": 129, "vid": "uGS7O46tlSo", "relevant_windows": [[5, 19], [50, 130]]}
+{"qid": "uJV8NDaHqqk_1", "query": "Birds chirping over the sound of insects buzzing", "duration": 298, "vid": "uJV8NDaHqqk", "relevant_windows": [[0, 6], [28, 30], [35, 39], [44, 89], [92, 118], [123, 134], [141, 143], [151, 174], [178, 202], [203, 206], [208, 218], [226, 238], [242, 254], [266, 276]]}
+{"qid": "uJV8NDaHqqk_2", "query": "Birds chirping over the sound of insects buzzing and a car driving", "duration": 298, "vid": "uJV8NDaHqqk", "relevant_windows": [[276, 300]]}
+{"qid": "uJe1Gvp-MeM_1", "query": "Birds are chirping", "duration": 93, "vid": "uJe1Gvp-MeM", "relevant_windows": [[4, 85]]}
+{"qid": "uJe1Gvp-MeM_2", "query": "Chickens are clucking", "duration": 93, "vid": "uJe1Gvp-MeM", "relevant_windows": [[87, 90], [92, 95]]}
+{"qid": "uK5doE8g_nY_1", "query": "Helicopter engines are roaring", "duration": 121, "vid": "uK5doE8g_nY", "relevant_windows": [[11, 24], [31, 44], [47, 57]]}
+{"qid": "uK5doE8g_nY_2", "query": "Helicopter rotors are spinning", "duration": 121, "vid": "uK5doE8g_nY", "relevant_windows": [[25, 31], [44, 47], [57, 116]]}
+{"qid": "uOpoD0gGXcs_1", "query": "Chickens are clucking while birds call in the background", "duration": 214, "vid": "uOpoD0gGXcs", "relevant_windows": [[68, 71], [120, 122], [141, 144], [162, 165], [172, 174], [183, 185], [196, 198], [210, 212]]}
+{"qid": "uOpoD0gGXcs_2", "query": "Someone whistles as birds sing", "duration": 214, "vid": "uOpoD0gGXcs", "relevant_windows": [[138, 140], [70, 72], [116, 118], [120, 122], [126, 128]]}
+{"qid": "uP_Dn2BFTHk_1", "query": "A woman's voice, a baby's voice, and a man's voice", "duration": 150, "vid": "uP_Dn2BFTHk", "relevant_windows": [[102, 120]]}
+{"qid": "uXxVebHsGZ8_1", "query": "A clock ticks and a bell rings", "duration": 298, "vid": "uXxVebHsGZ8", "relevant_windows": [[119, 125], [168, 200], [242, 266]]}
+{"qid": "uYT5gxnyMWM_1", "query": "Someone sprayes", "duration": 70, "vid": "uYT5gxnyMWM", "relevant_windows": [[16, 32], [52, 57]]}
+{"qid": "uYT5gxnyMWM_2", "query": "A women screams loudly", "duration": 70, "vid": "uYT5gxnyMWM", "relevant_windows": [[19, 26], [29, 30], [54, 57], [31, 33]]}
+{"qid": "ucQikcv96gM_1", "query": "A man is speaking while birds nearby are chirping and pecking at food", "duration": 165, "vid": "ucQikcv96gM", "relevant_windows": [[2, 14], [42, 57], [80, 81], [87, 98], [103, 106], [131, 144], [162, 165], [123, 125]]}
+{"qid": "uiItxDsDMFI_1", "query": "Someone is walking on dirt and fallen leaves", "duration": 119, "vid": "uiItxDsDMFI", "relevant_windows": [[0, 7], [118, 120]]}
+{"qid": "uiItxDsDMFI_2", "query": "Someone is sawing wood", "duration": 119, "vid": "uiItxDsDMFI", "relevant_windows": [[30, 35], [54, 71], [77, 109], [41, 47]]}
+{"qid": "uiNuH51lzVY_1", "query": "A man is speaking somewhere with water flowing nearby", "duration": 157, "vid": "uiNuH51lzVY", "relevant_windows": [[40, 64], [126, 147], [95, 98], [102, 105], [108, 123]]}
+{"qid": "ukxt9I7eMMg_1", "query": "Someone is talking as something fries", "duration": 110, "vid": "ukxt9I7eMMg", "relevant_windows": [[2, 31], [36, 61], [73, 95]]}
+{"qid": "ukxt9I7eMMg_2", "query": "A woman is talking as metal clangs", "duration": 110, "vid": "ukxt9I7eMMg", "relevant_windows": [[99, 100]]}
+{"qid": "uqFtmnhuqA8_1", "query": "A machine is running and chimes are sounding", "duration": 114, "vid": "uqFtmnhuqA8", "relevant_windows": [[26, 33]]}
+{"qid": "uqFtmnhuqA8_2", "query": "Door stays shut", "duration": 114, "vid": "uqFtmnhuqA8", "relevant_windows": [[105, 107], [38, 39]]}
+{"qid": "uzQnlJXBbOM_1", "query": "A man's voice is speaking", "duration": 149, "vid": "uzQnlJXBbOM", "relevant_windows": [[0, 21], [31, 38], [54, 58], [69, 89], [100, 101], [114, 118], [118, 134], [108, 112], [92, 96], [40, 53], [138, 149]]}
+{"qid": "uzQnlJXBbOM_2", "query": "Some electronic sounds", "duration": 149, "vid": "uzQnlJXBbOM", "relevant_windows": [[16, 30], [56, 57], [117, 118], [60, 61], [65, 66], [68, 69], [74, 76]]}
+{"qid": "uzQnlJXBbOM_3", "query": "A ringtone", "duration": 149, "vid": "uzQnlJXBbOM", "relevant_windows": [[39, 53], [91, 98], [107, 114]]}
+{"qid": "v0x1odnXtP0_1", "query": "A dog is barking over typing sounds", "duration": 299, "vid": "v0x1odnXtP0", "relevant_windows": [[22, 49]]}
+{"qid": "v0x1odnXtP0_2", "query": "Mouse clicks echo in the background", "duration": 299, "vid": "v0x1odnXtP0", "relevant_windows": [[47, 49], [85, 98], [124, 131], [201, 202], [225, 228], [277, 278], [283, 286], [203, 204], [55, 56]]}
+{"qid": "v3EwremxU2w_1", "query": "Someone is talking while a dog barks", "duration": 103, "vid": "v3EwremxU2w", "relevant_windows": [[80, 82]]}
+{"qid": "v5cSxLaHADY_1", "query": "Someone's hand rustles against plastic", "duration": 151, "vid": "v5cSxLaHADY", "relevant_windows": [[1, 37]]}
+{"qid": "v5cSxLaHADY_2", "query": "Paper rustles softly", "duration": 151, "vid": "v5cSxLaHADY", "relevant_windows": [[44, 62]]}
+{"qid": "v7Pz4dWmggg_1", "query": "Someone talk as a baby cries", "duration": 72, "vid": "v7Pz4dWmggg", "relevant_windows": [[26, 45], [57, 73]]}
+{"qid": "v7Pz4dWmggg_2", "query": "A man yells", "duration": 72, "vid": "v7Pz4dWmggg", "relevant_windows": [[23, 27], [55, 57]]}
+{"qid": "v8vMLTp5Dww_1", "query": "A man is speaking inside a moving car while rain falls outside, with wind and a motorcycle passing by", "duration": 298, "vid": "v8vMLTp5Dww", "relevant_windows": [[44, 52], [114, 126]]}
+{"qid": "vBslzh7saPw_1", "query": "Cars speeding by", "duration": 103, "vid": "vBslzh7saPw", "relevant_windows": [[0, 1]]}
+{"qid": "vBslzh7saPw_2", "query": "An engine running amid wind blowing and a man's voice", "duration": 103, "vid": "vBslzh7saPw", "relevant_windows": [[43, 66]]}
+{"qid": "vBslzh7saPw_3", "query": "An engine running and wind blowing", "duration": 103, "vid": "vBslzh7saPw", "relevant_windows": [[43, 100]]}
+{"qid": "vH4z5OI5aNY_1", "query": "A whistle blows and a crowd chats", "duration": 298, "vid": "vH4z5OI5aNY", "relevant_windows": [[122, 125]]}
+{"qid": "vH4z5OI5aNY_2", "query": "Engines run and a whistle blows", "duration": 298, "vid": "vH4z5OI5aNY", "relevant_windows": [[53, 57], [188, 189]]}
+{"qid": "vH4z5OI5aNY_3", "query": "Horns honk and engines run", "duration": 298, "vid": "vH4z5OI5aNY", "relevant_windows": [[160, 163]]}
+{"qid": "vJrjSeP17yE_1", "query": "Someone snores as music plays", "duration": 135, "vid": "vJrjSeP17yE", "relevant_windows": [[4, 27]]}
+{"qid": "vJrjSeP17yE_2", "query": "A warning tone sounds as someone snores", "duration": 135, "vid": "vJrjSeP17yE", "relevant_windows": [[76, 80]]}
+{"qid": "vSeGhaZt-aI_1", "query": "Music is playing", "duration": 215, "vid": "vSeGhaZt-aI", "relevant_windows": [[0, 6], [202, 217]]}
+{"qid": "vSeGhaZt-aI_2", "query": "A man is speaking while water flows in the background", "duration": 215, "vid": "vSeGhaZt-aI", "relevant_windows": [[44, 59], [112, 202]]}
+{"qid": "vW4x7S1VfQc_1", "query": "A woman is talking as she sprinkles something", "duration": 233, "vid": "vW4x7S1VfQc", "relevant_windows": [[45, 61]]}
+{"qid": "vW4x7S1VfQc_2", "query": "Someone is grinding pepper", "duration": 233, "vid": "vW4x7S1VfQc", "relevant_windows": [[79, 86]]}
+{"qid": "vW4x7S1VfQc_3", "query": "Someone grills something", "duration": 233, "vid": "vW4x7S1VfQc", "relevant_windows": [[143, 178]]}
+{"qid": "vW4x7S1VfQc_4", "query": "A woman is talking and music is playing", "duration": 233, "vid": "vW4x7S1VfQc", "relevant_windows": [[218, 224]]}
+{"qid": "vZAqdHZ81yA_1", "query": "Some kind of machine is making noise", "duration": 299, "vid": "vZAqdHZ81yA", "relevant_windows": [[169, 174]]}
+{"qid": "vZAqdHZ81yA_2", "query": "A motorcycle engine is making noise", "duration": 299, "vid": "vZAqdHZ81yA", "relevant_windows": [[177, 267]]}
+{"qid": "v_OQfEIq_PY_1", "query": "A whistle is blowing over engine sounds", "duration": 79, "vid": "v_OQfEIq_PY", "relevant_windows": [[67, 69]]}
+{"qid": "vaX_J_G3638_1", "query": "Horses are walking with their hooves clacking while people are talking and a whistle is blowing", "duration": 178, "vid": "vaX_J_G3638", "relevant_windows": [[79, 82]]}
+{"qid": "vaX_J_G3638_2", "query": "Horses are walking with their hooves clacking while people are talking and music is playing", "duration": 178, "vid": "vaX_J_G3638", "relevant_windows": [[143, 163]]}
+{"qid": "vbr9mHKc8WM_1", "query": "An engine hums as water flows", "duration": 73, "vid": "vbr9mHKc8WM", "relevant_windows": [[5, 18], [63, 70]]}
+{"qid": "vcmWS_mvti8_1", "query": "Music is playing over a man talking and sound effects along with a bomb blast", "duration": 299, "vid": "vcmWS_mvti8", "relevant_windows": [[2, 4], [12, 14], [35, 37], [41, 50], [53, 55], [57, 59], [75, 78], [85, 86], [98, 100], [115, 117], [157, 160], [182, 185], [192, 195], [186, 189], [213, 215], [243, 246], [251, 253], [267, 269], [274, 276], [280, 285], [296, 300]]}
+{"qid": "vddP56-ogds_1", "query": "A man is talking while a vehicle is moving and birds are singing", "duration": 74, "vid": "vddP56-ogds", "relevant_windows": [[0, 11]]}
+{"qid": "vddP56-ogds_2", "query": "Birds are singing and water is flowing", "duration": 74, "vid": "vddP56-ogds", "relevant_windows": [[24, 71]]}
+{"qid": "vdoxuJn9lTc_1", "query": "A woman is speaking", "duration": 79, "vid": "vdoxuJn9lTc", "relevant_windows": [[2, 7], [12, 16], [20, 24], [48, 50], [58, 68], [72, 79], [31, 34], [36, 42]]}
+{"qid": "vdoxuJn9lTc_2", "query": "Someone burps", "duration": 79, "vid": "vdoxuJn9lTc", "relevant_windows": [[9, 12], [17, 20], [45, 47], [53, 57]]}
+{"qid": "vdoxuJn9lTc_3", "query": "A man speaks", "duration": 79, "vid": "vdoxuJn9lTc", "relevant_windows": [[69, 72]]}
+{"qid": "vh30P49Po6s_1", "query": "A duck quacks", "duration": 68, "vid": "vh30P49Po6s", "relevant_windows": [[5, 69]]}
+{"qid": "vh30P49Po6s_2", "query": "A man is talking", "duration": 68, "vid": "vh30P49Po6s", "relevant_windows": [[69, 70], [0, 5]]}
+{"qid": "vimzuGQvdcU_1", "query": "Water flows as several people cheer", "duration": 138, "vid": "vimzuGQvdcU", "relevant_windows": [[136, 139]]}
+{"qid": "viuTg1M-dqg_1", "query": "Something is being hit", "duration": 180, "vid": "viuTg1M-dqg", "relevant_windows": [[103, 107], [71, 75]]}
+{"qid": "viuTg1M-dqg_2", "query": "A cutting tool is being used", "duration": 180, "vid": "viuTg1M-dqg", "relevant_windows": [[115, 119]]}
+{"qid": "viuTg1M-dqg_3", "query": "A woman's voice rises above the mechanical noise", "duration": 180, "vid": "viuTg1M-dqg", "relevant_windows": [[165, 178]]}
+{"qid": "vlJS7LN2XyM_1", "query": "A clock is ringing", "duration": 66, "vid": "vlJS7LN2XyM", "relevant_windows": [[12, 23], [55, 64]]}
+{"qid": "vlS6YMeWAPo_1", "query": "A sheep bleats", "duration": 67, "vid": "vlS6YMeWAPo", "relevant_windows": [[1, 2], [19, 20], [39, 40], [49, 51], [57, 59], [65, 67], [4, 5], [6, 8], [10, 11], [24, 26], [30, 32], [36, 37], [52, 54]]}
+{"qid": "vlS6YMeWAPo_2", "query": "Someone is speaking", "duration": 67, "vid": "vlS6YMeWAPo", "relevant_windows": [[16, 18], [31, 32], [61, 65]]}
+{"qid": "vlS6YMeWAPo_3", "query": "Someone whistles", "duration": 67, "vid": "vlS6YMeWAPo", "relevant_windows": [[41, 44], [34, 38], [46, 48], [52, 56], [59, 64]]}
+{"qid": "vmrxwuAMb2I_1", "query": "Someone blows air as a dog barks", "duration": 65, "vid": "vmrxwuAMb2I", "relevant_windows": [[33, 37], [43, 47], [57, 60]]}
+{"qid": "vqZuVbG6-HI_1", "query": "People are talking and car horns are honking", "duration": 178, "vid": "vqZuVbG6-HI", "relevant_windows": [[29, 31]]}
+{"qid": "vqZuVbG6-HI_2", "query": "An engine is running", "duration": 178, "vid": "vqZuVbG6-HI", "relevant_windows": [[38, 178]]}
+{"qid": "vqZuVbG6-HI_3", "query": "A helicopter is flying", "duration": 178, "vid": "vqZuVbG6-HI", "relevant_windows": [[153, 173]]}
+{"qid": "vr8ZXjEBhMQ_1", "query": "A man is laughing", "duration": 234, "vid": "vr8ZXjEBhMQ", "relevant_windows": [[119, 120], [126, 128]]}
+{"qid": "vr8ZXjEBhMQ_2", "query": "A car brakes", "duration": 234, "vid": "vr8ZXjEBhMQ", "relevant_windows": [[122, 123]]}
+{"qid": "vveS8HT7Uog_1", "query": "Something is being scraped", "duration": 204, "vid": "vveS8HT7Uog", "relevant_windows": [[74, 82], [132, 145], [86, 93], [95, 102]]}
+{"qid": "vveS8HT7Uog_2", "query": "A man is talking", "duration": 204, "vid": "vveS8HT7Uog", "relevant_windows": [[103, 131], [146, 205], [1, 73]]}
+{"qid": "vzceMbkl_Wc_1", "query": "Two men chat and laugh as water pours from the tap", "duration": 236, "vid": "vzceMbkl_Wc", "relevant_windows": [[0, 23]]}
+{"qid": "vzceMbkl_Wc_2", "query": "Water is running from a faucet as a man talks", "duration": 236, "vid": "vzceMbkl_Wc", "relevant_windows": [[167, 184]]}
+{"qid": "vzceMbkl_Wc_3", "query": "A door closes, a man laughs, and the door opens", "duration": 236, "vid": "vzceMbkl_Wc", "relevant_windows": [[224, 225]]}
+{"qid": "vzxHnu-SFEw_1", "query": "Several people talking, a woman's voice and the sound of scissors being used", "duration": 148, "vid": "vzxHnu-SFEw", "relevant_windows": [[46, 51], [55, 57]]}
+{"qid": "vzxHnu-SFEw_2", "query": "While several people are talking, a woman files something as she speaks", "duration": 148, "vid": "vzxHnu-SFEw", "relevant_windows": [[79, 146]]}
+{"qid": "w0xsN8_X18Y_1", "query": "Music and car sounds play", "duration": 105, "vid": "w0xsN8_X18Y", "relevant_windows": [[17, 19], [24, 26], [30, 38], [52, 55], [66, 72], [86, 91], [75, 81], [94, 96]]}
+{"qid": "w0xsN8_X18Y_2", "query": "Rain falls and a man talks as music plays", "duration": 105, "vid": "w0xsN8_X18Y", "relevant_windows": [[42, 47], [56, 61]]}
+{"qid": "w2bYrCVLT60_1", "query": "A man is talking", "duration": 137, "vid": "w2bYrCVLT60", "relevant_windows": [[2, 62], [84, 89], [106, 110], [125, 130]]}
+{"qid": "w2bYrCVLT60_2", "query": "A man is talking while ducks are quacking", "duration": 137, "vid": "w2bYrCVLT60", "relevant_windows": [[27, 62], [84, 89], [106, 110], [125, 130]]}
+{"qid": "w2bYrCVLT60_3", "query": "Ducks are quacking", "duration": 137, "vid": "w2bYrCVLT60", "relevant_windows": [[27, 130]]}
+{"qid": "w2htir_si7g_1", "query": "Someone is whistling and another person is singing", "duration": 192, "vid": "w2htir_si7g", "relevant_windows": [[68, 91], [147, 160], [32, 36]]}
+{"qid": "w2htir_si7g_2", "query": "Music is playing", "duration": 192, "vid": "w2htir_si7g", "relevant_windows": [[185, 193]]}
+{"qid": "w2htir_si7g_3", "query": "Someone is whistling", "duration": 192, "vid": "w2htir_si7g", "relevant_windows": [[121, 160], [29, 37], [42, 53], [58, 91], [96, 116]]}
+{"qid": "w5W_5Kqtc8E_1", "query": "The engine of a boat rumbles", "duration": 179, "vid": "w5W_5Kqtc8E", "relevant_windows": [[0, 56]]}
+{"qid": "w5W_5Kqtc8E_2", "query": "A boat is sailing", "duration": 179, "vid": "w5W_5Kqtc8E", "relevant_windows": [[57, 86], [124, 173], [175, 178]]}
+{"qid": "w5W_5Kqtc8E_3", "query": "People cheer", "duration": 179, "vid": "w5W_5Kqtc8E", "relevant_windows": [[108, 113]]}
+{"qid": "w5W_5Kqtc8E_4", "query": "An airplane is flying", "duration": 179, "vid": "w5W_5Kqtc8E", "relevant_windows": [[114, 124]]}
+{"qid": "w6RTHR6AeAg_1", "query": "Birds are chirping", "duration": 65, "vid": "w6RTHR6AeAg", "relevant_windows": [[11, 45]]}
+{"qid": "w6RTHR6AeAg_2", "query": "An owl is hooting", "duration": 65, "vid": "w6RTHR6AeAg", "relevant_windows": [[28, 45]]}
+{"qid": "w6RTHR6AeAg_3", "query": "Some animal is making a noise", "duration": 65, "vid": "w6RTHR6AeAg", "relevant_windows": [[45, 53], [56, 64]]}
+{"qid": "w9lpbUn0hPc_1", "query": "Wind blows and something is being sprayed", "duration": 256, "vid": "w9lpbUn0hPc", "relevant_windows": [[36, 37], [51, 52], [81, 82], [96, 98], [118, 121]]}
+{"qid": "wDVMhEdTiVw_1", "query": "Someone is playing a flute", "duration": 198, "vid": "wDVMhEdTiVw", "relevant_windows": [[6, 11], [20, 21], [41, 46], [123, 124], [129, 131], [156, 159]]}
+{"qid": "wDVMhEdTiVw_2", "query": "Gunfire, birds are chirping", "duration": 198, "vid": "wDVMhEdTiVw", "relevant_windows": [[27, 31], [60, 62], [193, 196], [140, 151], [158, 162]]}
+{"qid": "wDVMhEdTiVw_3", "query": "Someone is moving in the water", "duration": 198, "vid": "wDVMhEdTiVw", "relevant_windows": [[32, 40], [62, 99], [194, 200]]}
+{"qid": "wGKgwOP3h30_1", "query": "Pigeons are cooing and a man is speaking", "duration": 255, "vid": "wGKgwOP3h30", "relevant_windows": [[2, 28]]}
+{"qid": "wGKgwOP3h30_2", "query": "Several pigeons are cooing while someone whistles", "duration": 255, "vid": "wGKgwOP3h30", "relevant_windows": [[183, 199], [44, 69], [93, 115], [130, 143]]}
+{"qid": "wIJK3-5y0kA_1", "query": "A baby's voice", "duration": 207, "vid": "wIJK3-5y0kA", "relevant_windows": [[1, 5], [33, 37], [8, 9], [11, 16], [21, 22], [24, 26], [46, 51], [58, 62], [72, 75], [81, 83], [92, 95], [97, 99]]}
+{"qid": "wIJK3-5y0kA_2", "query": "A kissing sound effect", "duration": 207, "vid": "wIJK3-5y0kA", "relevant_windows": [[187, 189], [195, 199]]}
+{"qid": "wP8ZKrlx3oA_1", "query": "A horn blares and a car moves along while rain falls", "duration": 187, "vid": "wP8ZKrlx3oA", "relevant_windows": [[3, 7]]}
+{"qid": "wPz6QRAkEb4_1", "query": "Birds chirp, a noise like a plane engine", "duration": 198, "vid": "wPz6QRAkEb4", "relevant_windows": [[158, 170]]}
+{"qid": "wRBHTgrbiwg_1", "query": "Wings are buzzing and a rooster is crowing", "duration": 94, "vid": "wRBHTgrbiwg", "relevant_windows": [[10, 13]]}
+{"qid": "wRBHTgrbiwg_2", "query": "Birds are chirping and a man is talking", "duration": 94, "vid": "wRBHTgrbiwg", "relevant_windows": [[88, 89], [60, 61]]}
+{"qid": "wWVxe57200I_1", "query": "A woman is talking while the wind blows and birds are singing", "duration": 130, "vid": "wWVxe57200I", "relevant_windows": [[87, 91], [111, 114]]}
+{"qid": "weDbePuc-Xc_1", "query": "An insect is flying and a drumroll is playing", "duration": 81, "vid": "weDbePuc-Xc", "relevant_windows": [[17, 19]]}
+{"qid": "weDbePuc-Xc_2", "query": "Music is playing and someone is laughing", "duration": 81, "vid": "weDbePuc-Xc", "relevant_windows": [[20, 27]]}
+{"qid": "weDbePuc-Xc_3", "query": "Music is playing, someone is crying", "duration": 81, "vid": "weDbePuc-Xc", "relevant_windows": [[37, 40]]}
+{"qid": "weDbePuc-Xc_4", "query": "Music is playing, a car is approaching, and something is being run over", "duration": 81, "vid": "weDbePuc-Xc", "relevant_windows": [[66, 70]]}
+{"qid": "weDbePuc-Xc_5", "query": "Insects are flying and a bell is ringing", "duration": 81, "vid": "weDbePuc-Xc", "relevant_windows": [[73, 82]]}
+{"qid": "wfHeoPDLMaM_1", "query": "Music is playing", "duration": 60, "vid": "wfHeoPDLMaM", "relevant_windows": [[0, 8]]}
+{"qid": "wfHeoPDLMaM_2", "query": "Ducks are quacking", "duration": 60, "vid": "wfHeoPDLMaM", "relevant_windows": [[8, 61]]}
+{"qid": "wl44ppID9ds_1", "query": "Water splashes", "duration": 90, "vid": "wl44ppID9ds", "relevant_windows": [[0, 74], [79, 81]]}
+{"qid": "wl44ppID9ds_2", "query": "A wet dog shakes itself", "duration": 90, "vid": "wl44ppID9ds", "relevant_windows": [[76, 78]]}
+{"qid": "wnNNcxAPwGQ_1", "query": "An engine running and a man's voice", "duration": 102, "vid": "wnNNcxAPwGQ", "relevant_windows": [[33, 37], [75, 101]]}
+{"qid": "wnNNcxAPwGQ_2", "query": "A man's voice and applause over an engine running", "duration": 102, "vid": "wnNNcxAPwGQ", "relevant_windows": [[92, 101]]}
+{"qid": "wnpJndXuxLc_1", "query": "A train horn is sounding", "duration": 133, "vid": "wnpJndXuxLc", "relevant_windows": [[1, 3], [5, 7], [9, 13], [14, 27], [28, 31], [32, 40], [45, 49], [54, 55], [62, 72], [73, 76], [78, 80], [81, 85], [87, 88], [89, 92], [93, 96], [97, 102], [104, 106], [41, 43], [56, 61]]}
+{"qid": "wqZ135_Ssz0_1", "query": "A man talks and laughs as wind blows and water flows", "duration": 70, "vid": "wqZ135_Ssz0", "relevant_windows": [[13, 16]]}
+{"qid": "wqugJOvBkhY_1", "query": "Music plays and a baby cries", "duration": 67, "vid": "wqugJOvBkhY", "relevant_windows": [[5, 11], [28, 41], [54, 65]]}
+{"qid": "wsHBIgzs9Fs_1", "query": "Horn sounds, engine noise", "duration": 209, "vid": "wsHBIgzs9Fs", "relevant_windows": [[16, 18], [26, 30], [49, 52]]}
+{"qid": "wsHBIgzs9Fs_2", "query": "Voices carry over the engine noise", "duration": 209, "vid": "wsHBIgzs9Fs", "relevant_windows": [[20, 21], [30, 33], [43, 45], [119, 126], [169, 184], [54, 60], [68, 71], [81, 89], [74, 78], [92, 111], [133, 135], [142, 144], [188, 190], [197, 208]]}
+{"qid": "wudZTNBtVqc_1", "query": "A car engine is running", "duration": 91, "vid": "wudZTNBtVqc", "relevant_windows": [[4, 91]]}
+{"qid": "wudZTNBtVqc_2", "query": "Wind is blowing and a car is driving", "duration": 91, "vid": "wudZTNBtVqc", "relevant_windows": [[62, 92]]}
+{"qid": "wulOEFdECWs_1", "query": "Rain falls as thunder rumbles", "duration": 70, "vid": "wulOEFdECWs", "relevant_windows": [[6, 15], [35, 50], [58, 71]]}
+{"qid": "wwyfGO2J__4_1", "query": "People are talking and a man is speaking into a microphone", "duration": 119, "vid": "wwyfGO2J__4", "relevant_windows": [[0, 4], [102, 107]]}
+{"qid": "wwyfGO2J__4_2", "query": "People are applauding", "duration": 119, "vid": "wwyfGO2J__4", "relevant_windows": [[88, 94]]}
+{"qid": "wz7N8YRy74I_1", "query": "A rooster crows", "duration": 132, "vid": "wz7N8YRy74I", "relevant_windows": [[31, 34], [71, 74]]}
+{"qid": "wzXPRI7eXOM_1", "query": "A man's voice, an engine noise", "duration": 148, "vid": "wzXPRI7eXOM", "relevant_windows": [[0, 2], [39, 51], [59, 62], [80, 85], [96, 110], [126, 131]]}
+{"qid": "x-Yx0rqr1vY_1", "query": "Music is playing as frogs croak", "duration": 178, "vid": "x-Yx0rqr1vY", "relevant_windows": [[4, 26], [64, 68], [94, 98], [126, 130], [40, 54]]}
+{"qid": "x-Yx0rqr1vY_2", "query": "Frogs are croaking while the river flows", "duration": 178, "vid": "x-Yx0rqr1vY", "relevant_windows": [[130, 148]]}
+{"qid": "x-Yx0rqr1vY_3", "query": "Music is playing", "duration": 178, "vid": "x-Yx0rqr1vY", "relevant_windows": [[149, 180]]}
+{"qid": "x-gIWB__rIE_1", "query": "Flames are burning", "duration": 255, "vid": "x-gIWB__rIE", "relevant_windows": [[0, 4]]}
+{"qid": "x-gIWB__rIE_2", "query": "Someone is grinding pepper amid background noise", "duration": 255, "vid": "x-gIWB__rIE", "relevant_windows": [[217, 218]]}
+{"qid": "x-gIWB__rIE_3", "query": "A man is talking and chopping with a knife amid background noise", "duration": 255, "vid": "x-gIWB__rIE", "relevant_windows": [[65, 66], [79, 96], [224, 227], [70, 72]]}
+{"qid": "x-gIWB__rIE_4", "query": "Something is being scraped amid background noise", "duration": 255, "vid": "x-gIWB__rIE", "relevant_windows": [[120, 137]]}
+{"qid": "x4a9YGIw4ok_1", "query": "Pressing the lever sends water rushing through the toilet", "duration": 187, "vid": "x4a9YGIw4ok", "relevant_windows": [[11, 22], [34, 37], [51, 60], [72, 84], [97, 109], [118, 125], [150, 154], [164, 183]]}
+{"qid": "x4dZyf9Gbj0_1", "query": "A woman is sneezing, sniffling", "duration": 178, "vid": "x4dZyf9Gbj0", "relevant_windows": [[30, 33], [85, 88], [39, 41], [46, 48], [57, 59], [64, 67], [100, 104], [109, 112], [121, 125], [133, 137]]}
+{"qid": "x5eIC7S0fbg_1", "query": "Someone uses a machine", "duration": 286, "vid": "x5eIC7S0fbg", "relevant_windows": [[68, 105], [115, 125], [179, 190]]}
+{"qid": "x6ijhqRY38s_1", "query": "A man grinds pepper as he speaks", "duration": 284, "vid": "x6ijhqRY38s", "relevant_windows": [[50, 54], [101, 109]]}
+{"qid": "x6ijhqRY38s_2", "query": "Someone is grinding a pepper mill and talking", "duration": 284, "vid": "x6ijhqRY38s", "relevant_windows": [[82, 156]]}
+{"qid": "x6ijhqRY38s_3", "query": "Someone is cutting something with a kitchen knife", "duration": 284, "vid": "x6ijhqRY38s", "relevant_windows": [[208, 215]]}
+{"qid": "xDsO5LiaaAY_1", "query": "The sound of a motor", "duration": 254, "vid": "xDsO5LiaaAY", "relevant_windows": [[5, 28], [32, 67], [70, 106], [110, 132], [135, 150], [155, 191], [197, 238]]}
+{"qid": "xKB8O8LTs6s_1", "query": "Music is playing while sound effects play and a man is talking", "duration": 113, "vid": "xKB8O8LTs6s", "relevant_windows": [[4, 19]]}
+{"qid": "xKB8O8LTs6s_2", "query": "Music plays, something explodes", "duration": 113, "vid": "xKB8O8LTs6s", "relevant_windows": [[49, 51], [54, 57], [69, 70], [78, 80]]}
+{"qid": "xKB8O8LTs6s_3", "query": "Music is playing while gunshots ring out", "duration": 113, "vid": "xKB8O8LTs6s", "relevant_windows": [[68, 70], [73, 74], [76, 79]]}
+{"qid": "xNMovAf3o50_1", "query": "Rain falls and thunder rumbles", "duration": 266, "vid": "xNMovAf3o50", "relevant_windows": [[0, 6], [257, 266], [103, 122]]}
+{"qid": "xNMovAf3o50_2", "query": "Music is playing", "duration": 266, "vid": "xNMovAf3o50", "relevant_windows": [[7, 257]]}
+{"qid": "xNMovAf3o50_3", "query": "Music is playing and a man is singing", "duration": 266, "vid": "xNMovAf3o50", "relevant_windows": [[27, 103], [123, 257]]}
+{"qid": "xSKJGCItUWE_1", "query": "Voices over a motor running", "duration": 98, "vid": "xSKJGCItUWE", "relevant_windows": [[0, 6], [18, 23], [32, 35], [96, 99]]}
+{"qid": "xSN_cBFt-PI_1", "query": "A clock is ticking and chiming", "duration": 125, "vid": "xSN_cBFt-PI", "relevant_windows": [[11, 40], [74, 79], [92, 99], [119, 122]]}
+{"qid": "xVzetIIzS9c_1", "query": "Siren amid cars passing", "duration": 103, "vid": "xVzetIIzS9c", "relevant_windows": [[23, 31], [46, 60], [87, 104]]}
+{"qid": "xZepNM9qcRA_1", "query": "A man is speaking while a motorcycle engine runs", "duration": 176, "vid": "xZepNM9qcRA", "relevant_windows": [[0, 6], [12, 38], [48, 73], [81, 103], [126, 148], [172, 176]]}
+{"qid": "x_l2PIWyXaM_1", "query": "Car noise and music play together", "duration": 251, "vid": "x_l2PIWyXaM", "relevant_windows": [[10, 31], [57, 76]]}
+{"qid": "x_l2PIWyXaM_2", "query": "A man sings along with the music", "duration": 251, "vid": "x_l2PIWyXaM", "relevant_windows": [[57, 75], [85, 151], [171, 246], [10, 31]]}
+{"qid": "x_l2PIWyXaM_3", "query": "A child talks as birds chirp", "duration": 251, "vid": "x_l2PIWyXaM", "relevant_windows": [[51, 57]]}
+{"qid": "xmdGaCbvhFc_1", "query": "A man's voice, the sound of water", "duration": 152, "vid": "xmdGaCbvhFc", "relevant_windows": [[78, 82]]}
+{"qid": "xmdGaCbvhFc_2", "query": "The sound of metal moving the lever and the sound of water", "duration": 152, "vid": "xmdGaCbvhFc", "relevant_windows": [[75, 153]]}
+{"qid": "xmiUIOhtZyQ_1", "query": "Burping sounds are present amid background noise", "duration": 80, "vid": "xmiUIOhtZyQ", "relevant_windows": [[6, 9], [13, 18], [21, 23], [25, 27], [34, 38], [40, 43], [31, 33], [44, 46], [49, 53], [54, 55], [58, 64], [70, 74], [67, 69]]}
+{"qid": "xmiUIOhtZyQ_2", "query": "Someone is singing", "duration": 80, "vid": "xmiUIOhtZyQ", "relevant_windows": [[74, 81]]}
+{"qid": "xtWeJ56-U-g_1", "query": "Electronic sounds", "duration": 153, "vid": "xtWeJ56-U-g", "relevant_windows": [[25, 35], [127, 137]]}
+{"qid": "xtWeJ56-U-g_2", "query": "Someone is typing", "duration": 153, "vid": "xtWeJ56-U-g", "relevant_windows": [[42, 73], [80, 86], [94, 97], [108, 119], [142, 152]]}
+{"qid": "xvDdE3zNf8Y_1", "query": "A woman is speaking and plastic is being handled", "duration": 195, "vid": "xvDdE3zNf8Y", "relevant_windows": [[51, 70], [121, 125]]}
+{"qid": "xx3yKzrSOBI_1", "query": "A man talks, sirens, engine noises", "duration": 273, "vid": "xx3yKzrSOBI", "relevant_windows": [[35, 64]]}
+{"qid": "xx3yKzrSOBI_2", "query": "As a man talks, a door creaks open", "duration": 273, "vid": "xx3yKzrSOBI", "relevant_windows": [[236, 243], [268, 273]]}
+{"qid": "y2ZBGpgbhHM_1", "query": "Dogs and birds are making noise", "duration": 103, "vid": "y2ZBGpgbhHM", "relevant_windows": [[0, 10], [13, 17], [26, 29], [40, 42], [43, 46], [48, 50], [51, 53], [62, 64], [67, 69], [74, 81]]}
+{"qid": "y2ZBGpgbhHM_2", "query": "A man is talking", "duration": 103, "vid": "y2ZBGpgbhHM", "relevant_windows": [[11, 16], [69, 72], [20, 22]]}
+{"qid": "y4NpJekTMT8_1", "query": "Music is playing", "duration": 220, "vid": "y4NpJekTMT8", "relevant_windows": [[0, 29], [194, 221]]}
+{"qid": "y4NpJekTMT8_2", "query": "Talking on the phone", "duration": 220, "vid": "y4NpJekTMT8", "relevant_windows": [[75, 77], [33, 35], [37, 39], [80, 82], [85, 87], [88, 90], [114, 115]]}
+{"qid": "y4NpJekTMT8_3", "query": "Burping", "duration": 220, "vid": "y4NpJekTMT8", "relevant_windows": [[71, 73]]}
+{"qid": "y4NpJekTMT8_4", "query": "A boy is beatboxing", "duration": 220, "vid": "y4NpJekTMT8", "relevant_windows": [[119, 123], [124, 128], [132, 133], [171, 172], [185, 187]]}
+{"qid": "yDoT73BWsdA_1", "query": "The sound of a car hitting the breaks as it drives by over the sound of laughter", "duration": 271, "vid": "yDoT73BWsdA", "relevant_windows": [[93, 94], [178, 184]]}
+{"qid": "yHeVV-xeOxQ_1", "query": "A woman is talking and a rooster crows", "duration": 170, "vid": "yHeVV-xeOxQ", "relevant_windows": [[2, 5], [23, 26]]}
+{"qid": "yHeVV-xeOxQ_2", "query": "Milking a cow", "duration": 170, "vid": "yHeVV-xeOxQ", "relevant_windows": [[79, 88], [91, 165]]}
+{"qid": "yHtbLI6kxAc_1", "query": "While a woman talks, a horn blares and pigeons take flight", "duration": 132, "vid": "yHtbLI6kxAc", "relevant_windows": [[126, 130]]}
+{"qid": "yKKOHg5xlPE_1", "query": "A door opens and closes", "duration": 136, "vid": "yKKOHg5xlPE", "relevant_windows": [[102, 104], [113, 115], [23, 24], [70, 72], [74, 76]]}
+{"qid": "yLCORCnd35Q_1", "query": "An airplane flies overhead while someone plays an instrument", "duration": 90, "vid": "yLCORCnd35Q", "relevant_windows": [[83, 90]]}
+{"qid": "yRx9txMcBl0_1", "query": "A horn sounds", "duration": 246, "vid": "yRx9txMcBl0", "relevant_windows": [[8, 11], [108, 109], [110, 113], [126, 128], [191, 193]]}
+{"qid": "yRx9txMcBl0_2", "query": "A car engine and brakes", "duration": 246, "vid": "yRx9txMcBl0", "relevant_windows": [[38, 41], [45, 51]]}
+{"qid": "yRx9txMcBl0_3", "query": "Engine noise and game audio", "duration": 246, "vid": "yRx9txMcBl0", "relevant_windows": [[52, 53], [222, 223]]}
+{"qid": "yRx9txMcBl0_4", "query": "Engine noise blends with something crashing into an object", "duration": 246, "vid": "yRx9txMcBl0", "relevant_windows": [[62, 64], [85, 87], [107, 109], [117, 119], [132, 134], [138, 140], [162, 164], [172, 174], [189, 190], [195, 200], [217, 219]]}
+{"qid": "yUsCyVRXMoY_1", "query": "Machine noise", "duration": 112, "vid": "yUsCyVRXMoY", "relevant_windows": [[14, 24], [36, 47], [76, 111], [49, 67]]}
+{"qid": "yVumC9TGknc_1", "query": "Bird-like chirping effects", "duration": 61, "vid": "yVumC9TGknc", "relevant_windows": [[0, 44]]}
+{"qid": "yW6FWLSLkx4_1", "query": "A woman is talking", "duration": 96, "vid": "yW6FWLSLkx4", "relevant_windows": [[4, 60], [68, 82]]}
+{"qid": "yW6FWLSLkx4_2", "query": "Music is playing", "duration": 96, "vid": "yW6FWLSLkx4", "relevant_windows": [[83, 97], [60, 66]]}
+{"qid": "yaln9y8I7ms_1", "query": "With music featuring drums playing, a boy is talking", "duration": 269, "vid": "yaln9y8I7ms", "relevant_windows": [[8, 34]]}
+{"qid": "yaln9y8I7ms_2", "query": "Water flows", "duration": 269, "vid": "yaln9y8I7ms", "relevant_windows": [[231, 240]]}
+{"qid": "yeFvk9x0wWI_1", "query": "Something pops", "duration": 78, "vid": "yeFvk9x0wWI", "relevant_windows": [[29, 31]]}
+{"qid": "yhQ2Lg-7qDY_1", "query": "Something is being grilled", "duration": 159, "vid": "yhQ2Lg-7qDY", "relevant_windows": [[49, 153]]}
+{"qid": "yhQ2Lg-7qDY_2", "query": "A woman is kneading meat while talking", "duration": 159, "vid": "yhQ2Lg-7qDY", "relevant_windows": [[10, 14], [27, 39]]}
+{"qid": "yiUDYRSJpJI_1", "query": "A car speeds by and explosions echo", "duration": 259, "vid": "yiUDYRSJpJI", "relevant_windows": [[5, 41], [61, 107], [178, 186], [217, 260]]}
+{"qid": "yiUDYRSJpJI_2", "query": "A helicopter flies", "duration": 259, "vid": "yiUDYRSJpJI", "relevant_windows": [[106, 176], [190, 215]]}
+{"qid": "yks4cLgIDMc_1", "query": "While birds are chirping, a man and children talk, a car door shuts in the background, and the engine starts", "duration": 295, "vid": "yks4cLgIDMc", "relevant_windows": [[9, 14]]}
+{"qid": "yks4cLgIDMc_2", "query": "With the river flowing, a kid is shouting", "duration": 295, "vid": "yks4cLgIDMc", "relevant_windows": [[94, 103]]}
+{"qid": "yks4cLgIDMc_3", "query": "Music plays as a car moves along", "duration": 295, "vid": "yks4cLgIDMc", "relevant_windows": [[138, 153]]}
+{"qid": "yks4cLgIDMc_4", "query": "Game sounds and other voices", "duration": 295, "vid": "yks4cLgIDMc", "relevant_windows": [[281, 290]]}
+{"qid": "yswmmRZFItk_1", "query": "Several frogs croak", "duration": 68, "vid": "yswmmRZFItk", "relevant_windows": [[3, 67]]}
+{"qid": "z4VCMzobZbI_1", "query": "A mixer is running", "duration": 181, "vid": "z4VCMzobZbI", "relevant_windows": [[67, 74], [92, 97]]}
+{"qid": "z4VCMzobZbI_2", "query": "Something is being put into a heated pot and left to simmer", "duration": 181, "vid": "z4VCMzobZbI", "relevant_windows": [[100, 108]]}
+{"qid": "z4uELRI6p08_1", "query": "Someone is laughing", "duration": 73, "vid": "z4uELRI6p08", "relevant_windows": [[0, 29], [48, 52], [32, 37], [39, 41], [53, 59]]}
+{"qid": "z5iUE5h0EPs_1", "query": "birds and goats are making noise", "duration": 88, "vid": "z5iUE5h0EPs", "relevant_windows": [[0, 1], [6, 8], [11, 12], [15, 16], [19, 22], [25, 26], [33, 34], [40, 42], [56, 61], [66, 68], [73, 74], [78, 82]]}
+{"qid": "z5iUE5h0EPs_2", "query": "Goats and chickens are making noise while birds are flying", "duration": 88, "vid": "z5iUE5h0EPs", "relevant_windows": [[59, 61]]}
+{"qid": "z9-3K1PFMjw_1", "query": "Someone pushes buttons", "duration": 59, "vid": "z9-3K1PFMjw", "relevant_windows": [[1, 12], [17, 19], [28, 29], [37, 50]]}
+{"qid": "z9-3K1PFMjw_2", "query": "A warning beeps", "duration": 59, "vid": "z9-3K1PFMjw", "relevant_windows": [[53, 60]]}
+{"qid": "z9-3K1PFMjw_3", "query": "A warning beeps and a phone rings as a machine responds with a woman's voice", "duration": 59, "vid": "z9-3K1PFMjw", "relevant_windows": [[58, 61]]}
+{"qid": "zAYW_RjbHHI_1", "query": "Music is playing", "duration": 152, "vid": "zAYW_RjbHHI", "relevant_windows": [[6, 82], [128, 148]]}
+{"qid": "zAYW_RjbHHI_2", "query": "Music is playing while a man provides commentary, with engine and driving sounds in the background", "duration": 152, "vid": "zAYW_RjbHHI", "relevant_windows": [[15, 47], [61, 73]]}
+{"qid": "zAYW_RjbHHI_3", "query": "Engine noise blends with the sound of a car driving", "duration": 152, "vid": "zAYW_RjbHHI", "relevant_windows": [[15, 129]]}
+{"qid": "zCrAfDfv6-A_1", "query": "Whistling", "duration": 65, "vid": "zCrAfDfv6-A", "relevant_windows": [[0, 61]]}
+{"qid": "zCrAfDfv6-A_2", "query": "Something makes mechanical noises while someone is whistling", "duration": 65, "vid": "zCrAfDfv6-A", "relevant_windows": [[34, 35]]}
+{"qid": "zCrAfDfv6-A_3", "query": "A man is talking", "duration": 65, "vid": "zCrAfDfv6-A", "relevant_windows": [[62, 64]]}
+{"qid": "zF8yoL0rkbI_1", "query": "A man is talking as cars drive by and wind blows", "duration": 107, "vid": "zF8yoL0rkbI", "relevant_windows": [[16, 18], [39, 40], [20, 22], [89, 93], [102, 104]]}
+{"qid": "zF8yoL0rkbI_2", "query": "Horns honk while cars drive past and the wind blows", "duration": 107, "vid": "zF8yoL0rkbI", "relevant_windows": [[45, 51], [72, 73], [77, 79], [84, 85], [93, 94], [98, 99], [101, 102], [106, 107], [104, 105]]}
+{"qid": "zTLVJCo4WEE_1", "query": "Two men talk as insects chirp, wind blows, and metal clangs", "duration": 70, "vid": "zTLVJCo4WEE", "relevant_windows": [[0, 35]]}
+{"qid": "zTLVJCo4WEE_2", "query": "Gunshots ring out and metal clangs as insects chirp", "duration": 70, "vid": "zTLVJCo4WEE", "relevant_windows": [[44, 46], [55, 57], [49, 51], [59, 61], [63, 66]]}
+{"qid": "zU-oKUEckKo_1", "query": "A horn blows amid vehicle noise", "duration": 102, "vid": "zU-oKUEckKo", "relevant_windows": [[3, 7], [11, 17], [31, 33], [36, 38], [41, 68]]}
+{"qid": "zU-oKUEckKo_2", "query": "Railroad crossing sounds", "duration": 102, "vid": "zU-oKUEckKo", "relevant_windows": [[20, 34]]}
+{"qid": "zY3icUyMdh8_1", "query": "Dogs barking, a bus engine rumbles", "duration": 299, "vid": "zY3icUyMdh8", "relevant_windows": [[19, 26]]}
+{"qid": "zY3icUyMdh8_2", "query": "Amid voices, an engine starts up", "duration": 299, "vid": "zY3icUyMdh8", "relevant_windows": [[57, 58]]}
+{"qid": "zY3icUyMdh8_3", "query": "Several people are talking inside a moving bus", "duration": 299, "vid": "zY3icUyMdh8", "relevant_windows": [[154, 300], [101, 105], [123, 127], [131, 136]]}
+{"qid": "zgUgkpk78xU_1", "query": "A train whistle sounds while a crossing bell is ringing", "duration": 207, "vid": "zgUgkpk78xU", "relevant_windows": [[24, 30], [41, 46], [55, 58], [62, 72]]}
+{"qid": "zgUgkpk78xU_2", "query": "A train whistle and a train moving while a crossing bell is ringing", "duration": 207, "vid": "zgUgkpk78xU", "relevant_windows": [[63, 72]]}
+{"qid": "zgUgkpk78xU_3", "query": "A train is moving while a crossing bell is ringing", "duration": 207, "vid": "zgUgkpk78xU", "relevant_windows": [[70, 209]]}
+{"qid": "zjTG0gaGCUI_1", "query": "The output of the airplane engine gradually increases", "duration": 144, "vid": "zjTG0gaGCUI", "relevant_windows": [[82, 98]]}
+{"qid": "zk-xJGQU8-4_1", "query": "With music playing, a woman and a man are talking as something sizzles and objects are being set down", "duration": 270, "vid": "zk-xJGQU8-4", "relevant_windows": [[135, 194]]}
+{"qid": "zl3OnWjr3Y4_1", "query": "Music plays", "duration": 298, "vid": "zl3OnWjr3Y4", "relevant_windows": [[0, 11]]}
+{"qid": "zl3OnWjr3Y4_2", "query": "A man laughs", "duration": 298, "vid": "zl3OnWjr3Y4", "relevant_windows": [[212, 214]]}
+{"qid": "zl3OnWjr3Y4_3", "query": "As a man talks, wood creaks", "duration": 298, "vid": "zl3OnWjr3Y4", "relevant_windows": [[225, 232], [244, 246]]}
+{"qid": "zsLxS-uLJTw_1", "query": "Birds are chirping and a woman is making an announcement", "duration": 85, "vid": "zsLxS-uLJTw", "relevant_windows": [[0, 15]]}
+{"qid": "zsLxS-uLJTw_2", "query": "A train blows its horn and passes as someone talks", "duration": 85, "vid": "zsLxS-uLJTw", "relevant_windows": [[20, 25], [42, 48]]}
+{"qid": "zvmXKyAFq80_1", "query": "A car engine runs and a door shuts", "duration": 60, "vid": "zvmXKyAFq80", "relevant_windows": [[2, 3]]}
+{"qid": "zvmXKyAFq80_2", "query": "Car engine sounds", "duration": 60, "vid": "zvmXKyAFq80", "relevant_windows": [[0, 26]]}
+{"qid": "zvmXKyAFq80_3", "query": "A car drives", "duration": 60, "vid": "zvmXKyAFq80", "relevant_windows": [[23, 26], [57, 62]]}
+{"qid": "zwOBqeFTgiU_1", "query": "Two babies are crying while a woman is speaking", "duration": 67, "vid": "zwOBqeFTgiU", "relevant_windows": [[40, 45], [53, 55]]}

@@ -261,6 +261,12 @@ def compute_mr_results(epoch_i, model, eval_loader, opt, criterion=None):
             min_w_l=2, max_w_l=60, move_window_method="left",
             process_func_names=("clip_ts", "round_multiple")
         )
+    elif opt.dset_name in ['castella']:
+        post_processor = PostProcessorDETR(
+            clip_length=opt.clip_length, min_ts_val=0, max_ts_val=300,
+            min_w_l=1, max_w_l=300, move_window_method="left",
+            process_func_names=("clip_ts", "round_multiple")
+        )
     elif opt.dset_name in ['tacos', 'activitynet', 'youtube_highlight']:
         post_processor = PostProcessorDETR(
             clip_length=opt.clip_length, min_ts_val=0, max_ts_val=50000,
@@ -367,6 +373,7 @@ def start_inference(opt, domain=None):
         a_feat_types=opt.a_feat_types,
         max_q_l=opt.max_q_l,
         max_v_l=opt.max_v_l,
+        max_a_l=opt.max_a_l,
         clip_len=opt.clip_length,
         max_windows=opt.max_windows,
         span_loss_type=opt.span_loss_type,
@@ -375,7 +382,7 @@ def start_inference(opt, domain=None):
     
     eval_dataset = CGDETR_StartEndDataset(**dataset_config) if opt.model_name == 'cg_detr' else StartEndDataset(**dataset_config)
     model, criterion, _, _ = setup_model(opt)
-    checkpoint = torch.load(opt.model_path)
+    checkpoint = torch.load(opt.model_path, weights_only=False)
     model.load_state_dict(checkpoint["model"])
     logger.info("Model checkpoint: {}".format(opt.model_path))
     if not load_labels:
@@ -402,6 +409,8 @@ def check_valid_combination(dataset, feature, domain):
         'tvsum': ['resnet_glove', 'clip', 'clip_slowfast', 'i3d_clip'],
         'youtube_highlight': ['clip', 'clip_slowfast'],
         'clotho-moment': ['clap'],
+        'unav100-subset': ['clap'],
+        'castella': ['clap'],
     }
 
     domain_map = {
@@ -421,8 +430,8 @@ if __name__ == '__main__':
                         choices=['moment_detr', 'qd_detr', 'eatr', 'cg_detr', 'uvcom', 'tr_detr', 'taskweave_hd2mr', 'taskweave_mr2hd'],
                         help='model name. select from [moment_detr, qd_detr, eatr, cg_detr, uvcom, tr_detr, taskweave_hd2mr, taskweave_mr2hd]')
     parser.add_argument('--dataset', '-d', type=str, required=True,
-                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment', 'unav100-subset', 'tut2017'],
-                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment, unav100-subset, tut2017]')
+                        choices=['activitynet', 'charades', 'qvhighlight', 'qvhighlight_pretrain', 'tacos', 'tvsum', 'youtube_highlight', 'clotho-moment', 'unav100-subset', 'tut2017', 'castella'],
+                        help='dataset name. select from [activitynet, charades, qvhighlight, qvhighlight_pretrain, tacos, tvsum, youtube_highlight, clotho-moment, unav100-subset, tut2017, castella]')
     parser.add_argument('--feature', '-f', type=str, required=True,
                         choices=['resnet_glove', 'clip', 'clip_slowfast', 'clip_slowfast_pann', 'i3d_clip', 'clap'],
                         help='feature name. select from [resnet_glove, clip, clip_slowfast, clip_slowfast_pann, i3d_clip, clap].'
