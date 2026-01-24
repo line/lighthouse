@@ -1176,7 +1176,7 @@
 {"qid": "GWdD3jysHAg_1", "query": "A motor starts up", "duration": 299, "vid": "GWdD3jysHAg", "relevant_windows": [[124, 139], [208, 215]]}
 {"qid": "GWdD3jysHAg_2", "query": "Something beeps", "duration": 299, "vid": "GWdD3jysHAg", "relevant_windows": [[153, 157], [200, 201], [207, 208]]}
 {"qid": "G_Xod6VFxNY_1", "query": "A crash-like sound effect occurs", "duration": 298, "vid": "G_Xod6VFxNY", "relevant_windows": [[58, 60]]}
-{"qid": "G_Xod6VFxNY_2", "query": "", "duration": 298, "vid": "G_Xod6VFxNY", "relevant_windows": [[8, 20], [79, 99], [250, 253], [256, 275]]}
+{"qid": "G_Xod6VFxNY_2", "query": "Birds are chirping amidst several people talking", "duration": 298, "vid": "G_Xod6VFxNY", "relevant_windows": [[8, 20], [79, 99], [250, 253], [256, 275]]}
 {"qid": "G_Xod6VFxNY_3", "query": "Heavy breathing", "duration": 298, "vid": "G_Xod6VFxNY", "relevant_windows": [[60, 63]]}
 {"qid": "G_Xod6VFxNY_4", "query": "Several people are talking as music plays", "duration": 298, "vid": "G_Xod6VFxNY", "relevant_windows": [[36, 52], [62, 78], [99, 123], [134, 156], [188, 213], [219, 240], [274, 300]]}
 {"qid": "G_Xod6VFxNY_5", "query": "A door is closing", "duration": 298, "vid": "G_Xod6VFxNY", "relevant_windows": [[249, 250]]}
