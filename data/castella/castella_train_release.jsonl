@@ -210,7 +210,7 @@
 {"qid": "0v9Mwth2aXA_2", "query": "A woman talks as people laugh", "duration": 243, "vid": "0v9Mwth2aXA", "relevant_windows": [[89, 98], [145, 149], [168, 176], [179, 182], [40, 53], [100, 102]]}
 {"qid": "0v9Mwth2aXA_3", "query": "Applause breaks out", "duration": 243, "vid": "0v9Mwth2aXA", "relevant_windows": [[13, 24], [242, 245]]}
 {"qid": "0vOYSyU0tR8_1", "query": "A man's voice and ambulance sirens come through a radio", "duration": 298, "vid": "0vOYSyU0tR8", "relevant_windows": [[149, 151], [165, 167], [171, 173], [281, 284]]}
-{"qid": "0vOYSyU0tR8_2", "query": "Electronic sounds play", "duration": 298, "vid": "0vOYSyU0tR8", "relevant_windows": [[1, 7], [125, 126], [138, 139], [168, 168], [174, 174], [189, 189], [192, 233], [248, 248], [296, 296], [16, 17], [85, 87], [91, 92], [115, 116], [132, 133]]}
+{"qid": "0vOYSyU0tR8_2", "query": "Electronic sounds play", "duration": 298, "vid": "0vOYSyU0tR8", "relevant_windows": [[1, 7], [125, 126], [138, 139], [167, 168], [174, 175], [188, 189], [192, 233], [247, 248], [295, 296], [16, 17], [85, 87], [91, 92], [115, 116], [132, 133]]}
 {"qid": "0vOYSyU0tR8_3", "query": "A man's voice through a radio", "duration": 298, "vid": "0vOYSyU0tR8", "relevant_windows": [[8, 15], [16, 30], [83, 85], [88, 91], [98, 102], [112, 124], [125, 130], [131, 132], [139, 148]]}
 {"qid": "0zPnMDUx7Tk_1", "query": "Water flows as a man speaks and light objects bump into something", "duration": 144, "vid": "0zPnMDUx7Tk", "relevant_windows": [[19, 23], [32, 35], [46, 50], [67, 70], [81, 83], [115, 116]]}
 {"qid": "0zPnMDUx7Tk_2", "query": "Water flows in the background as something gets set down", "duration": 144, "vid": "0zPnMDUx7Tk", "relevant_windows": [[46, 47], [60, 61], [106, 107], [120, 121], [128, 129]]}
@@ -242,7 +242,7 @@
 {"qid": "1EDSqbWcCHw_4", "query": "A man is speaking while clapping and a woman’s voice can be heard", "duration": 299, "vid": "1EDSqbWcCHw", "relevant_windows": [[168, 174]]}
 {"qid": "1IC5uZIMY5Q_1", "query": "While a woman talks, a lid opens and is put down", "duration": 298, "vid": "1IC5uZIMY5Q", "relevant_windows": [[12, 24]]}
 {"qid": "1IC5uZIMY5Q_2", "query": "A woman talks as mixing and metal striking sounds occur", "duration": 298, "vid": "1IC5uZIMY5Q", "relevant_windows": [[179, 187]]}
-{"qid": "1IC5uZIMY5Q_3", "query": "Something gets poured", "duration": 298, "vid": "1IC5uZIMY5Q", "relevant_windows": [[193, 196], [247, 249], [269, 271], [296, 299], [247, 247]]}
+{"qid": "1IC5uZIMY5Q_3", "query": "Something gets poured", "duration": 298, "vid": "1IC5uZIMY5Q", "relevant_windows": [[193, 196], [247, 249], [269, 271], [296, 299]]}
 {"qid": "1Ie_kFFp1d0_1", "query": "Two women speak as music plays", "duration": 298, "vid": "1Ie_kFFp1d0", "relevant_windows": [[0, 14], [22, 44], [268, 282]]}
 {"qid": "1Ie_kFFp1d0_2", "query": "Two men speak as music plays", "duration": 298, "vid": "1Ie_kFFp1d0", "relevant_windows": [[14, 21]]}
 {"qid": "1Ie_kFFp1d0_3", "query": "A horse whinnies while running", "duration": 298, "vid": "1Ie_kFFp1d0", "relevant_windows": [[46, 56], [70, 79], [97, 104]]}
@@ -447,7 +447,7 @@
 {"qid": "3rJj2ydeqpM_4", "query": "A cuckoo clock chimes as a motor runs", "duration": 299, "vid": "3rJj2ydeqpM", "relevant_windows": [[158, 163]]}
 {"qid": "3rJj2ydeqpM_5", "query": "A motor is running as music plays", "duration": 299, "vid": "3rJj2ydeqpM", "relevant_windows": [[210, 300]]}
 {"qid": "3s4Op7Y2ECY_1", "query": "The audience is shouting while a man is giving a speech", "duration": 299, "vid": "3s4Op7Y2ECY", "relevant_windows": [[8, 12], [30, 33], [84, 88], [163, 166], [189, 191], [198, 200], [215, 218], [91, 95], [97, 101], [103, 106]]}
-{"qid": "3s4Op7Y2ECY_2", "query": "Someone is coughing while a man is giving a speech", "duration": 299, "vid": "3s4Op7Y2ECY", "relevant_windows": [[12, 13], [25, 28], [111, 113], [12, 12]]}
+{"qid": "3s4Op7Y2ECY_2", "query": "Someone is coughing while a man is giving a speech", "duration": 299, "vid": "3s4Op7Y2ECY", "relevant_windows": [[12, 13], [25, 28], [111, 113]]}
 {"qid": "3xHJFjZrWXM_1", "query": "A man speaks as a motorcycle engine rumbles", "duration": 298, "vid": "3xHJFjZrWXM", "relevant_windows": [[3, 31], [61, 77], [85, 293], [298, 300]]}
 {"qid": "3xHJFjZrWXM_2", "query": "Music begin to play", "duration": 298, "vid": "3xHJFjZrWXM", "relevant_windows": [[31, 54]]}
 {"qid": "3yQhS3tfjf0_1", "query": "A woman uses a drill", "duration": 299, "vid": "3yQhS3tfjf0", "relevant_windows": [[140, 143], [160, 161], [171, 174], [177, 180]]}
@@ -1152,7 +1152,7 @@
 {"qid": "F5wf6IXXwtg_1", "query": "A man is whistling", "duration": 298, "vid": "F5wf6IXXwtg", "relevant_windows": [[96, 100]]}
 {"qid": "FJ7uaKapAZg_1", "query": "Wind blows, a rooster crows, things clatter, and a woman is talking", "duration": 298, "vid": "FJ7uaKapAZg", "relevant_windows": [[3, 22]]}
 {"qid": "FJ7uaKapAZg_2", "query": "High-pressure water rushes, two men are talking", "duration": 298, "vid": "FJ7uaKapAZg", "relevant_windows": [[55, 100]]}
-{"qid": "FJ7uaKapAZg_3", "query": "A man and a woman are talking as background noise and something is being set down", "duration": 298, "vid": "FJ7uaKapAZg", "relevant_windows": [[142, 142]]}
+{"qid": "FJ7uaKapAZg_3", "query": "A man and a woman are talking as background noise and something is being set down", "duration": 298, "vid": "FJ7uaKapAZg", "relevant_windows": [[142, 143]]}
 {"qid": "FJ7uaKapAZg_4", "query": "Chickens and other birds are calling, a man and a woman are talking, and a motorbike passes by", "duration": 298, "vid": "FJ7uaKapAZg", "relevant_windows": [[159, 176]]}
 {"qid": "FJ7uaKapAZg_5", "query": "Chickens and other birds are calling, a man and a woman are talking, and metal clangs", "duration": 298, "vid": "FJ7uaKapAZg", "relevant_windows": [[203, 205]]}
 {"qid": "FvtWfZO7GxY_1", "query": "As a car moves by, brakes screech and several people are talking", "duration": 299, "vid": "FvtWfZO7GxY", "relevant_windows": [[112, 119], [132, 142]]}
@@ -1357,7 +1357,7 @@
 {"qid": "RS69W4hoy3Y_3", "query": "A man talks while hands clap", "duration": 123, "vid": "RS69W4hoy3Y", "relevant_windows": [[2, 3]]}
 {"qid": "RYsR78tOcog_1", "query": "A man speaks while opening a wooden lid", "duration": 298, "vid": "RYsR78tOcog", "relevant_windows": [[81, 89]]}
 {"qid": "RYsR78tOcog_2", "query": "A man speaks while handling paper as insects buzz around", "duration": 298, "vid": "RYsR78tOcog", "relevant_windows": [[121, 139], [189, 197]]}
-{"qid": "RYsR78tOcog_3", "query": "A man speaks while rubbing wood with something", "duration": 298, "vid": "RYsR78tOcog", "relevant_windows": [[265, 267], [282, 283], [166, 166]]}
+{"qid": "RYsR78tOcog_3", "query": "A man speaks while rubbing wood with something", "duration": 298, "vid": "RYsR78tOcog", "relevant_windows": [[265, 267], [282, 283]]}
 {"qid": "RcXiVz_7U3k_1", "query": "Music is playing", "duration": 298, "vid": "RcXiVz_7U3k", "relevant_windows": [[2, 68]]}
 {"qid": "RcXiVz_7U3k_2", "query": "A woman is speaking while hammering sounds continue", "duration": 298, "vid": "RcXiVz_7U3k", "relevant_windows": [[70, 81]]}
 {"qid": "RcXiVz_7U3k_3", "query": "A man and a woman are talking as plastic rustles", "duration": 298, "vid": "RcXiVz_7U3k", "relevant_windows": [[120, 127], [135, 141]]}
