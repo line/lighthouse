@@ -94,6 +94,36 @@ Run `python api_example/amr_demo.py` to reproduce the AMR results.
 **Limitation**: The maximum video duration is **150s** due to the current benchmark datasets.
 For CPU users, set `feature_name='clip'` because CLIP+Slowfast or CLIP+Slowfast+PANNs features are very slow without GPUs.
 
+## Marengo embeddings (zero-shot, API-based)
+Lighthouse also ships an optional, zero-shot moment retrieval predictor backed by
+[TwelveLabs Marengo](https://twelvelabs.io) embeddings. It needs **no local checkpoint, feature
+files, or GPU**: the video is segmented and embedded server-side, the query is embedded into the
+same 512-dim space, and clips are ranked by cosine similarity. This is handy as a training-free
+baseline or for videos longer than the 150s benchmark limit.
+
+Install the extra and set your API key (a free key with a generous free tier is available at
+[twelvelabs.io](https://twelvelabs.io)):
+```
+pip install 'lighthouse[marengo]'
+export TWELVELABS_API_KEY=<your key>
+```
+```python
+from lighthouse.models import MarengoPredictor
+
+model = MarengoPredictor(clip_length=2.0)  # reads TWELVELABS_API_KEY from the env
+
+# a local file or a public video URL works
+video = model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')
+
+query = 'A woman wearing a glass is speaking in front of the camera'
+prediction = model.predict(query, video)
+print(prediction)
+"""
+{'pred_relevant_windows': [[start, end, score], ...]}  # sorted by score, same format as above
+"""
+```
+Run `python api_example/marengo_demo.py` to reproduce.
+
 ## Gradio demo
 Run `python gradio_demo/demo.py`. Upload the video and input text query, and click the blue button. For AMR demo, run `python gradio_demo/amr_demo.py`. 
 

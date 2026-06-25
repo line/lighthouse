@@ -13,6 +13,7 @@ from lighthouse.common.utils.span_utils import span_cxw_to_xx
 from lighthouse.feature_extractor.vision_encoder import VisionEncoder
 from lighthouse.feature_extractor.text_encoder import TextEncoder
 from lighthouse.feature_extractor.audio_encoder import AudioEncoder
+from lighthouse.marengo_predictor import MarengoPredictor as MarengoPredictor
 
 from typing import Optional, Union, Mapping, Any, Dict, List, Tuple
 
