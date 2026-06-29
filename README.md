@@ -101,10 +101,10 @@ files, or GPU**: the video is segmented and embedded server-side, the query is e
 same 512-dim space, and clips are ranked by cosine similarity. This is handy as a training-free
 baseline or for videos longer than the 150s benchmark limit.
 
-Install the extra and set your API key (a free key with a generous free tier is available at
-[twelvelabs.io](https://twelvelabs.io)):
+Install the extra and set your API key (create one in the
+[TwelveLabs dashboard](https://twelvelabs.io)):
 ```
-pip install 'lighthouse[marengo]'
+pip install 'lighthouse[twelvelabs] @ git+https://github.com/line/lighthouse.git'
 export TWELVELABS_API_KEY=<your key>
 ```
 ```python
