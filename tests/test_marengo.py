@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from lighthouse.models import MarengoPredictor
+from lighthouse.models import TwelveLabsPredictor
 
 
 MOMENT_NUM = 10
@@ -10,7 +10,7 @@ EMBEDDING_DIM = 512
 
 def test_predict_ranks_clips_by_cosine_similarity():
     """No-network unit test: predict() must rank clips by query similarity."""
-    predictor = MarengoPredictor.__new__(MarengoPredictor)
+    predictor = TwelveLabsPredictor.__new__(TwelveLabsPredictor)
     predictor._moment_num = MOMENT_NUM
 
     # clip 0 points the same way as the query, clip 1 is orthogonal.
@@ -33,7 +33,7 @@ def test_predict_ranks_clips_by_cosine_similarity():
 
 
 def test_predict_without_segments_returns_none():
-    predictor = MarengoPredictor.__new__(MarengoPredictor)
+    predictor = TwelveLabsPredictor.__new__(TwelveLabsPredictor)
     predictor._moment_num = MOMENT_NUM
     assert predictor.predict('a query', {'segments': []}) is None
 
@@ -43,6 +43,6 @@ def test_predict_without_segments_returns_none():
     reason='TWELVELABS_API_KEY not set; skipping live Marengo API test.')
 def test_marengo_text_embedding_is_512_dim():
     """Live smoke test: a Marengo text embedding is a 512-dim vector."""
-    predictor = MarengoPredictor(clip_length=2.0)
+    predictor = TwelveLabsPredictor(clip_length=2.0)
     embedding = predictor._encode_text('a person walking a dog')
     assert len(embedding) == EMBEDDING_DIM

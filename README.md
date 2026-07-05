@@ -108,9 +108,9 @@ pip install 'lighthouse[twelvelabs] @ git+https://github.com/line/lighthouse.git
 export TWELVELABS_API_KEY=<your key>
 ```
 ```python
-from lighthouse.models import MarengoPredictor
+from lighthouse.models import TwelveLabsPredictor
 
-model = MarengoPredictor(clip_length=2.0)  # reads TWELVELABS_API_KEY from the env
+model = TwelveLabsPredictor(clip_length=2.0)  # reads TWELVELABS_API_KEY from the env
 
 # a local file or a public video URL works
 video = model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')

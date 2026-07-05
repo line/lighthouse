@@ -15,14 +15,14 @@ under the License.
 """
 import os
 
-from lighthouse.models import MarengoPredictor
+from lighthouse.models import TwelveLabsPredictor
 from typing import Dict, List, Optional
 
 # Zero-shot moment retrieval with TwelveLabs Marengo embeddings.
 # No local checkpoint or feature files are needed; the video is embedded
 # server-side. Set TWELVELABS_API_KEY first (free key: https://twelvelabs.io).
 api_key: Optional[str] = os.environ.get('TWELVELABS_API_KEY')
-model: MarengoPredictor = MarengoPredictor(api_key=api_key, clip_length=2.0)
+model: TwelveLabsPredictor = TwelveLabsPredictor(api_key=api_key, clip_length=2.0)
 
 # encode video clips (local file or a public URL)
 video: Dict[str, List[List[float]]] = model.encode_video('api_example/RoripwjYFp8_60.0_210.0.mp4')

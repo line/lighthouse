@@ -19,31 +19,37 @@ under the License.
 """
 
 
-class MarengoPredictor:
+class TwelveLabsPredictor:
     """
-    Zero-shot video moment retrieval backed by TwelveLabs Marengo embeddings.
+    Zero-shot video moment retrieval backed by TwelveLabs embeddings.
 
     Unlike the other predictors in :mod:`lighthouse.models`, this one needs no
     local checkpoint or feature files. It segments the video on the server side,
-    embeds each clip and the text query into the same 512-dim Marengo space, and
-    ranks clips by cosine similarity. The output mirrors the rest of the library:
+    embeds each clip and the text query into the same 512-dim embedding space,
+    and ranks clips by cosine similarity. The output mirrors the rest of the
+    library:
 
         {"pred_relevant_windows": [[start, end, score], ...]}
 
+    The embedding model is configurable via the ``model_name`` argument and
+    defaults to Marengo (``marengo3.0``), so the class can support future
+    TwelveLabs embedding models without code changes.
+
     This is an opt-in addition; existing predictors and their behaviour are
     unchanged. It depends on the official ``twelvelabs`` SDK, which is only
-    imported when this class is instantiated, so users who do not use Marengo
-    pay no import cost.
+    imported when this class is instantiated, so users who do not use it pay no
+    import cost.
 
     A free API key with a generous free tier is available at https://twelvelabs.io.
     """
 
-    MODEL_NAME: str = 'marengo3.0'
+    DEFAULT_MODEL_NAME: str = 'marengo3.0'
     EMBEDDING_DIM: int = 512
 
     def __init__(
         self,
         api_key: Optional[str] = None,
+        model_name: str = DEFAULT_MODEL_NAME,
         clip_length: float = 2.0,
         moment_num: int = 10) -> None:
 
@@ -51,8 +57,8 @@ class MarengoPredictor:
             from twelvelabs import TwelveLabs
         except ImportError as e:
             raise ImportError(
-                'MarengoPredictor requires the twelvelabs SDK. '
-                "Install it with: pip install 'lighthouse[marengo]' "
+                'TwelveLabsPredictor requires the twelvelabs SDK. '
+                "Install it with: pip install 'lighthouse[twelvelabs]' "
                 'or pip install twelvelabs.') from e
 
         resolved_key = api_key or os.environ.get('TWELVELABS_API_KEY')
@@ -63,6 +69,7 @@ class MarengoPredictor:
                 'https://twelvelabs.io.')
 
         self._client = TwelveLabs(api_key=resolved_key)
+        self.model_name: str = model_name
         self._clip_length: float = clip_length
         self._moment_num: int = moment_num
 
@@ -82,7 +89,7 @@ class MarengoPredictor:
         video_path: Optional[str] = None,
         video_url: Optional[str] = None) -> Dict[str, List[List[float]]]:
         """
-        Embed every clip of a video with Marengo.
+        Embed every clip of a video with TwelveLabs.
 
         Provide either a local ``video_path`` or a publicly reachable
         ``video_url``. Returns a dict with one ``segments`` entry, each being
@@ -95,19 +102,19 @@ class MarengoPredictor:
         if video_path is not None:
             with open(video_path, 'rb') as f:
                 task = self._client.embed.tasks.create(
-                    model_name=self.MODEL_NAME,
+                    model_name=self.model_name,
                     video_file=f,
                     video_clip_length=self._clip_length,
                     video_embedding_scope=['clip'])
         else:
             task = self._client.embed.tasks.create(
-                model_name=self.MODEL_NAME,
+                model_name=self.model_name,
                 video_url=video_url,
                 video_clip_length=self._clip_length,
                 video_embedding_scope=['clip'])
 
         if task.id is None:
-            raise RuntimeError('Marengo embedding task creation returned no task id.')
+            raise RuntimeError('The embedding task creation returned no task id.')
         task_id: str = task.id
 
         # wait_for_done lives on the SDK's runtime wrapper class, which mypy
@@ -116,7 +123,7 @@ class MarengoPredictor:
         result = self._client.embed.tasks.retrieve(task_id=task_id)
 
         if result.video_embedding is None or result.video_embedding.segments is None:
-            raise RuntimeError(f'Marengo embedding task {task_id} returned no segments.')
+            raise RuntimeError(f'The embedding task {task_id} returned no segments.')
 
         segments: List[List[float]] = []
         for segment in result.video_embedding.segments:
@@ -130,12 +137,12 @@ class MarengoPredictor:
     def _encode_text(
         self,
         query: str) -> List[float]:
-        response = self._client.embed.create(model_name=self.MODEL_NAME, text=query)
+        response = self._client.embed.create(model_name=self.model_name, text=query)
         if response.text_embedding is None or not response.text_embedding.segments:
-            raise RuntimeError('Marengo returned no text embedding for the query.')
+            raise RuntimeError('TwelveLabs returned no text embedding for the query.')
         embedding = response.text_embedding.segments[0].float_
         if embedding is None:
-            raise RuntimeError('Marengo returned an empty text embedding for the query.')
+            raise RuntimeError('TwelveLabs returned an empty text embedding for the query.')
         return list(embedding)
 
     def predict(
