@@ -700,7 +700,7 @@ class T2V_TransformerEncoderLayer(nn.Module):
         # print(src_key_padding_mask[:, 76:].shape) # torch.Size([32, 26])
 
         qmask, kmask = src_key_padding_mask[:, 1:video_length + 1].unsqueeze(2), src_key_padding_mask[:, video_length + 1:].unsqueeze(1)
-        attn_mask = torch.matmul(qmask.float(), kmask.float()).bool().repeat(self.nhead, 1, 1)
+        attn_mask = torch.matmul(qmask.float(), kmask.float()).bool().repeat_interleave(self.nhead, dim=0)  # batch-major layout for nn.MultiheadAttention 3D attn_mask
         # print(attn_mask.shape)
         # print(attn_mask[0][0])
         # print(q.shape) 75 32 256
@@ -789,7 +789,7 @@ class V2T_TransformerEncoderLayer(nn.Module):
         global_token, q, k, v = src[0].unsqueeze(0), pos_src[video_length + 1: ], pos_src[1:video_length + 1], src[1:video_length + 1]
 
         qmask, kmask = src_key_padding_mask[:, video_length + 1:].unsqueeze(2), src_key_padding_mask[:, 1:video_length + 1].unsqueeze(1)
-        attn_mask = torch.matmul(qmask.float(), kmask.float()).bool().repeat(self.nhead, 1, 1)
+        attn_mask = torch.matmul(qmask.float(), kmask.float()).bool().repeat_interleave(self.nhead, dim=0)  # batch-major layout for nn.MultiheadAttention 3D attn_mask
         # print(attn_mask.shape)
         # print(attn_mask[0][0])
         # print(q.shape) 23 32 256

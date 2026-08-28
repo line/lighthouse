@@ -576,7 +576,7 @@ class T2V_TransformerEncoderLayer(nn.Module):
 
         qmask, kmask = src_key_padding_mask[:, :video_length].unsqueeze(2), src_key_padding_mask[:,
                                                                                  video_length:].unsqueeze(1)
-        attn_mask = torch.matmul(qmask.float(), kmask.float()).bool().repeat(self.nhead, 1, 1)
+        attn_mask = torch.matmul(qmask.float(), kmask.float()).bool().repeat_interleave(self.nhead, dim=0)  # batch-major layout for nn.MultiheadAttention 3D attn_mask
 
         # - key_padding_mask: :math:`(S)` or :math:`(N, S)` where N is the batch size, S is the source sequence length.
         #   If a FloatTensor is provided, it will be directly added to the value.
