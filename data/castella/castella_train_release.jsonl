@@ -653,7 +653,7 @@
 {"qid": "66Sl9ixB_5U_2", "query": "Many people are talking and birds are chirping", "duration": 300, "vid": "66Sl9ixB_5U", "relevant_windows": [[134, 180]]}
 {"qid": "674mDF2k6Jw_1", "query": "While two men are having a conversation, someone keeps banging on something", "duration": 299, "vid": "674mDF2k6Jw", "relevant_windows": [[19, 39]]}
 {"qid": "674mDF2k6Jw_2", "query": "Someone fires a gun", "duration": 299, "vid": "674mDF2k6Jw", "relevant_windows": [[79, 81], [103, 104], [88, 89]]}
-{"qid": "67AE9ZKvECs_1", "query": "Birds chirp while something makes a scraping sound", "duration": 299, "vid": "67AE9ZKvECs", "relevant_windows": [[206, 209], [221, 223], [283, 285], [299, 4800], [255, 258], [266, 270]]}
+{"qid": "67AE9ZKvECs_1", "query": "Birds chirp while something makes a scraping sound", "duration": 299, "vid": "67AE9ZKvECs", "relevant_windows": [[206, 209], [221, 223], [283, 285], [299, 300], [255, 258], [266, 270]]}
 {"qid": "67AE9ZKvECs_2", "query": "A bird is chirping while electronic sounds are happening", "duration": 299, "vid": "67AE9ZKvECs", "relevant_windows": [[232, 235], [268, 270], [291, 294]]}
 {"qid": "67AE9ZKvECs_3", "query": "A bird is chirping while an insect is flying", "duration": 299, "vid": "67AE9ZKvECs", "relevant_windows": [[248, 252], [292, 294]]}
 {"qid": "67qTV1MDXhc_1", "query": "A dog barks as the wind blows and the crowd murmurs", "duration": 241, "vid": "67qTV1MDXhc", "relevant_windows": [[160, 161], [166, 169]]}

@@ -23,7 +23,7 @@ jobs:
         run: |
           pip install -e .
           pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0
-          pip install mypy ruff
+          pip install mypy ruff==0.14.14
 
       - name: Run mypy
         run: find lighthouse -type f -name "*.py" -not -path 'lighthouse/common/*' | xargs mypy
