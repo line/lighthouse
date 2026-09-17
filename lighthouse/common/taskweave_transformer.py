@@ -591,7 +591,11 @@ class T2V_TransformerEncoderLayer(nn.Module):
         q, k, v = pos_src[:video_length], pos_src[video_length:], src[video_length:]
 
         qmask, kmask = src_key_padding_mask[:, :video_length].unsqueeze(2), src_key_padding_mask[:, video_length :].unsqueeze(1)
-        attn_mask = torch.matmul(qmask.float(), kmask.float()).bool().repeat_interleave(self.nhead, dim=0)  # batch-major layout for nn.MultiheadAttention 3D attn_mask
+        attn_mask = (
+                    torch.matmul(qmask.float(), kmask.float())
+                    .bool()
+                    .repeat_interleave(self.nhead, dim=0)
+                )  # batch-major layout for nn.MultiheadAttention 3D attn_mask
 
         src2 = self.self_attn(q, k, value=v, attn_mask=attn_mask,
                               key_padding_mask=src_key_padding_mask[:, video_length:])[0]
