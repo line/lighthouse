@@ -666,7 +666,7 @@
 {"qid": "RfGapDlAYoQ_3", "query": "A whistle blows as cheers erupt", "duration": 150, "vid": "RfGapDlAYoQ", "relevant_windows": [[113, 117]]}
 {"qid": "Rk-ujWKzPuc_1", "query": "A man speaks catching his breath", "duration": 300, "vid": "Rk-ujWKzPuc", "relevant_windows": [[84, 98], [137, 143], [181, 199], [203, 206], [237, 245], [247, 258], [290, 300]]}
 {"qid": "Rk-ujWKzPuc_2", "query": "Wind blows as water flows", "duration": 300, "vid": "Rk-ujWKzPuc", "relevant_windows": [[261, 290], [57, 83], [103, 113]]}
-{"qid": "Rp4Ct_TQvAM_1", "query": "A man talks with background noise", "duration": 299, "vid": "Rp4Ct_TQvAM", "relevant_windows": [[0, 10], [15, 34], [49, 56], [65, 78], [89, 96], [104, 128], [141, 173], [184, 191], [233, 238], [265, 291], [298, 301]]}
+{"qid": "Rp4Ct_TQvAM_1", "query": "A man talks with background noise", "duration": 299, "vid": "Rp4Ct_TQvAM", "relevant_windows": [[0, 10], [15, 34], [49, 56], [65, 78], [89, 96], [104, 128], [141, 173], [184, 191], [233, 238], [265, 291], [298, 300]]}
 {"qid": "Rp4Ct_TQvAM_2", "query": "A man talks and a door closes with background noise", "duration": 299, "vid": "Rp4Ct_TQvAM", "relevant_windows": [[236, 238]]}
 {"qid": "Rp4Ct_TQvAM_3", "query": "A train passes by with background noise", "duration": 299, "vid": "Rp4Ct_TQvAM", "relevant_windows": [[245, 260]]}
 {"qid": "RrmBGjJqlEo_1", "query": "Someone sniffles", "duration": 300, "vid": "RrmBGjJqlEo", "relevant_windows": [[77, 79], [109, 111], [121, 122], [186, 187], [245, 246], [297, 298]]}
