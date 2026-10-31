@@ -64,7 +64,10 @@ class BasePredictor:
         slowfast_path: Optional[str] = None,
         pann_path: Optional[str] = None) -> None:
         
-        ckpt = torch.load(ckpt_path, map_location='cpu')
+        # Checkpoints store their config as an EasyDict under 'opt', which the
+        # weights-only unpickler (default since torch 2.6) rejects. Only load
+        # checkpoints from trusted sources such as the released weights.
+        ckpt = torch.load(ckpt_path, map_location='cpu', weights_only=False)
         args = ckpt['opt']
         self._clip_len: float = args.clip_length
         self._device: str = device
