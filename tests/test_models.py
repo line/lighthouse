@@ -3,6 +3,10 @@ import math
 import pytest
 import subprocess
 import random
+import torch
+import yaml
+from easydict import EasyDict
+from lighthouse.common.moment_detr import build_model as build_model_moment_detr
 from lighthouse.models import (MomentDETRPredictor, QDDETRPredictor, EaTRPredictor, 
                                CGDETRPredictor, UVCOMPredictor)
 
@@ -141,3 +145,36 @@ def test_audio_model_prediction():
                         f'The number of moments from {feature}_{model_name}_{dataset} is expected {MOMENT_NUM}, but got {len(prediction["pred_relevant_windows"])}.'
                     assert len(prediction['pred_saliency_scores']) == math.ceil(second / model._clip_len), \
                         f'The number of saliency scores from {feature}_{model_name}_{dataset} is expected {math.ceil(second / model._clip_len)}, but got {len(prediction["pred_saliency_scores"])}.'
+
+
+def test_load_checkpoint_with_easydict_opt(tmp_path, monkeypatch):
+    """
+    Checkpoints store their config as an EasyDict under 'opt'. torch>=2.6 defaults to
+    torch.load(weights_only=True), which cannot unpickle it, so the predictor must pass
+    weights_only=False. The torch.load spy keeps this test meaningful on torch<2.6.
+    """
+    opt = {}
+    for cfg in ['configs/base.yml', 'configs/feature/clip.yml',
+                'configs/model/moment_detr.yml', 'configs/dataset/qvhighlight.yml']:
+        with open(cfg, 'r') as f:
+            opt.update(yaml.load(f, Loader=yaml.FullLoader))
+    opt = EasyDict(opt)
+    opt.device = 'cpu'
+    opt.enc_layers, opt.dec_layers, opt.hidden_dim, opt.dim_feedforward = 1, 1, 32, 64
+
+    model, _ = build_model_moment_detr(opt)
+    ckpt_path = tmp_path / 'best.ckpt'
+    torch.save({'model': model.state_dict(), 'opt': opt}, ckpt_path)
+
+    load_kwargs = []
+    original_load = torch.load
+
+    def spy_load(*args, **kwargs):
+        load_kwargs.append(kwargs)
+        return original_load(*args, **kwargs)
+
+    monkeypatch.setattr(torch, 'load', spy_load)
+    predictor = MomentDETRPredictor(str(ckpt_path), device='cpu', feature_name='clip')
+
+    assert load_kwargs[0].get('weights_only') is False
+    assert predictor._clip_len == opt.clip_length
